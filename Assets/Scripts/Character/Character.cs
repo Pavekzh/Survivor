@@ -9,6 +9,9 @@ public class Character : MonoBehaviour
     [Header("Attack")]
     [SerializeField] private Weapon weapon;
 
+    public BoxCollider2D MoveBoundaries { get; private set; }
+    public Vector2 ColliderSize { get; private set; }
+
     private InputDetector inputDetector;
     private StateMachine<CharacterState> stateMachine;
 
@@ -21,9 +24,10 @@ public class Character : MonoBehaviour
 
     public bool IsAlive { get => stateMachine.CurrentState.IsAlive(); }
 
-    public void InitDependencies(InputDetector inputDetector)
+    public void InitDependencies(InputDetector inputDetector,BoxCollider2D moveBoundaries)
     {
         this.inputDetector = inputDetector;
+        this.MoveBoundaries = moveBoundaries;
     }
 
     private void Start()
@@ -33,6 +37,8 @@ public class Character : MonoBehaviour
         IdleState = new IdleState(this, stateMachine);
         MoveState = new MoveState(this, stateMachine);
         DeathState = new DeathState(this, stateMachine);
+
+        ColliderSize = GetComponent<BoxCollider2D>().bounds.size;
          
         stateMachine.Init(IdleState);
     }

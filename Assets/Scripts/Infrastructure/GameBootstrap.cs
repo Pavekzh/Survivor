@@ -7,13 +7,17 @@ class GameBootstrap:MonoBehaviour
     [SerializeField] private InputDetector inputDetector;
     [SerializeField] private AxesInputDetector axesInputDetector;
     [SerializeField] private Camera camera;
+    [SerializeField] private CameraFollow cameraFollow;    
+    [SerializeField] private BoxCollider2D moveBoundaries;
     [Header("Character")]
     [SerializeField] private Character character;
+
 
     private void Awake()
     {
         InitCharacter();
         InitAxesInput();
+        InitCameraFollow();
     }
 
     private void InitAxesInput()
@@ -21,9 +25,14 @@ class GameBootstrap:MonoBehaviour
         axesInputDetector.InitDepenpencies(character, camera);
     }
 
+    private void InitCameraFollow()
+    {
+        cameraFollow.InitDependencies(moveBoundaries);
+    }
+
     private void InitCharacter()
     {
-        character.InitDependencies(inputDetector);
+        character.InitDependencies(inputDetector,moveBoundaries);
     }
 
 }
