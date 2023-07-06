@@ -1,14 +1,29 @@
 ﻿using System;
 using UnityEngine;
 
-public class KeyboardInputDetector : InputDetector
+public class AxesInputDetector : InputDetector
 {
     [SerializeField] private string forwardMoveAxis = "Vertical";
     [SerializeField] private string sideMoveAxis = "Horizontal";
+    [SerializeField] private string attackAxis = "Fire1";
+
+    private Character character;
+    private Camera camera;
+
+    public void InitDepenpencies(Character character,Camera camera)
+    {
+        this.character = character;
+        this.camera = camera;
+    }
 
     public override Vector2 GetAttackInput()
     {
-        throw new NotImplementedException();
+        Vector2 input = Vector2.zero;
+
+        if (Input.GetAxis(attackAxis) != 0)
+            input = camera.ScreenToWorldPoint(Input.mousePosition) - character.transform.position;
+
+        return input.normalized;
     }
 
     public override Vector2 GetMoveInput()

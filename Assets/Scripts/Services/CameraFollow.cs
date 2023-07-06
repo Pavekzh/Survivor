@@ -4,7 +4,7 @@ using UnityEngine;
 public class CameraFollow:MonoBehaviour
 {
     [SerializeField] Transform target;
-    [SerializeField] float smoothFactor = 2;
+    [SerializeField] float smoothFactor = 0.2f;
 
     Vector3 offset;
 
@@ -15,7 +15,7 @@ public class CameraFollow:MonoBehaviour
 
     private void Update()
     {
-        transform.position = Vector3.Lerp(transform.position, target.position + offset, smoothFactor * Time.deltaTime);
+        transform.position = Vector3.Lerp(transform.position, target.position + offset, 1 / smoothFactor * Time.deltaTime);
     }
 }
 

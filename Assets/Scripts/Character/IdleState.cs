@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class IdleState : AliveState
 {
@@ -15,21 +14,9 @@ public class IdleState : AliveState
         Debug.Log("Idle exit");
     }
 
-    public override void HandleInput(InputDetector inputDetector)
+    public override void HandleMoveInput(Vector2 input)
     {
-        Vector2 moveInput = inputDetector.GetMoveInput();
-
-        if (moveInput.magnitude > 0)
+        if (input.magnitude > 0)
             stateMachine.ChangeState(character.MoveState);
-    }
-
-    public override void LogicUpdate()
-    {
-        throw new NotImplementedException();
-    }
-
-    public override void PhysicsUpdate()
-    {
-        throw new NotImplementedException();
     }
 }

@@ -6,14 +6,20 @@ public class Character : MonoBehaviour
 {
     [Header("Move")]
     [SerializeField] private float moveSpeed = 1;
+    [Header("Attack")]
+    [SerializeField] private Weapon weapon;
 
     private InputDetector inputDetector;
     private StateMachine<CharacterState> stateMachine;
 
-    public float MoveSpeed { get => moveSpeed; }
+    public float MoveSpeed { get => moveSpeed; }    
+    public Weapon Weapon { get => weapon; }
 
     public IdleState IdleState { get; private set; }
     public MoveState MoveState { get; private set; }
+    public DeathState DeathState { get; private set; }
+
+    public bool IsAlive { get => stateMachine.CurrentState.IsAlive(); }
 
     public void InitDependencies(InputDetector inputDetector)
     {
@@ -23,20 +29,25 @@ public class Character : MonoBehaviour
     private void Start()
     {
         stateMachine = new StateMachine<CharacterState>();
+
         IdleState = new IdleState(this, stateMachine);
         MoveState = new MoveState(this, stateMachine);
-
+        DeathState = new DeathState(this, stateMachine);
+         
         stateMachine.Init(IdleState);
     }
 
     private void Update()
     {
-        stateMachine.CurrentState.HandleInput(inputDetector);
-        stateMachine.CurrentState.LogicUpdate();
+        Vector2 moveInput = inputDetector.GetMoveInput();
+        Vector2 attackInput = inputDetector.GetAttackInput();
+
+        stateMachine.CurrentState.HandleMoveInput(moveInput);
+        stateMachine.CurrentState.HandleAttackInput(attackInput);
     }
 
-    private void FixedUpdate()
+    private void OnTriggerEnter(Collider other)
     {
-        stateMachine.CurrentState.PhysicsUpdate();
+        stateMachine.CurrentState.TriggerEnter(other);
     }
 }

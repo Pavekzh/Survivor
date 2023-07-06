@@ -1,4 +1,5 @@
-﻿
+﻿using UnityEngine;
+
 public abstract class CharacterState:BaseState
 {
     protected Character character;
@@ -10,8 +11,10 @@ public abstract class CharacterState:BaseState
         this.stateMachine = stateMachine;
     }
 
-    public abstract void HandleInput(InputDetector inputDetector);
-    public abstract void LogicUpdate();
-    public abstract void PhysicsUpdate();
+    public abstract bool IsAlive();
+    public abstract void TriggerEnter(Collider trigger);
+    public abstract void HandleMoveInput(Vector2 input);
+    public abstract void HandleAttackInput(Vector2 input);
 }
+
 

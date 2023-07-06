@@ -6,7 +6,7 @@ SpriteAtlas:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Ground
+  m_Name: MainAtlas
   m_EditorData:
     serializedVersion: 2
     textureSettings:
@@ -45,6 +45,7 @@ SpriteAtlas:
     variantMultiplier: 1
     packables:
     - {fileID: 2800000, guid: 9ee30eb7d2f1f404790266ee96a67099, type: 3}
+    - {fileID: -537537479, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -56,6 +57,7 @@ SpriteAtlas:
   - {fileID: -133327340, guid: 9ee30eb7d2f1f404790266ee96a67099, type: 3}
   - {fileID: 1830541467, guid: 9ee30eb7d2f1f404790266ee96a67099, type: 3}
   - {fileID: 179664457, guid: 9ee30eb7d2f1f404790266ee96a67099, type: 3}
+  - {fileID: -537537479, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
   m_PackedSpriteNamesToIndex:
   - Tile 2
   - Tile 1
@@ -63,6 +65,7 @@ SpriteAtlas:
   - Tile 5
   - Tile 4
   - Tile 3
+  - Bullet 3
   m_RenderDataMap: {}
-  m_Tag: Ground
+  m_Tag: MainAtlas
   m_IsVariant: 0

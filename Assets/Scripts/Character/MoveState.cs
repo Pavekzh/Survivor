@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MoveState : AliveState
 {
@@ -15,23 +14,16 @@ public class MoveState : AliveState
         Debug.Log("Move exit");
     }
 
-    public override void HandleInput(InputDetector inputDetector)
+    public override void HandleMoveInput(Vector2 input)
     {
-        Vector2 moveInput = inputDetector.GetMoveInput();
+        Move(input);
 
-        Move(moveInput);
-
-        if (moveInput.magnitude == 0)
+        if (input.magnitude == 0)
             stateMachine.ChangeState(character.IdleState);
     }
 
-    public override void LogicUpdate()
+    protected void Move(Vector2 direction)
     {
-        throw new NotImplementedException();
-    }
-
-    public override void PhysicsUpdate()
-    {
-        throw new NotImplementedException();
+        character.transform.Translate(direction * character.MoveSpeed * Time.deltaTime);
     }
 }
