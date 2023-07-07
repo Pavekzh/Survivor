@@ -3,9 +3,10 @@ using UnityEngine.Pool;
 
 public class Gun : Weapon
 {
+    [SerializeField] private float damage = 10;
+    [SerializeField] private int magazineSize = 15;
     [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private int defaultPoolSize = 10;
-    [SerializeField] private int magazineSize = 15;
 
     private int bulletsLeft;
     private bool limitedMagazine = true;
@@ -17,6 +18,11 @@ public class Gun : Weapon
     public void InitDependencies(Transform bulletsParent)
     {
         this.bulletsParent = bulletsParent;
+    }
+
+    public void AddBullets(int amount)
+    {
+        bulletsLeft += amount;
     }
 
     private void Start()
@@ -39,7 +45,7 @@ public class Gun : Weapon
             Bullet bullet = bulletsPool.Get();
             bullet.transform.position = transform.position;
             bullet.transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
-            bullet.Launch(direction, bulletsPool,WeaponRange);
+            bullet.Launch(direction, bulletsPool, damage, WeaponRange);
 
             bulletsLeft--;
         }

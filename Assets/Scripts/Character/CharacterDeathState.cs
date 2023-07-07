@@ -23,7 +23,6 @@ public class CharacterDeathState : CharacterState
     }
 
     public override void HandleTakeDamage() { }
-    public override void ObjectCollision(Collider2D trigger) { }
     public override void HandleAttackInput(Vector2 input) { }
 
 }

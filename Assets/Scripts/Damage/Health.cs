@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public class Health:MonoBehaviour
+public class Health : MonoBehaviour
 {
     [SerializeField] float maxHealth;
 
@@ -17,6 +17,14 @@ public class Health:MonoBehaviour
             Debug.LogError("Max health set to negative or zero");
 
         health = maxHealth;
+    }
+
+    public void Heal(float points)
+    {
+        health += points;
+
+        if (health > maxHealth)
+            health = maxHealth;
     }
 
     public void TakeDamage(float damage)

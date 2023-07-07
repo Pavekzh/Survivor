@@ -3,9 +3,9 @@ using UnityEngine.Pool;
 
 public class Bullet:MonoBehaviour
 {    
-    [SerializeField] private float damage;
     [SerializeField] private float speed;
 
+    private float damage;
     private Rigidbody2D rigidbody;
 
     private ObjectPool<Bullet> originPool;
@@ -26,11 +26,13 @@ public class Bullet:MonoBehaviour
 
     }
 
-    public void Launch(Vector2 direction, ObjectPool<Bullet> originPool,float range)
+    public void Launch(Vector2 direction, ObjectPool<Bullet> originPool,float damage,float range)
     {
-        this.originPool = originPool;
-        this.launchPosition = transform.position;
+        this.damage = damage;        
         this.range = range;
+        this.launchPosition = transform.position;
+        this.originPool = originPool;
+
         rigidbody.AddForce(direction * speed,ForceMode2D.Impulse);
     }
 

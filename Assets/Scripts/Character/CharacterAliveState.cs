@@ -8,11 +8,6 @@ public abstract class CharacterAliveState:CharacterState
 
     public override bool IsAlive { get => true; }
 
-    public override void ObjectCollision(Collider2D trigger)
-    {
-        throw new NotImplementedException();
-    }
-
     public override void HandleTakeDamage()
     {
         if (character.Health.CurrentHealth == 0)

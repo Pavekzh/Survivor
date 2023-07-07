@@ -53,11 +53,6 @@ public class Character : MonoBehaviour
         stateMachine.CurrentState.HandleMoveInput(moveInput);
         stateMachine.CurrentState.HandleAttackInput(attackInput);
     }
-
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        stateMachine.CurrentState.ObjectCollision(other);
-    }    
     
     private void TakedDamage(float obj)
     {

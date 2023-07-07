@@ -14,7 +14,6 @@ public abstract class CharacterState:BaseState
     public abstract bool IsAlive { get; }
 
     public abstract void HandleTakeDamage();
-    public abstract void ObjectCollision(Collider2D item);
     public abstract void HandleMoveInput(Vector2 input);
     public abstract void HandleAttackInput(Vector2 input);
 }
