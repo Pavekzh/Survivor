@@ -6,16 +6,10 @@ public abstract class EnemyAliveState:EnemyState
 
     public override bool IsAlive { get => true; }
 
-    public override void Hit(Collider2D hitter)
+    public override void HadleTakeDamage()
     {
-        if(enemy.Health.IsDamager(hitter.gameObject))
-        {
-            Damager damager = hitter.GetComponent<Damager>();
-
-            enemy.Health.TakeDamage(damager);
-            if (enemy.Health.CurrentHealth == 0)
-                stateMachine.ChangeState(enemy.DeathState);
-        }
+        if (enemy.Health.CurrentHealth == 0)
+            stateMachine.ChangeState(enemy.DeathState);
     }
 }
 

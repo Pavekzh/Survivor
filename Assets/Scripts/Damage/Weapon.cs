@@ -36,12 +36,14 @@ public abstract class Weapon:MonoBehaviour
 
     private IEnumerator Attacking()
     {
+        yield return null;
+
         while(isReloading)
             yield return null;
 
         while (true)
         {
-            Attack(AttackDirection);
+            Attack(AttackDirection.normalized);
             yield return StartCoroutine(Reloading());
         }
     }

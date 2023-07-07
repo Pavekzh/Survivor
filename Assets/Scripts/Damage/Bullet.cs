@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.Pool;
 
-public class Bullet:Damager
-{
+public class Bullet:MonoBehaviour
+{    
+    [SerializeField] private float damage;
     [SerializeField] private float speed;
 
     private Rigidbody2D rigidbody;
@@ -35,7 +36,15 @@ public class Bullet:Damager
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        MakeDamage(collision.gameObject);
         StopBullet();
+    }
+
+    private void MakeDamage(GameObject obj)
+    {
+        Health health = obj.GetComponent<Health>();
+        if(health != null)
+            health.TakeDamage(damage);
     }
 
     private void StopBullet()

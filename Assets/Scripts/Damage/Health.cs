@@ -4,11 +4,12 @@ using UnityEngine;
 public class Health:MonoBehaviour
 {
     [SerializeField] float maxHealth;
-    [SerializeField] int weaponLayer;
 
     private float health;
 
     public float CurrentHealth { get => health; }
+
+    public event Action<float> OnTakedDamage;
 
     private void Start()
     {
@@ -18,19 +19,14 @@ public class Health:MonoBehaviour
         health = maxHealth;
     }
 
-    public bool IsDamager(GameObject obj)
+    public void TakeDamage(float damage)
     {
-        return obj.layer == weaponLayer;
-    }
-
-    public void TakeDamage(Damager damager)
-    {
-        float damage = damager.Damage;
-
         if (health > damage)
             health -= damage;
         else
             health = 0;
+
+        OnTakedDamage?.Invoke(CurrentHealth);
     }
 }
 

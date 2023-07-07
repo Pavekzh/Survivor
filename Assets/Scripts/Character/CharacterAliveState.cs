@@ -10,14 +10,13 @@ public abstract class CharacterAliveState:CharacterState
 
     public override void ObjectCollision(Collider2D trigger)
     {
-        if (character.Health.IsDamager(trigger.gameObject))
-        {
-            Damager damager = trigger.GetComponent<Damager>();
+        throw new NotImplementedException();
+    }
 
-            character.Health.TakeDamage(damager);
-            if (character.Health.CurrentHealth == 0)
-                stateMachine.ChangeState(character.DeathState);
-        }
+    public override void HandleTakeDamage()
+    {
+        if (character.Health.CurrentHealth == 0)
+            stateMachine.ChangeState(character.DeathState);
     }
 
     public override void HandleAttackInput(Vector2 input)

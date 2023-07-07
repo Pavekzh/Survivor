@@ -38,10 +38,12 @@ public class Character : MonoBehaviour
         MoveState = new MoveState(this, stateMachine);
         DeathState = new CharacterDeathState(this, stateMachine);
 
+        health.OnTakedDamage += TakedDamage;
         ColliderSize = GetComponent<BoxCollider2D>().bounds.size;
          
         stateMachine.Init(IdleState);
     }
+
 
     private void Update()
     {
@@ -55,5 +57,11 @@ public class Character : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         stateMachine.CurrentState.ObjectCollision(other);
+    }    
+    
+    private void TakedDamage(float obj)
+    {
+        stateMachine.CurrentState.HandleTakeDamage();
     }
+
 }

@@ -13,8 +13,8 @@ GameObject:
   - component: {fileID: -1631405624374566685}
   - component: {fileID: 8229199175474058526}
   - component: {fileID: 8229199175474058527}
-  - component: {fileID: 8229199175474058524}
   - component: {fileID: -1048017019446754506}
+  - component: {fileID: 7958704527758155666}
   m_Layer: 8
   m_Name: Zombie
   m_TagString: Untagged
@@ -150,25 +150,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: {fileID: -1048017019446754506}
   moveSpeed: 1
-  weapon: {fileID: 8229199175474058524}
+  weapon: {fileID: 7958704527758155666}
   rangeOffset: 1
---- !u!114 &8229199175474058524
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8229199175474058525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ecc7ed7ba36503499fe31e0f9a43b0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reloadTime: 1
-  weaponRange: 2
-  bulletPrefab: {fileID: 4662430070751381988, guid: d4996c7ab198a734eb560f8c3719740f, type: 3}
-  defaultPoolSize: 10
-  magazineSize: 15
 --- !u!114 &-1048017019446754506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -182,4 +165,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 30
-  weaponLayer: 6
+--- !u!114 &7958704527758155666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8229199175474058525}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 18f62e648891af1469a43d5b9238d5bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  reloadTime: 1
+  weaponRange: 2
+  damage: 30
+  mode: 0
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 8

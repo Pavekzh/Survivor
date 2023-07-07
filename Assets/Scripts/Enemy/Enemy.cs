@@ -40,19 +40,24 @@ public class Enemy : MonoBehaviour
         MoveState = new EnemyMoveState(this, stateMachine);
 
         ColliderSize = GetComponent<BoxCollider2D>().bounds.size;
+        health.OnTakedDamage += TakedDamage;
 
         stateMachine.Init(MoveState);
     }
 
     private void Update()
     {
-        Vector2 playerRelativePos = player.gameObject.transform.position - transform.position;
+        if (player.IsAlive)
+        {
+            Vector2 playerRelativePos = player.gameObject.transform.position - transform.position;
 
-        stateMachine.CurrentState.HandleCharacterPosition(playerRelativePos);
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
+            stateMachine.CurrentState.HandleCharacterPosition(playerRelativePos);
+        }
+    }    
+    
+    private void TakedDamage(float currentHealth)
     {
-        stateMachine.CurrentState.Hit(collision);
+        stateMachine.CurrentState.HadleTakeDamage();
     }
+
 }

@@ -22,9 +22,6 @@ public class EnemyDeathState:EnemyState
         throw new NotImplementedException();
     }
 
-    public override void Hit(Collider2D hitter)
-    {
-        throw new NotImplementedException();
-    }
+    public override void HadleTakeDamage() { }
 }
 

@@ -14,7 +14,7 @@ public abstract class EnemyState : BaseState
     public abstract bool IsAlive { get; }
 
     public abstract void HandleCharacterPosition(Vector2 relativePosition);
-    public abstract void Hit(Collider2D hitter);
+    public abstract void HadleTakeDamage();
 
 
 }
