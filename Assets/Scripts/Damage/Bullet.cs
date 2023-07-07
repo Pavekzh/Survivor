@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Pool;
 
-public class Bullet:MonoBehaviour
+public class Bullet:Damager
 {
     [SerializeField] private float speed;
 
@@ -21,9 +21,11 @@ public class Bullet:MonoBehaviour
         rigidbody.AddForce(direction * speed,ForceMode2D.Impulse);
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)    
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        originPool.Release(this);
+        if(originPool != null)
+            originPool.Release(this);
     }
+
 }
 

@@ -20,12 +20,12 @@ public class InputSelector:InputDetector
 
     private void Start()
     {
-#if UNITY_ANDROID || UNITY_IOS
-        selectedDetector = joysticksInputDetector;
-        joysticksInputDetector.Enable();
-#elif UNITY_STANDALONE_WIN || UNITY_EDITOR
+#if UNITY_STANDALONE || UNITY_EDITOR
         selectedDetector = axesInputDetector;
         joysticksInputDetector.Disable();
+#elif UNITY_ANDROID || UNITY_IOS 
+        selectedDetector = joysticksInputDetector;
+        joysticksInputDetector.Enable();
 #endif
     }
 

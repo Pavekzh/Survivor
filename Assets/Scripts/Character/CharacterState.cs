@@ -12,7 +12,7 @@ public abstract class CharacterState:BaseState
     }
 
     public abstract bool IsAlive();
-    public abstract void TriggerEnter(Collider trigger);
+    public abstract void TriggerEnter(Collider2D trigger);
     public abstract void HandleMoveInput(Vector2 input);
     public abstract void HandleAttackInput(Vector2 input);
 }

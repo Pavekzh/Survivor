@@ -11,9 +11,16 @@ public abstract class AliveState:CharacterState
         return true;
     }
 
-    public override void TriggerEnter(Collider trigger)
+    public override void TriggerEnter(Collider2D trigger)
     {
-        throw new NotImplementedException();
+        if (character.Health.IsDamager(trigger.gameObject))
+        {
+            Damager damager = trigger.GetComponent<Damager>();
+
+            character.Health.TakeDamage(damager);
+            if (character.Health.CurrentHealth == 0)
+                stateMachine.ChangeState(character.DeathState);
+        }
     }
 
     public override void HandleAttackInput(Vector2 input)

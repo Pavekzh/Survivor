@@ -7,12 +7,12 @@ public class DeathState : CharacterState
 
     public override void Enter()
     {
-        throw new NotImplementedException();
+        Debug.Log("Death enter");
     }
 
     public override void Exit()
     {
-        throw new NotImplementedException();
+        Debug.Log("Death exit");
     }
 
     public override bool IsAlive()
@@ -25,7 +25,7 @@ public class DeathState : CharacterState
         throw new NotImplementedException();
     }
 
-    public override void TriggerEnter(Collider trigger) { }
+    public override void TriggerEnter(Collider2D trigger) { }
     public override void HandleAttackInput(Vector2 input) { }
 
 }

@@ -8,6 +8,8 @@ public class Character : MonoBehaviour
     [SerializeField] private float moveSpeed = 1;
     [Header("Attack")]
     [SerializeField] private Weapon weapon;
+    [Header("Health")]
+    [SerializeField] private Health health;
 
     public BoxCollider2D MoveBoundaries { get; private set; }
     public Vector2 ColliderSize { get; private set; }
@@ -17,6 +19,7 @@ public class Character : MonoBehaviour
 
     public float MoveSpeed { get => moveSpeed; }    
     public Weapon Weapon { get => weapon; }
+    public Health Health { get => health; }
 
     public IdleState IdleState { get; private set; }
     public MoveState MoveState { get; private set; }
@@ -52,7 +55,7 @@ public class Character : MonoBehaviour
         stateMachine.CurrentState.HandleAttackInput(attackInput);
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         stateMachine.CurrentState.TriggerEnter(other);
     }

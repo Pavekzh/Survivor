@@ -168,6 +168,7 @@ GameObject:
   - component: {fileID: 464519817}
   - component: {fileID: 464519816}
   - component: {fileID: 464519819}
+  - component: {fileID: 464519822}
   m_Layer: 3
   m_Name: Player
   m_TagString: Untagged
@@ -189,6 +190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   weapon: {fileID: 464519819}
+  health: {fileID: 464519822}
 --- !u!212 &464519817
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -320,6 +322,20 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1.1111112}
   m_EdgeRadius: 0
+--- !u!114 &464519822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 464519815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88c268d6644fe1349b089923c53f5c1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 100
+  weaponLayer: 7
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -639,7 +655,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1056602846}
   - component: {fileID: 1056602847}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: MoveBoundaries
   m_TagString: Untagged
   m_Icon: {fileID: 0}
