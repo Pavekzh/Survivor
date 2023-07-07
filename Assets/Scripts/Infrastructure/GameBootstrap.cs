@@ -44,6 +44,10 @@ class GameBootstrap:MonoBehaviour
         foreach(Enemy enemy in enemies)
         {
             enemy.InitDependecies(character,moveBoundaries);
+
+            Gun gun = enemy.GetComponent<Gun>();
+            if (gun != null)
+                gun.InitDependencies(BulletsParent);
         }
     }
 

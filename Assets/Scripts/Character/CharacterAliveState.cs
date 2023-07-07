@@ -16,7 +16,11 @@ public abstract class CharacterAliveState:CharacterState
     public override void HandleTakeDamage()
     {
         if (character.Health.CurrentHealth == 0)
+        {
+            character.Weapon.StopAttack();
             stateMachine.ChangeState(character.DeathState);
+        }
+
     }
 
     public override void HandleAttackInput(Vector2 input)

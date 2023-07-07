@@ -14,9 +14,9 @@ GameObject:
   - component: {fileID: 8229199175474058526}
   - component: {fileID: 8229199175474058527}
   - component: {fileID: -1048017019446754506}
-  - component: {fileID: 7958704527758155666}
+  - component: {fileID: -6953803369378973729}
   m_Layer: 8
-  m_Name: Zombie
+  m_Name: Sceleton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -125,7 +125,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 1488126946, guid: 1bc6097228993f045852159e71f81d5b, type: 3}
+  m_Sprite: {fileID: 86454189, guid: 4104ee12b4d54f54b91b3ba875787837, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -149,8 +149,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: {fileID: -1048017019446754506}
-  moveSpeed: 1.5
-  weapon: {fileID: 7958704527758155666}
+  moveSpeed: 2.5
+  weapon: {fileID: -6953803369378973729}
   rangeOffset: 1
 --- !u!114 &-1048017019446754506
 MonoBehaviour:
@@ -164,8 +164,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88c268d6644fe1349b089923c53f5c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 30
---- !u!114 &7958704527758155666
+  maxHealth: 50
+--- !u!114 &-6953803369378973729
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -174,13 +174,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 8229199175474058525}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18f62e648891af1469a43d5b9238d5bb, type: 3}
+  m_Script: {fileID: 11500000, guid: 6ecc7ed7ba36503499fe31e0f9a43b0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reloadTime: 1
-  weaponRange: 2
-  damage: 10
-  mode: 0
-  targetLayers:
-    serializedVersion: 2
-    m_Bits: 8
+  reloadTime: 0.5
+  weaponRange: 5
+  bulletPrefab: {fileID: 4662430070751381988, guid: d4996c7ab198a734eb560f8c3719740f, type: 3}
+  defaultPoolSize: 5
+  magazineSize: -1
