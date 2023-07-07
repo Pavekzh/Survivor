@@ -1,9 +1,9 @@
 ﻿using System;
 using UnityEngine;
 
-public class DeathState : CharacterState
+public class CharacterDeathState : CharacterState
 {
-    public DeathState(Character character, StateMachine<CharacterState> stateMachine) : base(character, stateMachine) { }
+    public CharacterDeathState(Character character, StateMachine<CharacterState> stateMachine) : base(character, stateMachine) { }
 
     public override void Enter()
     {
@@ -15,17 +15,14 @@ public class DeathState : CharacterState
         Debug.Log("Death exit");
     }
 
-    public override bool IsAlive()
-    {
-        return false;
-    }
+    public override bool IsAlive { get => false; }
 
     public override void HandleMoveInput(Vector2 input)
     {
         throw new NotImplementedException();
     }
 
-    public override void TriggerEnter(Collider2D trigger) { }
+    public override void ObjectCollision(Collider2D trigger) { }
     public override void HandleAttackInput(Vector2 input) { }
 
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MoveState : AliveState
+public class MoveState : CharacterAliveState
 {
     public MoveState(Character character, StateMachine<CharacterState> stateMachine) : base(character, stateMachine) { }
 

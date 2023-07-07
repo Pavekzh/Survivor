@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class IdleState : AliveState
+public class CharacterIdleState : CharacterAliveState
 {
-    public IdleState(Character character, StateMachine<CharacterState> stateMachine) : base(character, stateMachine) { }
+    public CharacterIdleState(Character character, StateMachine<CharacterState> stateMachine) : base(character, stateMachine) { }
 
     public override void Enter()
     {

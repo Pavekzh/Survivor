@@ -11,8 +11,9 @@ public abstract class CharacterState:BaseState
         this.stateMachine = stateMachine;
     }
 
-    public abstract bool IsAlive();
-    public abstract void TriggerEnter(Collider2D trigger);
+    public abstract bool IsAlive { get; }
+
+    public abstract void ObjectCollision(Collider2D item);
     public abstract void HandleMoveInput(Vector2 input);
     public abstract void HandleAttackInput(Vector2 input);
 }

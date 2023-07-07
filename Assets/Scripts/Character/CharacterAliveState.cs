@@ -2,16 +2,13 @@
 using System.Collections;
 using UnityEngine;
 
-public abstract class AliveState:CharacterState
+public abstract class CharacterAliveState:CharacterState
 {
-    public AliveState(Character character, StateMachine<CharacterState> stateMachine) : base(character, stateMachine) { }
+    public CharacterAliveState(Character character, StateMachine<CharacterState> stateMachine) : base(character, stateMachine) { }
 
-    public override bool IsAlive()
-    {
-        return true;
-    }
+    public override bool IsAlive { get => true; }
 
-    public override void TriggerEnter(Collider2D trigger)
+    public override void ObjectCollision(Collider2D trigger)
     {
         if (character.Health.IsDamager(trigger.gameObject))
         {

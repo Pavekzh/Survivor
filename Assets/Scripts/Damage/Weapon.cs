@@ -4,10 +4,12 @@ using UnityEngine;
 public abstract class Weapon:MonoBehaviour
 {
     [SerializeField] private float reloadTime = 1;
+    [SerializeField] private float weaponRange = 5;
 
-    private bool isReloading;
+    protected bool isReloading;
     private Coroutine attackingCoroutine;
 
+    public float WeaponRange { get => weaponRange; }
     public bool IsAttacking { get; private set; }
     public Vector2 AttackDirection { get; set; }
 

@@ -1,31 +1,28 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Character : MonoBehaviour
-{
+{    
+    [Header("Health")]
+    [SerializeField] private Health health;
     [Header("Move")]
     [SerializeField] private float moveSpeed = 1;
     [Header("Attack")]
     [SerializeField] private Weapon weapon;
-    [Header("Health")]
-    [SerializeField] private Health health;
 
-    public BoxCollider2D MoveBoundaries { get; private set; }
     public Vector2 ColliderSize { get; private set; }
-
-    private InputDetector inputDetector;
-    private StateMachine<CharacterState> stateMachine;
+    public bool IsAlive { get => stateMachine.CurrentState.IsAlive; }
 
     public float MoveSpeed { get => moveSpeed; }    
     public Weapon Weapon { get => weapon; }
     public Health Health { get => health; }
 
-    public IdleState IdleState { get; private set; }
+    private StateMachine<CharacterState> stateMachine;
+    public CharacterIdleState IdleState { get; private set; }
     public MoveState MoveState { get; private set; }
-    public DeathState DeathState { get; private set; }
+    public CharacterDeathState DeathState { get; private set; }
 
-    public bool IsAlive { get => stateMachine.CurrentState.IsAlive(); }
+    private InputDetector inputDetector;    
+    public BoxCollider2D MoveBoundaries { get; private set; }
 
     public void InitDependencies(InputDetector inputDetector,BoxCollider2D moveBoundaries)
     {
@@ -37,9 +34,9 @@ public class Character : MonoBehaviour
     {
         stateMachine = new StateMachine<CharacterState>();
 
-        IdleState = new IdleState(this, stateMachine);
+        IdleState = new CharacterIdleState(this, stateMachine);
         MoveState = new MoveState(this, stateMachine);
-        DeathState = new DeathState(this, stateMachine);
+        DeathState = new CharacterDeathState(this, stateMachine);
 
         ColliderSize = GetComponent<BoxCollider2D>().bounds.size;
          
@@ -57,6 +54,6 @@ public class Character : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        stateMachine.CurrentState.TriggerEnter(other);
+        stateMachine.CurrentState.ObjectCollision(other);
     }
 }
