@@ -5,6 +5,7 @@ public class GameBootstrap:MonoBehaviour
 {
     [Header("Systems")]    
     [SerializeField] private WaveSystem waveSystem;
+    [SerializeField] private ScoreCounter scoreCounter;
     [SerializeField] private InputDetector inputDetector;
     [SerializeField] private AxesInputDetector axesInputDetector;
     [SerializeField] private Camera camera;
@@ -47,13 +48,15 @@ public class GameBootstrap:MonoBehaviour
     private void InitCharacter()
     {
         character.InitDependencies(inputDetector,moveBoundaries.bounds);
+
+        character.Weapon.InitDependencies(character);
         Gun gun = character.GetComponent<Gun>();
         gun.InitDependencies(bulletsParent);
     }
 
     private void InitWaves()
     {
-        waveSystem.InitDependecies(moveBoundaries.bounds, character);
+        waveSystem.InitDependecies(moveBoundaries.bounds, character,scoreCounter);
     }
 
     private void InitEnemyFactory()
@@ -79,7 +82,8 @@ public class GameBootstrap:MonoBehaviour
 
     public void InitEnemy(Enemy enemy)
     {
-        enemy.InitDependecies(character, moveBoundaries.bounds,waveSystem);
+        enemy.InitDependecies(character, moveBoundaries.bounds,waveSystem,scoreCounter);
+        enemy.Weapon.InitDependencies(enemy);
         Gun gun = enemy.Weapon as Gun;
         if (gun != null)
             gun.InitDependencies(bulletsParent);

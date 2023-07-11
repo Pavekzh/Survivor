@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public class Character : MonoBehaviour,IWeaponOwner
 {    
     [Header("Health")]
     [SerializeField] private Health health;
@@ -10,6 +10,7 @@ public class Character : MonoBehaviour
     [SerializeField] private Weapon weapon;
 
     public Vector2 ColliderSize { get; private set; }
+    public string ID { get => "Player1"; }
     public bool IsAlive { get => stateMachine.CurrentState.IsAlive; }
 
     public float MoveSpeed { get => moveSpeed; }    
@@ -44,7 +45,6 @@ public class Character : MonoBehaviour
         stateMachine.Init(IdleState);
     }
 
-
     private void Update()
     {
         Vector2 moveInput = inputDetector.GetMoveInput();
@@ -54,7 +54,7 @@ public class Character : MonoBehaviour
         stateMachine.CurrentState.HandleAttackInput(attackInput);
     }
     
-    private void TakedDamage(float obj)
+    private void TakedDamage(float damage,string sender)
     {
         stateMachine.CurrentState.HandleTakeDamage();
     }

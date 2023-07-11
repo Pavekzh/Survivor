@@ -8,16 +8,19 @@ public class Bomb : Item
     [SerializeField] private bool proportionalDamage = true;
     [SerializeField] private float minDamage = 10;
 
+
     protected override void Execute(Collider2D founder)
     {
+        IWeaponOwner owner = founder.GetComponent<IWeaponOwner>();
+
         Collider2D[] targets = Physics2D.OverlapCircleAll(transform.position, radius, targetLayers);
         foreach(Collider2D target in targets)
         {
-            MakeDamage(target);
+             MakeDamage(target,owner.ID);     
         }
     }
 
-    private void MakeDamage(Collider2D target)
+    private void MakeDamage(Collider2D target,string founderID)
     {
         Health health = target.GetComponent<Health>();
 
@@ -35,7 +38,7 @@ public class Bomb : Item
             damage = Mathf.Lerp(minDamage, damage, distance / radius);
         }
 
-        health.TakeDamage(damage);
+        health.TakeDamage(damage, founderID);
     }
 
     private void OnDrawGizmos()

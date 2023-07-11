@@ -8,9 +8,11 @@ public class Bullet:MonoBehaviour
     private float damage;
     private Rigidbody2D rigidbody;
 
+    private string ownerId;
     private ObjectPool<Bullet> originPool;
     private float range;
     private Vector2 launchPosition;
+
 
     private void Awake()
     {
@@ -28,8 +30,9 @@ public class Bullet:MonoBehaviour
             StopBullet();
     }
 
-    public void Launch(Vector2 direction, ObjectPool<Bullet> originPool,float damage,float range)
+    public void Launch(Vector2 direction,string ownerId, ObjectPool<Bullet> originPool,float damage,float range)
     {
+        this.ownerId = ownerId;
         this.damage = damage;        
         this.range = range;
         this.launchPosition = transform.position;
@@ -48,7 +51,7 @@ public class Bullet:MonoBehaviour
     {
         Health health = obj.GetComponent<Health>();
         if(health != null)
-            health.TakeDamage(damage);
+            health.TakeDamage(damage,ownerId);
     }
 
     private void StopBullet()

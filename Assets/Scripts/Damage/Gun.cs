@@ -51,7 +51,7 @@ public class Gun : Weapon
             Bullet bullet = bulletsPool.Get();
             bullet.transform.position = transform.position;
             bullet.transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
-            bullet.Launch(direction, bulletsPool, damage, WeaponRange);
+            bullet.Launch(direction,owner.ID, bulletsPool, damage, WeaponRange);
 
             bulletsLeft--;
         }

@@ -11,10 +11,16 @@ public abstract class EnemyAliveState:EnemyState
         stateMachine.ChangeState(enemy.DeathState);
     }
 
-    public override void HandleTakeDamage()
+    public override void HandleTakeDamage(float damage,string sender)
     {
         if (enemy.Health.CurrentHealth == 0)
+        {
+            enemy.Killer = sender;
             stateMachine.ChangeState(enemy.DeathState);
+        }
+
+
+        enemy.scoreCounter.AddDamage(damage,sender);
     }
     public override void Recover() { }
 }

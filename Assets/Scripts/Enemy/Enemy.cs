@@ -2,7 +2,7 @@
 using UnityEngine.Pool;
 
 
-public class Enemy : MonoBehaviour,IPooledObject
+public class Enemy : MonoBehaviour,IPooledObject,IWeaponOwner
 {
     [Header("Health")]
     [SerializeField] private Health health;
@@ -12,8 +12,10 @@ public class Enemy : MonoBehaviour,IPooledObject
     [SerializeField] private Weapon weapon;
     [SerializeField] private float rangeOffset;
 
+    public string ID => gameObject.name;
     public GameObject GameObject => gameObject;
     public ObjectPool<IPooledObject> OriginPool { get; set; }
+    public string Killer { get; set; }
 
     public Vector2 ColliderSize { get; private set; }
 
@@ -27,16 +29,19 @@ public class Enemy : MonoBehaviour,IPooledObject
     public EnemyAttackState AttackState { get; private set; }
     public EnemyMoveState MoveState { get; private set; }
 
+    public Bounds MoveBoundaries { get; private set; }    
+    public ScoreCounter scoreCounter { get; private set; }
     private Character player;
-    public Bounds MoveBoundaries { get; private set; }
     private WaveSystem waveSystem;
 
-    public void InitDependecies(Character character,Bounds moveBoundaries,WaveSystem waveSystem)
+
+    public void InitDependecies(Character character,Bounds moveBoundaries,WaveSystem waveSystem,ScoreCounter scoreCounter)
     {
         this.player = character;
         this.MoveBoundaries = moveBoundaries;
         this.waveSystem = waveSystem;
         this.waveSystem.OnWaveEnd += WaveEnded;
+        this.scoreCounter = scoreCounter;
     }
 
     private void Start()
@@ -67,9 +72,9 @@ public class Enemy : MonoBehaviour,IPooledObject
         stateMachine.CurrentState.HandleWaveEnd();
     }
     
-    private void TakedDamage(float currentHealth)
+    private void TakedDamage(float damage,string senderId)
     {
-        stateMachine.CurrentState.HandleTakeDamage();
+        stateMachine.CurrentState.HandleTakeDamage(damage,senderId);
     }
 
     public void OnGet()

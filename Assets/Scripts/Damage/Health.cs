@@ -9,7 +9,7 @@ public class Health : MonoBehaviour
 
     public float CurrentHealth { get => health; }
 
-    public event Action<float> OnTakedDamage;
+    public event Action<float,string> OnTakedDamage;
 
     private void Start()
     {
@@ -32,14 +32,18 @@ public class Health : MonoBehaviour
             health = maxHealth;
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage,string senderId)
     {
+        float healthBefore = health;
+
         if (health > damage)
             health -= damage;
         else
             health = 0;
 
-        OnTakedDamage?.Invoke(CurrentHealth);
+        float healthAfter = health;
+
+        OnTakedDamage?.Invoke(healthBefore - healthAfter,senderId);
     }    
     
 

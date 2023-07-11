@@ -12,17 +12,20 @@ public class EnemyDeathState:EnemyState
         //animation
         //wait
         enemy.OriginPool.Release(enemy);
+        if(enemy.Killer != null)
+            enemy.scoreCounter.AddKill(enemy.Killer);
     }
 
     public override void Exit()
     {
         enemy.Health.RecoverHealth();
         enemy.Weapon.RecoverWeapon();
+        enemy.Killer = null;
     }
 
     public override void HandleCharacterPosition(Vector2 relativePosition) { }
 
-    public override void HandleTakeDamage() { }
+    public override void HandleTakeDamage(float damage,string sender) { }
 
     public override void HandleWaveEnd() { }
 

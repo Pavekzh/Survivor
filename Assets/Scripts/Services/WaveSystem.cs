@@ -8,17 +8,20 @@ public class WaveSystem : MonoBehaviour
     [SerializeField] private float minSpawnDistanceToPlayer = 3;
     [SerializeField] private float minSpawnDistanceToBounds = 1;
 
-    private Character player;
-    private Bounds positionBounds;
     private int currentWave = -1;
     private Coroutine executingWave;
 
     public event Action OnWaveEnd;
 
-    public void InitDependecies(Bounds positionBounds, Character player)
+    private ScoreCounter scoreCounter;
+    private Character player;
+    private Bounds positionBounds;
+
+    public void InitDependecies(Bounds positionBounds, Character player,ScoreCounter scoreCounter)
     {
         this.player = player;
         this.positionBounds = positionBounds;
+        this.scoreCounter = scoreCounter;
     }
 
     private void Start()
@@ -123,6 +126,10 @@ public class WaveSystem : MonoBehaviour
     private void GameEnded()
     {
         Debug.Log("Waves end");
+        foreach (var record in scoreCounter.Records)
+        {
+            Debug.Log(record.Key + ": " + record.Value.Kills + "(kills) " + record.Value.Damage + "(damage)");
+        }
         throw new NotImplementedException();
     }
 

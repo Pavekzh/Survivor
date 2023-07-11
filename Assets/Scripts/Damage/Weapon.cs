@@ -13,6 +13,13 @@ public abstract class Weapon:MonoBehaviour
     public bool IsAttacking { get; private set; }
     public Vector2 AttackDirection { get; set; }
 
+    protected IWeaponOwner owner;
+
+    public void InitDependencies(IWeaponOwner owner)
+    {
+        this.owner = owner;
+    }
+
     protected abstract void Attack(Vector2 direction);
 
     public virtual void RecoverWeapon()
