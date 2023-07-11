@@ -3,11 +3,11 @@ using UnityEngine;
 
 public class CameraFollow:MonoBehaviour
 {
-    [SerializeField] Camera camera;
-    [SerializeField] Transform target;
-    [SerializeField] float smoothFactor = 0.2f;
+    [SerializeField] private Camera camera;
+    [SerializeField] private float smoothFactor = 0.2f;
 
     private BoxCollider2D boundBox;
+    private Transform target;
 
     private Vector2 minBounds { get => boundBox.bounds.min; }
     private Vector2 maxBounds { get => boundBox.bounds.max; }
@@ -15,8 +15,9 @@ public class CameraFollow:MonoBehaviour
     private float halfWidth;
     private float halfHeight;
 
-    public void InitDependencies(BoxCollider2D boundBox)
+    public void InitDependencies(Transform target, BoxCollider2D boundBox)
     {
+        this.target = target;
         this.boundBox = boundBox;
     }
 

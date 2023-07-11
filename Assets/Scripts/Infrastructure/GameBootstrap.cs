@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class GameBootstrap:MonoBehaviour
 {
-    [Header("Systems")]    
+    [Header("Systems")]
+    [SerializeField] private ChoosePlayer choosePlayer;
     [SerializeField] private WaveSystem waveSystem;
     [SerializeField] private ScoreCounter scoreCounter;
     [SerializeField] private InputDetector inputDetector;
@@ -14,8 +15,6 @@ public class GameBootstrap:MonoBehaviour
     [SerializeField] private Transform bulletsParent;
     [Header("UI")]
     [SerializeField] private WaveSystemUI waveSystemUI;
-    [Header("Character")]
-    [SerializeField] private Character character;
     [Header("Wave objects")]
     [SerializeField] private SpawnObjectFactory itemsFactory;
     [SerializeField] private EnemyFactory enemyFactory;
@@ -23,6 +22,8 @@ public class GameBootstrap:MonoBehaviour
     [SerializeField] private Transform enemiesParent;
     [SerializeField] private SpawnObject[] enemiesObjects;
     [SerializeField] private SpawnObject[] itemsObjects;
+
+    private Character character;
 
     private void Awake()
     {
@@ -38,6 +39,16 @@ public class GameBootstrap:MonoBehaviour
         InitItems();
     }
 
+    private void InitCharacter()
+    {
+        character = Instantiate(choosePlayer.GetChoosed()).GetComponent<Character>();
+
+        character.InitDependencies(inputDetector,moveBoundaries.bounds);
+        Gun gun = character.GetComponent<Gun>();
+        gun.InitDependencies(character);
+        gun.InitDependencies(bulletsParent);
+    }
+
     private void InitWavesUI()
     {
         waveSystemUI.InitDependencies(waveSystem);
@@ -50,16 +61,7 @@ public class GameBootstrap:MonoBehaviour
 
     private void InitCameraFollow()
     {
-        cameraFollow.InitDependencies(moveBoundaries);
-    }
-
-    private void InitCharacter()
-    {
-        character.InitDependencies(inputDetector,moveBoundaries.bounds);
-
-        character.Weapon.InitDependencies(character);
-        Gun gun = character.GetComponent<Gun>();
-        gun.InitDependencies(bulletsParent);
+        cameraFollow.InitDependencies(character.transform,moveBoundaries);
     }
 
     private void InitWaves()
