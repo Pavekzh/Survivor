@@ -6,10 +6,16 @@ public abstract class EnemyAliveState:EnemyState
 
     public override bool IsAlive { get => true; }
 
-    public override void HadleTakeDamage()
+    public override void HandleWaveEnd()
+    {
+        stateMachine.ChangeState(enemy.DeathState);
+    }
+
+    public override void HandleTakeDamage()
     {
         if (enemy.Health.CurrentHealth == 0)
             stateMachine.ChangeState(enemy.DeathState);
     }
+    public override void Recover() { }
 }
 

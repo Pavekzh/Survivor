@@ -9,19 +9,26 @@ public class EnemyDeathState:EnemyState
 
     public override void Enter()
     {
-        Debug.Log("Enemy Death enter");
+        //animation
+        //wait
+        enemy.OriginPool.Release(enemy);
     }
 
     public override void Exit()
     {
-        Debug.Log("Enemy Death exit");
+        enemy.Health.RecoverHealth();
+        enemy.Weapon.RecoverWeapon();
     }
 
-    public override void HandleCharacterPosition(Vector2 relativePosition)
+    public override void HandleCharacterPosition(Vector2 relativePosition) { }
+
+    public override void HandleTakeDamage() { }
+
+    public override void HandleWaveEnd() { }
+
+    public override void Recover()
     {
-        throw new NotImplementedException();
+        stateMachine.ChangeState(enemy.MoveState);
     }
-
-    public override void HadleTakeDamage() { }
 }
 

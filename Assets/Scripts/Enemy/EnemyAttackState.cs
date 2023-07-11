@@ -7,13 +7,11 @@ public class EnemyAttackState : EnemyAliveState
 
     public override void Enter()
     {
-        Debug.Log("Enemy Attack enter");
         enemy.Weapon.StartAttack();
     }
 
     public override void Exit()
     {
-        Debug.Log("Enemy Attack exit");
         enemy.Weapon.StopAttack();
     }
 

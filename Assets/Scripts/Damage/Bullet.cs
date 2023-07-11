@@ -19,11 +19,13 @@ public class Bullet:MonoBehaviour
             Debug.Log("Bullet must have Rigidbody component");
     }
 
+    bool debug1 = false;
+    bool debug2 = false;
+
     private void Update()
     {
         if (((Vector2)transform.position - launchPosition).magnitude > range)
             StopBullet();
-
     }
 
     public void Launch(Vector2 direction, ObjectPool<Bullet> originPool,float damage,float range)
@@ -52,6 +54,8 @@ public class Bullet:MonoBehaviour
     private void StopBullet()
     {
         rigidbody.velocity = Vector2.zero;
+        if (debug1 == true && debug2 == true)
+            Debug.Log("range and trigger");
         if (originPool != null)
             originPool.Release(this);
     }

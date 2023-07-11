@@ -15,6 +15,14 @@ public abstract class Weapon:MonoBehaviour
 
     protected abstract void Attack(Vector2 direction);
 
+    public virtual void RecoverWeapon()
+    {
+        isReloading = false;
+        IsAttacking = false;
+        StopAllCoroutines();
+        attackingCoroutine = null;
+    }
+
     public void StartAttack()
     {
         if(IsAttacking == false)
@@ -33,6 +41,7 @@ public abstract class Weapon:MonoBehaviour
             IsAttacking = false;
         }
     }
+
 
     private IEnumerator Attacking()
     {

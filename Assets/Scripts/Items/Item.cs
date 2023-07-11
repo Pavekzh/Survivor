@@ -1,8 +1,13 @@
 ﻿using UnityEngine;
+using UnityEngine.Pool;
 
-public abstract class Item : MonoBehaviour
+public abstract class Item : MonoBehaviour,IPooledObject
 {
     [SerializeField] private LayerMask canPickUpLayers;
+
+    public ObjectPool<IPooledObject> OriginPool { get; set; }
+
+    public GameObject GameObject => gameObject;
 
     protected abstract void Execute(Collider2D founder);
 
@@ -14,6 +19,19 @@ public abstract class Item : MonoBehaviour
             return;
 
         Execute(collision);
-        Destroy(gameObject);
+        //pool release
+        OriginPool.Release(this);
+    }  
+    
+    public void OnGet()
+    {
+        gameObject.SetActive(true);
     }
+
+    public void OnRelease()
+    {
+        gameObject.SetActive(false);
+    }
+
+
 }

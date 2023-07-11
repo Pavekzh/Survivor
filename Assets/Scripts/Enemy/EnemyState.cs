@@ -13,8 +13,9 @@ public abstract class EnemyState : BaseState
 
     public abstract bool IsAlive { get; }
 
+    public abstract void HandleWaveEnd();
     public abstract void HandleCharacterPosition(Vector2 relativePosition);
-    public abstract void HadleTakeDamage();
-
+    public abstract void HandleTakeDamage();
+    public abstract void Recover();
 
 }

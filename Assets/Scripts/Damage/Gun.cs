@@ -20,6 +20,12 @@ public class Gun : Weapon
         this.bulletsParent = bulletsParent;
     }
 
+    public override void RecoverWeapon()
+    {
+        base.RecoverWeapon();
+        bulletsLeft = magazineSize;
+    }
+
     public void AddBullets(int amount)
     {
         bulletsLeft += amount;
@@ -35,7 +41,7 @@ public class Gun : Weapon
         else
             bulletsLeft = magazineSize;
 
-        bulletsPool = new ObjectPool<Bullet>(() => Instantiate(bulletPrefab, bulletsParent).GetComponent<Bullet>(), bullet => bullet.gameObject.SetActive(true), bullet => bullet.gameObject.SetActive(false), null, true, defaultPoolSize);
+        bulletsPool = new ObjectPool<Bullet>(() => Instantiate(bulletPrefab, bulletsParent).GetComponent<Bullet>(), bullet => bullet.gameObject.SetActive(true), bullet => bullet.gameObject.SetActive(false), null, false, defaultPoolSize);
     }
 
     protected override void Attack(Vector2 direction)

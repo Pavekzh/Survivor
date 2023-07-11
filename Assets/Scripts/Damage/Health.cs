@@ -17,6 +17,11 @@ public class Health : MonoBehaviour
             Debug.LogError("Max health set to negative or zero");
 
         health = maxHealth;
+    }    
+    
+    public void RecoverHealth()
+    {
+        this.health = maxHealth;
     }
 
     public void Heal(float points)
@@ -35,6 +40,8 @@ public class Health : MonoBehaviour
             health = 0;
 
         OnTakedDamage?.Invoke(CurrentHealth);
-    }
+    }    
+    
+
 }
 

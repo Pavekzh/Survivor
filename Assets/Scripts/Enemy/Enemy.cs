@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
+using UnityEngine.Pool;
 
 
-public class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour,IPooledObject
 {
     [Header("Health")]
     [SerializeField] private Health health;
@@ -10,6 +11,9 @@ public class Enemy : MonoBehaviour
     [Header("Attack")]
     [SerializeField] private Weapon weapon;
     [SerializeField] private float rangeOffset;
+
+    public GameObject GameObject => gameObject;
+    public ObjectPool<IPooledObject> OriginPool { get; set; }
 
     public Vector2 ColliderSize { get; private set; }
 
@@ -24,12 +28,15 @@ public class Enemy : MonoBehaviour
     public EnemyMoveState MoveState { get; private set; }
 
     private Character player;
-    public BoxCollider2D MoveBoundaries { get; private set; }
+    public Bounds MoveBoundaries { get; private set; }
+    private WaveSystem waveSystem;
 
-    public void InitDependecies(Character character,BoxCollider2D moveBoundaries)
+    public void InitDependecies(Character character,Bounds moveBoundaries,WaveSystem waveSystem)
     {
         this.player = character;
         this.MoveBoundaries = moveBoundaries;
+        this.waveSystem = waveSystem;
+        this.waveSystem.OnWaveEnd += WaveEnded;
     }
 
     private void Start()
@@ -53,11 +60,28 @@ public class Enemy : MonoBehaviour
 
             stateMachine.CurrentState.HandleCharacterPosition(playerRelativePos);
         }
-    }    
+    }        
+    
+    private void WaveEnded()
+    {
+        stateMachine.CurrentState.HandleWaveEnd();
+    }
     
     private void TakedDamage(float currentHealth)
     {
-        stateMachine.CurrentState.HadleTakeDamage();
+        stateMachine.CurrentState.HandleTakeDamage();
     }
 
+    public void OnGet()
+    {
+        gameObject.SetActive(true);
+
+        if (stateMachine != null)
+            stateMachine.CurrentState.Recover();
+    }
+
+    public void OnRelease()
+    {
+        gameObject.SetActive(false);
+    }
 }

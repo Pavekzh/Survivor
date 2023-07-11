@@ -22,9 +22,9 @@ public class Character : MonoBehaviour
     public CharacterDeathState DeathState { get; private set; }
 
     private InputDetector inputDetector;    
-    public BoxCollider2D MoveBoundaries { get; private set; }
+    public Bounds MoveBoundaries { get; private set; }
 
-    public void InitDependencies(InputDetector inputDetector,BoxCollider2D moveBoundaries)
+    public void InitDependencies(InputDetector inputDetector,Bounds moveBoundaries)
     {
         this.inputDetector = inputDetector;
         this.MoveBoundaries = moveBoundaries;
