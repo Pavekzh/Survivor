@@ -12,6 +12,8 @@ public class GameBootstrap:MonoBehaviour
     [SerializeField] private CameraFollow cameraFollow;    
     [SerializeField] private BoxCollider2D moveBoundaries;
     [SerializeField] private Transform bulletsParent;
+    [Header("UI")]
+    [SerializeField] private WaveSystemUI waveSystemUI;
     [Header("Character")]
     [SerializeField] private Character character;
     [Header("Wave objects")]
@@ -29,10 +31,16 @@ public class GameBootstrap:MonoBehaviour
         InitCameraFollow();
         InitWaves();
 
+        InitWavesUI();
+
         InitEnemyFactory();
         InitEnemies();
         InitItems();
+    }
 
+    private void InitWavesUI()
+    {
+        waveSystemUI.InitDependencies(waveSystem);
     }
 
     private void InitAxesInput()

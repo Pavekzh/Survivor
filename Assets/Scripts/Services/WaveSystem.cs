@@ -9,8 +9,11 @@ public class WaveSystem : MonoBehaviour
     [SerializeField] private float minSpawnDistanceToBounds = 1;
 
     private int currentWave = -1;
-    private Coroutine executingWave;
+    private bool executingWave;
 
+    public event Action OnSpawnStarted;
+    public event Action OnRestStarted;    
+    public event Action<float> OnTimerChanged;
     public event Action OnWaveEnd;
 
     private ScoreCounter scoreCounter;
@@ -36,26 +39,36 @@ public class WaveSystem : MonoBehaviour
             Debug.Log("Started new wave");
             currentWave++;
 
-            yield return StartCoroutine(WaitingWave());
+            yield return StartCoroutine(RestTimer());
             Debug.Log("Wait time out");
-
-            executingWave = StartCoroutine(ExecuteWave());
+        
             StartCoroutine(WaveTimer());
+            StartCoroutine(ExecuteWave());
         }
         else
             GameEnded();
     }
 
-    private IEnumerator WaitingWave()
+    private IEnumerator RestTimer()
     {
-        yield return new WaitForSeconds(waves[currentWave].StartDelay);
+        OnRestStarted();
+        OnTimerChanged(waves[currentWave].StartDelay);
+
+        float elapsedSeconds = 0;
+        while(elapsedSeconds < waves[currentWave].StartDelay)
+        {
+            yield return new WaitForSeconds(1);            
+            elapsedSeconds++;
+            OnTimerChanged(waves[currentWave].StartDelay - elapsedSeconds);
+
+        }
     }
 
     private IEnumerator ExecuteWave()
     {
         float timeToNextSpawn = 1 / waves[currentWave].SpawnRate;
 
-        while (true)
+        while (executingWave)
         {
             SpawnRandom();
             yield return new WaitForSeconds(timeToNextSpawn);
@@ -64,8 +77,20 @@ public class WaveSystem : MonoBehaviour
 
     private IEnumerator WaveTimer()
     {
-        yield return new WaitForSeconds(waves[currentWave].Duration);
-        StopCoroutine(executingWave);
+        executingWave = true;
+        OnSpawnStarted();
+        OnTimerChanged(waves[currentWave].Duration);
+
+        float elapsedSeconds = 0;
+        while (elapsedSeconds < waves[currentWave].Duration)
+        {
+            yield return new WaitForSeconds(1);            
+            elapsedSeconds++;
+            OnTimerChanged(waves[currentWave].Duration - elapsedSeconds);
+
+        }
+
+        executingWave = false;
         WaveEnded();
         StartCoroutine(StartNewWave());
 
