@@ -4,6 +4,7 @@ using UnityEngine;
 public class GameBootstrap:MonoBehaviour
 {
     [Header("Systems")]
+    [SerializeField] private GunSelector gunSelector;
     [SerializeField] private ChoosePlayer choosePlayer;
     [SerializeField] private WaveSystem waveSystem;
     [SerializeField] private ScoreCounter scoreCounter;
@@ -42,11 +43,11 @@ public class GameBootstrap:MonoBehaviour
     private void InitCharacter()
     {
         character = Instantiate(choosePlayer.GetChoosed()).GetComponent<Character>();
+        Gun gun = gunSelector.GetGun(character.transform);
 
-        character.InitDependencies(inputDetector,moveBoundaries.bounds);
-        Gun gun = character.GetComponent<Gun>();
-        gun.InitDependencies(character);
-        gun.InitDependencies(bulletsParent);
+        character.InitDependencies(inputDetector,moveBoundaries.bounds,gun);
+        character.Weapon.InitDependencies(character);
+        character.Weapon.InitDependencies(bulletsParent);
     }
 
     private void InitWavesUI()

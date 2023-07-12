@@ -149,4 +149,5 @@ MonoBehaviour:
   canPickUpLayers:
     serializedVersion: 2
     m_Bits: 8
-  amount: 25
+  useMagazineSize: 1
+  amount: 0

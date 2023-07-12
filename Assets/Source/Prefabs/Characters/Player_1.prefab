@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 7036606780738340668}
   - component: {fileID: 7036606780738340665}
   - component: {fileID: 7036606780738340664}
-  - component: {fileID: 7036606780738340667}
   - component: {fileID: 7036606780738340670}
   m_Layer: 3
   m_Name: Player_1
@@ -30,7 +29,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7036606780738340663}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -124,7 +123,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_Sprite: {fileID: 978012912, guid: 99a24620d31e5ce4e823c32d11e17c2c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -150,25 +149,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: {fileID: 7036606780738340670}
   moveSpeed: 5
-  weapon: {fileID: 7036606780738340667}
---- !u!114 &7036606780738340667
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7036606780738340663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6ecc7ed7ba36503499fe31e0f9a43b0f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reloadTime: 0.3
-  weaponRange: 7
-  damage: 10
-  magazineSize: 15
-  bulletPrefab: {fileID: 4759248636515289910, guid: 2d571c6ba927c7740a59848377e3fe13, type: 3}
-  defaultPoolSize: 5
+  weapon: {fileID: 0}
 --- !u!114 &7036606780738340670
 MonoBehaviour:
   m_ObjectHideFlags: 0

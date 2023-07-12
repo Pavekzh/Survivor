@@ -7,14 +7,14 @@ public class Character : MonoBehaviour,IWeaponOwner
     [Header("Move")]
     [SerializeField] private float moveSpeed = 1;
     [Header("Attack")]
-    [SerializeField] private Weapon weapon;
+    [SerializeField] private Gun weapon;
 
     public Vector2 ColliderSize { get; private set; }
     public string ID { get => "Player1"; }
     public bool IsAlive { get => stateMachine.CurrentState.IsAlive; }
 
     public float MoveSpeed { get => moveSpeed; }    
-    public Weapon Weapon { get => weapon; }
+    public Gun Weapon { get => weapon; }
     public Health Health { get => health; }
 
     private StateMachine<CharacterState> stateMachine;
@@ -25,10 +25,11 @@ public class Character : MonoBehaviour,IWeaponOwner
     private InputDetector inputDetector;    
     public Bounds MoveBoundaries { get; private set; }
 
-    public void InitDependencies(InputDetector inputDetector,Bounds moveBoundaries)
+    public void InitDependencies(InputDetector inputDetector,Bounds moveBoundaries,Gun weapon)
     {
         this.inputDetector = inputDetector;
         this.MoveBoundaries = moveBoundaries;
+        this.weapon = weapon;
     }
 
     private void Start()

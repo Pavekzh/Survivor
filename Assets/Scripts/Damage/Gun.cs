@@ -3,17 +3,17 @@ using UnityEngine.Pool;
 
 public class Gun : Weapon
 {
-    [SerializeField] private float damage = 10;
-    [SerializeField] private int magazineSize = 15;
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private int defaultPoolSize = 10;
+    [SerializeField] protected float damage = 10;
+    [SerializeField] protected int magazineSize = 15;
+    [SerializeField] protected GameObject bulletPrefab;
+    [SerializeField] protected int defaultPoolSize = 10;
 
-    private int bulletsLeft;
-    private bool limitedMagazine = true;
+    protected int bulletsLeft;
+    protected bool limitedMagazine = true;
 
-    private Transform bulletsParent;
+    protected Transform bulletsParent;
 
-    ObjectPool<Bullet> bulletsPool;
+    protected ObjectPool<Bullet> bulletsPool;
 
     public void InitDependencies(Transform bulletsParent)
     {
@@ -24,6 +24,11 @@ public class Gun : Weapon
     {
         base.RecoverWeapon();
         bulletsLeft = magazineSize;
+    }
+
+    public void AddMagazine()
+    {
+        bulletsLeft += magazineSize;
     }
 
     public void AddBullets(int amount)
@@ -48,13 +53,17 @@ public class Gun : Weapon
     {
         if(!limitedMagazine || bulletsLeft > 0)
         {
-            Bullet bullet = bulletsPool.Get();
-            bullet.transform.position = transform.position;
-            bullet.transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
-            bullet.Launch(direction,owner.ID, bulletsPool, damage, WeaponRange);
-
+            LaunchBullet(direction);
             bulletsLeft--;
         }
+    }
+    
+    protected void LaunchBullet(Vector2 direction)
+    {
+        Bullet bullet = bulletsPool.Get();
+        bullet.transform.position = transform.position;
+        bullet.transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
+        bullet.Launch(direction, owner.ID, bulletsPool, damage, WeaponRange);
     }
 }
 
