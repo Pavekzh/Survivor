@@ -4,16 +4,18 @@ using UnityEngine;
 public class GameBootstrap:MonoBehaviour
 {
     [Header("Systems")]
-    [SerializeField] private GunSelector gunSelector;
-    [SerializeField] private ChoosePlayer choosePlayer;
     [SerializeField] private WaveSystem waveSystem;
     [SerializeField] private ScoreCounter scoreCounter;
     [SerializeField] private InputDetector inputDetector;
     [SerializeField] private AxesInputDetector axesInputDetector;
     [SerializeField] private Camera camera;
-    [SerializeField] private CameraFollow cameraFollow;    
     [SerializeField] private BoxCollider2D moveBoundaries;
     [SerializeField] private Transform bulletsParent;
+    [Header("Player")]    
+    [SerializeField] private PlayerFactory playerFactory;
+    [SerializeField] private GunSelector gunSelector;
+    [SerializeField] private ChoosePlayer choosePlayer;
+    [SerializeField] private CameraFollow cameraFollow;  
     [Header("UI")]
     [SerializeField] private WaveSystemUI waveSystemUI;
     [Header("Wave objects")]
@@ -42,12 +44,16 @@ public class GameBootstrap:MonoBehaviour
 
     private void InitCharacter()
     {
-        character = Instantiate(choosePlayer.GetChoosed()).GetComponent<Character>();
-        Gun gun = gunSelector.GetGun(character.transform);
+        Gun gun;
+        if (playerFactory.InstantiatePlayer(choosePlayer.GetChoosed(), gunSelector.GetGun(), out character, out gun))
+        {
+            character.InitDependencies(inputDetector, moveBoundaries.bounds, gun);
+            gun.InitDependencies(character);
+            gun.InitDependencies(bulletsParent);
+        }
+        else
+            Debug.LogError("There was an error instantiating player");
 
-        character.InitDependencies(inputDetector,moveBoundaries.bounds,gun);
-        character.Weapon.InitDependencies(character);
-        character.Weapon.InitDependencies(bulletsParent);
     }
 
     private void InitWavesUI()

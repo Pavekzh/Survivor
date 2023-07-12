@@ -51,8 +51,8 @@ public class WaveSystem : MonoBehaviour
 
     private IEnumerator RestTimer()
     {
-        OnRestStarted();
-        OnTimerChanged(waves[currentWave].StartDelay);
+        OnRestStarted?.Invoke();
+        OnTimerChanged?.Invoke(waves[currentWave].StartDelay);
 
         float elapsedSeconds = 0;
         while(elapsedSeconds < waves[currentWave].StartDelay)
@@ -78,8 +78,8 @@ public class WaveSystem : MonoBehaviour
     private IEnumerator WaveTimer()
     {
         executingWave = true;
-        OnSpawnStarted();
-        OnTimerChanged(waves[currentWave].Duration);
+        OnSpawnStarted?.Invoke();
+        OnTimerChanged?.Invoke(waves[currentWave].Duration);
 
         float elapsedSeconds = 0;
         while (elapsedSeconds < waves[currentWave].Duration)

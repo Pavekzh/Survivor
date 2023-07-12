@@ -22,13 +22,12 @@ public class GunSelector : MonoBehaviour
         }
     }
 
-    public Gun GetGun(Transform owner)
+    public GameObject GetGun()
     {
         int index = Random.Range(0, FreeGuns.Count);     
         GameObject prefab = gunPrefabs[FreeGuns[index]];
         FreeGuns.RemoveAt(index);
 
-        Gun result = Instantiate(prefab, owner, false).GetComponent<Gun>();
-        return result;
+        return prefab;
     }
 }

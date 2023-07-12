@@ -4,6 +4,7 @@ public class MenuBootstrap : MonoBehaviour
 {
     [SerializeField] ChoosePlayer choosePlayer;
     [SerializeField] SceneLoader sceneLoader;
+    [SerializeField] MessageController messenger;
     [SerializeField] ChoosePlayerUI choosePlayerUI;
     [SerializeField] MainMenuUI mainMenuUI;
 
@@ -15,7 +16,7 @@ public class MenuBootstrap : MonoBehaviour
 
     private void InitMainMenuUI()
     {
-        mainMenuUI.InitDependencies(sceneLoader);
+        mainMenuUI.InitDependencies(sceneLoader,messenger);
     }
 
     private void InitChoosePlayerUI()
