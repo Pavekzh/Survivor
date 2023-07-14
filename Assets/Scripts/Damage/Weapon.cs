@@ -3,8 +3,8 @@ using UnityEngine;
 
 public abstract class Weapon:MonoBehaviour
 {
-    [SerializeField] private float reloadTime = 1;
-    [SerializeField] private float weaponRange = 5;
+    [SerializeField] protected float reloadTime = 1;
+    [SerializeField] protected float weaponRange = 5;
 
     protected bool isReloading;
     private Coroutine attackingCoroutine;

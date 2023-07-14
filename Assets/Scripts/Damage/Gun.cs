@@ -15,6 +15,17 @@ public class Gun : Weapon
 
     protected ObjectPool<Bullet> bulletsPool;
 
+    public void InitSettings(GunSettings settings)
+    {
+        this.reloadTime = settings.ReloadTime;
+        this.weaponRange = settings.WeaponRange;
+        this.damage = settings.Damage;
+        this.magazineSize = settings.MagazineSize;
+        this.bulletPrefab = settings.BulletPrefab;
+        this.defaultPoolSize = settings.DefaultPoolSize;
+
+    }
+
     public void InitDependencies(Transform bulletsParent)
     {
         this.bulletsParent = bulletsParent;
@@ -38,6 +49,7 @@ public class Gun : Weapon
 
     private void Start()
     {
+
         if (bulletPrefab.GetComponent<Bullet>() == null)
             Debug.LogError("Bullet prefab must have Bullet component");
 

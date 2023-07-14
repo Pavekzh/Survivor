@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Shotgun : Gun
 {
@@ -7,6 +6,12 @@ public class Shotgun : Gun
     [SerializeField] private float spread = 30;
 
     private float bulletsOffset { get => spread / bulletsPerShot; }
+
+    public void InitSettings(ShotgunSettings settings)
+    {
+        this.bulletsPerShot = settings.BulletsPerShot;
+        this.spread = settings.Spread;
+    }
 
     protected override void Attack(Vector2 direction)
     {

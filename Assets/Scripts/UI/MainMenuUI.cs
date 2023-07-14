@@ -7,6 +7,8 @@ public class MainMenuUI:MonoBehaviour
     [SerializeField] Button createLobby;
     [SerializeField] Button connect;
     [SerializeField] Button exit;
+    [SerializeField] MessageController messenger;
+    [SerializeField] FusionConnect connector;
 
     private SceneLoader sceneLoader;
 
@@ -27,16 +29,18 @@ public class MainMenuUI:MonoBehaviour
         Application.Quit();
     }
 
-    private void Connect()
-    {
-        sceneLoader.LoadGame();
-        throw new NotImplementedException();
+    private async void Connect()
+    {                
+        messenger.ShowMessage("", "Connecting...");
+        await connector.Connect();        
+
     }
 
-    private void CreateLobby()
-    {
-        sceneLoader.LoadGame();
-        throw new NotImplementedException();
+    private async void CreateLobby()
+    {        
+        messenger.ShowMessage("", "Connecting...");
+        await connector.Connect();
+
     }
 
 }

@@ -1,9 +1,14 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using Fusion;
+
 
 public class GameBootstrap:MonoBehaviour
 {
+    public static GameBootstrap Instance { get; private set; }
+
     [Header("Systems")]
+    [SerializeField] private PlayerFactory playerFactory;
+    [SerializeField] private float playerSpawnRadius;
     [SerializeField] private GunSelector gunSelector;
     [SerializeField] private ChoosePlayer choosePlayer;
     [SerializeField] private WaveSystem waveSystem;
@@ -25,9 +30,16 @@ public class GameBootstrap:MonoBehaviour
     [SerializeField] private SpawnObject[] itemsObjects;
 
     private Character character;
+    private NetworkRunner network;
 
     private void Awake()
     {
+        if (Instance != null)
+            Debug.LogError("Scene has more than one GameBootstrap components");
+        Instance = this;
+
+        network = FindObjectOfType<NetworkRunner>();
+
         InitCharacter();
         InitAxesInput();
         InitCameraFollow();
@@ -42,12 +54,17 @@ public class GameBootstrap:MonoBehaviour
 
     private void InitCharacter()
     {
-        character = Instantiate(choosePlayer.GetChoosed()).GetComponent<Character>();
-        Gun gun = gunSelector.GetGun(character.transform);
+        character = playerFactory.Create(network, choosePlayer.GetChoosed(), playerSpawnRadius);
 
-        character.InitDependencies(inputDetector,moveBoundaries.bounds,gun);
-        character.Weapon.InitDependencies(character);
-        character.Weapon.InitDependencies(bulletsParent);
+        GunSettings gunSetts = gunSelector.GetGun();
+        Gun gun;
+
+        character.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sprite = gunSetts.Sprite;
+        gun = gunSetts.InstantiateGun(character.gameObject);
+
+        character.InitDependencies(inputDetector, moveBoundaries.bounds, gun);
+        gun.InitDependencies(character);
+        gun.InitDependencies(bulletsParent);
     }
 
     private void InitWavesUI()
@@ -99,5 +116,19 @@ public class GameBootstrap:MonoBehaviour
         if (gun != null)
             gun.InitDependencies(bulletsParent);
     }
+
+    public void InitCharacter(Character character)
+    {
+        GunSettings gunSetts = gunSelector.GetGun();
+        Gun gun;
+
+        character.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sprite = gunSetts.Sprite;
+        gun = gunSetts.InstantiateGun(character.gameObject);
+
+        character.InitDependencies(null, moveBoundaries.bounds, gun);
+        gun.InitDependencies(character);
+        gun.InitDependencies(bulletsParent);
+    }
+
 }
 

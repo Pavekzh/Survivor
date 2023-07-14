@@ -2,7 +2,7 @@
 
 public class GunSelector : MonoBehaviour
 {
-    [SerializeField] private GameObject[] gunPrefabs;
+    [SerializeField] private GunSettings[] guns;
 
     private System.Collections.Generic.List<int> freeGuns;
 
@@ -13,7 +13,7 @@ public class GunSelector : MonoBehaviour
             if(freeGuns == null)
             {
                 freeGuns = new System.Collections.Generic.List<int>();
-                for(int i = 0; i< gunPrefabs.Length; i++)
+                for(int i = 0; i< guns.Length; i++)
                 {
                     freeGuns.Add(i);
                 }
@@ -22,13 +22,12 @@ public class GunSelector : MonoBehaviour
         }
     }
 
-    public Gun GetGun(Transform owner)
+    public GunSettings GetGun()
     {
         int index = Random.Range(0, FreeGuns.Count);     
-        GameObject prefab = gunPrefabs[FreeGuns[index]];
+        GunSettings gun = guns[FreeGuns[index]];
         FreeGuns.RemoveAt(index);
 
-        Gun result = Instantiate(prefab, owner, false).GetComponent<Gun>();
-        return result;
+        return gun;
     }
 }

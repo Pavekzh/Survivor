@@ -7,6 +7,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2812490364505963584, guid: 66a1920cb88f8e54bbb9e54ae2ea0c2e, type: 3}
+      propertyPath: NetworkGuid.RawGuidValue.Array.data[0]
+      value: 4926631907951685166
+      objectReference: {fileID: 0}
+    - target: {fileID: 2812490364505963584, guid: 66a1920cb88f8e54bbb9e54ae2ea0c2e, type: 3}
+      propertyPath: NetworkGuid.RawGuidValue.Array.data[1]
+      value: 697783473739062600
+      objectReference: {fileID: 0}
     - target: {fileID: 7036606780738340663, guid: 66a1920cb88f8e54bbb9e54ae2ea0c2e, type: 3}
       propertyPath: m_Name
       value: Player_2
@@ -59,5 +67,9 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7239144919833697662, guid: 66a1920cb88f8e54bbb9e54ae2ea0c2e, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: -150523396, guid: 0c187a32c5bde4747be8d00770b07403, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 66a1920cb88f8e54bbb9e54ae2ea0c2e, type: 3}

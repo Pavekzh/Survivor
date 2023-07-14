@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class ChoosePlayer : MonoBehaviour
 {
-    [SerializeField] private GameObject[] characters;
+    [SerializeField] private Character[] characters;
     [SerializeField] private string choosedIndexKey = "ChoosedCharacter";
 
     private int? choosed;
@@ -20,7 +20,7 @@ public class ChoosePlayer : MonoBehaviour
     }
 
 
-    public GameObject GetChoosed()
+    public Character GetChoosed()
     {
         return characters[Choosed.Value];
     }

@@ -36,11 +36,11 @@ public class WaveSystem : MonoBehaviour
     {
         if (currentWave < waves.Length-1)
         {
-            Debug.Log("Started new wave");
+            //Debug.Log("Started new wave");
             currentWave++;
 
             yield return StartCoroutine(RestTimer());
-            Debug.Log("Wait time out");
+            //Debug.Log("Wait time out");
         
             StartCoroutine(WaveTimer());
             StartCoroutine(ExecuteWave());
@@ -144,7 +144,7 @@ public class WaveSystem : MonoBehaviour
 
     private void WaveEnded()
     {
-        Debug.Log("WaveEnd");
+        //Debug.Log("WaveEnd");
         OnWaveEnd?.Invoke();
     }
 

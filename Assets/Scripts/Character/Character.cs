@@ -1,6 +1,7 @@
 using UnityEngine;
+using Fusion;
 
-public class Character : MonoBehaviour,IWeaponOwner
+public class Character : NetworkBehaviour,IWeaponOwner
 {    
     [Header("Health")]
     [SerializeField] private Health health;
@@ -30,6 +31,14 @@ public class Character : MonoBehaviour,IWeaponOwner
         this.inputDetector = inputDetector;
         this.MoveBoundaries = moveBoundaries;
         this.weapon = weapon;
+    }
+
+    public override void Spawned()
+    {
+        if (!HasStateAuthority)
+        {
+            gameObject.GetComponent<NetworkTransform>().InterpolationDataSource = InterpolationDataSources.Auto;
+        }
     }
 
     private void Start()
