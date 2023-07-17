@@ -6,8 +6,7 @@ public class SpawnObject : ScriptableObject
 {
     [SerializeField] private GameObject prefab;
 
-    private Transform objectsParent;
-    private SpawnObjectFactory factory;
+    private DefaultWaveObjectFactory factory;
     private ObjectPool<IPooledObject> pool;
 
     public ObjectPool<IPooledObject> Pool
@@ -18,7 +17,7 @@ public class SpawnObject : ScriptableObject
                 pool = new ObjectPool<IPooledObject>(
                     () => 
                     {
-                        IPooledObject obj = factory.Create(prefab, objectsParent).GetComponent<IPooledObject>();
+                        IPooledObject obj = factory.Create(prefab).GetComponent<IPooledObject>();
                         obj.OriginPool = pool;
                         return obj;
                     }, 
@@ -29,9 +28,8 @@ public class SpawnObject : ScriptableObject
         }
     }
 
-    public void InitDependencies(SpawnObjectFactory factory,Transform objectsParent)
+    public void InitDependencies(DefaultWaveObjectFactory factory)
     {
         this.factory = factory;
-        this.objectsParent = objectsParent;
     }
 }

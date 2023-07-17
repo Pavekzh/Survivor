@@ -14,6 +14,8 @@ public class FusionConnect : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private string roomName;
     [SerializeField] private int gameScene;
 
+    public const int PlayersCount = 2;
+
     public async Task Connect()
     {
         StartGameArgs args = new StartGameArgs()
@@ -21,6 +23,7 @@ public class FusionConnect : MonoBehaviour, INetworkRunnerCallbacks
             GameMode = GameMode.Shared,
             SessionName = roomName,
             Scene = gameScene,
+            PlayerCount = FusionConnect.PlayersCount,
             SceneManager = sceneManager
         };
         await runner.StartGame(args);

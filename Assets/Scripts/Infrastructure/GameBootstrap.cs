@@ -23,7 +23,7 @@ public class GameBootstrap:MonoBehaviour
     [Header("UI")]
     [SerializeField] private WaveSystemUI waveSystemUI;
     [Header("Wave objects")]
-    [SerializeField] private SpawnObjectFactory itemsFactory;
+    [SerializeField] private DefaultWaveObjectFactory itemsFactory;
     [SerializeField] private EnemyFactory enemyFactory;
     [SerializeField] private Transform itemsParent;
     [SerializeField] private Transform enemiesParent;
@@ -49,7 +49,6 @@ public class GameBootstrap:MonoBehaviour
 
         InitWavesUI();
 
-        InitEnemyFactory();
         InitEnemies();
         InitItems();
     }
@@ -84,24 +83,24 @@ public class GameBootstrap:MonoBehaviour
         waveSystem.InitDependecies(moveBoundaries.bounds, character,scoreCounter);
     }
 
-    private void InitEnemyFactory()
-    {
-        enemyFactory.InitDependencies(this);
-    }
-
     private void InitEnemies()
     {
-        foreach(SpawnObject enemy in enemiesObjects)
+        enemyFactory.InitDependencies(this);
+        enemyFactory.InitDependencies(enemiesParent);
+
+        foreach (SpawnObject enemy in enemiesObjects)
         {
-            enemy.InitDependencies(enemyFactory,enemiesParent);
+            enemy.InitDependencies(enemyFactory);
         }
     }
 
     private void InitItems()
     {
+        itemsFactory.InitDependencies(itemsParent);
+
         foreach (SpawnObject item in itemsObjects)
         {
-            item.InitDependencies(itemsFactory,itemsParent);
+            item.InitDependencies(itemsFactory);
         }
     }
 

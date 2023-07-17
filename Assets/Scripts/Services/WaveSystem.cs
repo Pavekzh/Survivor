@@ -1,20 +1,28 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
+using Fusion;
 
-public class WaveSystem : MonoBehaviour 
-{
+public class WaveSystem : NetworkBehaviour 
+{    
     [SerializeField] private Wave[] waves;
     [SerializeField] private float minSpawnDistanceToPlayer = 3;
     [SerializeField] private float minSpawnDistanceToBounds = 1;
 
+    [Networked(OnChanged = nameof(ChangedReadyPlayers))] private int ReadyPlayersCount { get; set; } = 0;
+
+    public bool IsReady { get; private set; }
+
     private int currentWave = -1;
     private bool executingWave;
 
+    public event Action<int> OnPlayersReadyChanged;
+    public event Action OnGameStarted;
     public event Action OnSpawnStarted;
     public event Action OnRestStarted;    
     public event Action<float> OnTimerChanged;
     public event Action OnWaveEnd;
+
 
     private ScoreCounter scoreCounter;
     private Character player;
@@ -27,48 +35,124 @@ public class WaveSystem : MonoBehaviour
         this.scoreCounter = scoreCounter;
     }
 
-    private void Start()
+    public void ChangeReadyState()
     {
-        StartCoroutine(StartNewWave());
-    }
-
-    private IEnumerator StartNewWave()
-    {
-        if (currentWave < waves.Length-1)
-        {
-            //Debug.Log("Started new wave");
-            currentWave++;
-
-            yield return StartCoroutine(RestTimer());
-            //Debug.Log("Wait time out");
-        
-            StartCoroutine(WaveTimer());
-            StartCoroutine(ExecuteWave());
-        }
+        if (IsReady)
+            RPC_RemoveReady();
         else
-            GameEnded();
+            RPC_AddReady();
+
+        IsReady = !IsReady;
     }
 
-    private IEnumerator RestTimer()
+    private static void ChangedReadyPlayers(Changed<WaveSystem> waveSystem)
+    {
+        waveSystem.Behaviour.OnPlayersReadyChanged?.Invoke(waveSystem.Behaviour.ReadyPlayersCount);
+    }    
+    
+    [Rpc(sources: RpcSources.All,targets: RpcTargets.StateAuthority)]
+    private void RPC_AddReady()
+    {
+        if (HasStateAuthority)
+        {
+            ReadyPlayersCount++;
+
+            if (ReadyPlayersCount == FusionConnect.PlayersCount)
+                RPC_StartGame();
+        }
+
+    }
+
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.StateAuthority)]
+    private void RPC_RemoveReady()
+    {
+        if (HasStateAuthority)
+            ReadyPlayersCount--;
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    private void RPC_StartGame()
+    {
+        OnGameStarted?.Invoke();
+
+        if (HasStateAuthority)
+        {
+            RPC_StartWave();
+            Runner.SessionInfo.IsOpen = false;
+        }
+
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    private void RPC_StartWave()
+    {
+        currentWave++;
+        if (HasStateAuthority)
+            RPC_StartRest();
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    private void RPC_StartRest()
+    {
+        StartCoroutine(Rest());
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    private void RPC_ExecuteWave()
+    {
+        StartCoroutine(WaveTimer());
+        StartCoroutine(ExecuteWave());
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    private void RPC_EndWave()
+    {
+        OnWaveEnd?.Invoke();
+
+        if (HasStateAuthority)
+        {
+            if (currentWave + 1 < waves.Length)
+                RPC_StartWave();
+            else
+                RPC_EndGame();
+        }
+
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    private void RPC_EndGame()
+    {
+        foreach (var record in scoreCounter.Records)
+        {
+            Debug.Log(record.Key + ": " + record.Value.Kills + "(kills) " + record.Value.Damage + "(damage)");
+        }
+        throw new NotImplementedException();
+    }
+
+
+    private IEnumerator Rest()
     {
         OnRestStarted();
         OnTimerChanged(waves[currentWave].StartDelay);
 
         float elapsedSeconds = 0;
-        while(elapsedSeconds < waves[currentWave].StartDelay)
+        while (elapsedSeconds < waves[currentWave].StartDelay)
         {
-            yield return new WaitForSeconds(1);            
+            yield return new WaitForSeconds(1);
             elapsedSeconds++;
             OnTimerChanged(waves[currentWave].StartDelay - elapsedSeconds);
-
         }
+
+        if (HasStateAuthority)
+            RPC_ExecuteWave();
     }
 
     private IEnumerator ExecuteWave()
     {
+        int wave = currentWave;
         float timeToNextSpawn = 1 / waves[currentWave].SpawnRate;
 
-        while (executingWave)
+        while (executingWave && wave == currentWave)
         {
             SpawnRandom();
             yield return new WaitForSeconds(timeToNextSpawn);
@@ -84,15 +168,13 @@ public class WaveSystem : MonoBehaviour
         float elapsedSeconds = 0;
         while (elapsedSeconds < waves[currentWave].Duration)
         {
-            yield return new WaitForSeconds(1);            
+            yield return new WaitForSeconds(1);
             elapsedSeconds++;
             OnTimerChanged(waves[currentWave].Duration - elapsedSeconds);
-
         }
 
-        executingWave = false;
-        WaveEnded();
-        StartCoroutine(StartNewWave());
+        if (HasStateAuthority)
+            RPC_EndWave();
 
     }
 
@@ -141,21 +223,4 @@ public class WaveSystem : MonoBehaviour
 
         spawned.transform.position = position;
     }
-
-    private void WaveEnded()
-    {
-        //Debug.Log("WaveEnd");
-        OnWaveEnd?.Invoke();
-    }
-
-    private void GameEnded()
-    {
-        Debug.Log("Waves end");
-        foreach (var record in scoreCounter.Records)
-        {
-            Debug.Log(record.Key + ": " + record.Value.Kills + "(kills) " + record.Value.Damage + "(damage)");
-        }
-        throw new NotImplementedException();
-    }
-
 }

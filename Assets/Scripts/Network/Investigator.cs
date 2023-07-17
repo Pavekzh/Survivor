@@ -8,9 +8,11 @@ public class Investigator : NetworkBehaviour
 
     public override void Spawned()
     {
-        if (HasStateAuthority)
-            number = Random.Range(0, 10);
 
-        Debug.LogError(number);
+    }
+
+    private void Update()
+    {
+        Debug.LogError(HasStateAuthority);
     }
 }
