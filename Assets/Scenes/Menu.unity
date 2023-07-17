@@ -1806,7 +1806,7 @@ MonoBehaviour:
   sceneManager: {fileID: 1800523684}
   roomName: 
   gameScene: 1
-  prefab: {fileID: -3798551725669433761, guid: 1afe9a52e1e2035428414ae52b28334c, type: 3}
+  investigatorPrefab: {fileID: 9169210837183498878, guid: 6d768e85d5f0e8344a5b98066a1a658e, type: 3}
 --- !u!114 &1800523684
 MonoBehaviour:
   m_ObjectHideFlags: 0

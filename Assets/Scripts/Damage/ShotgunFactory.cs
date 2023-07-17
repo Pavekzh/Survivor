@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "ShotgunSettings", menuName = "ScriptableObjects/ShotgunSettings")]
-public class ShotgunSettings : GunSettings
+public class ShotgunFactory : GunFactory
 {
     [SerializeField] private int bulletsPerShot = 3;
     [SerializeField] private float spread = 30;
@@ -12,7 +12,7 @@ public class ShotgunSettings : GunSettings
     public override Gun InstantiateGun(GameObject owner)
     {
         Shotgun gun = owner.AddComponent<Shotgun>();
-        gun.InitSettings(this as GunSettings);
+        gun.InitSettings(this as GunFactory);
         gun.InitSettings(this);
 
         return gun;

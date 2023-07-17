@@ -21,12 +21,15 @@ public abstract class CharacterAliveState:CharacterState
     public override void HandleAttackInput(Vector2 input)
     {
         if (input.magnitude == 0)
-            character.Weapon.StopAttack();
+        {
+            if (character.Weapon != null && character.Weapon.IsAttacking)
+                character.Weapon.StopAttack();
+        }
         else
         {        
             character.Weapon.AttackDirection = input;
             
-            if (character.Weapon.IsAttacking == false)
+            if (character.Weapon != null && !character.Weapon.IsAttacking)
                 character.Weapon.StartAttack();
         }
 

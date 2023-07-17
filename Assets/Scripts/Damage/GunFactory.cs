@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 [CreateAssetMenu(fileName = "GunSettings",menuName ="ScriptableObjects/GunSettings")]
-public class GunSettings : ScriptableObject
+public class GunFactory : ScriptableObject
 {
     [SerializeField] private Sprite sprite;
     [SerializeField] private float reloadTime = 1;

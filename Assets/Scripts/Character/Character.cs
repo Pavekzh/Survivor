@@ -26,10 +26,14 @@ public class Character : NetworkBehaviour,IWeaponOwner
     private InputDetector inputDetector;    
     public Bounds MoveBoundaries { get; private set; }
 
-    public void InitDependencies(InputDetector inputDetector,Bounds moveBoundaries,Gun weapon)
+    public void InitDependencies(InputDetector inputDetector,Bounds moveBoundaries)
     {
         this.inputDetector = inputDetector;
         this.MoveBoundaries = moveBoundaries;
+    }
+
+    public void InitDependencies(Gun weapon)
+    {
         this.weapon = weapon;
     }
 

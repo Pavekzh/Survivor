@@ -15,7 +15,7 @@ public class Gun : Weapon
 
     protected ObjectPool<Bullet> bulletsPool;
 
-    public void InitSettings(GunSettings settings)
+    public void InitSettings(GunFactory settings)
     {
         this.reloadTime = settings.ReloadTime;
         this.weaponRange = settings.WeaponRange;

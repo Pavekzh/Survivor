@@ -7,7 +7,7 @@ public class Shotgun : Gun
 
     private float bulletsOffset { get => spread / bulletsPerShot; }
 
-    public void InitSettings(ShotgunSettings settings)
+    public void InitSettings(ShotgunFactory settings)
     {
         this.bulletsPerShot = settings.BulletsPerShot;
         this.spread = settings.Spread;

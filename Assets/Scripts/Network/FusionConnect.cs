@@ -26,6 +26,11 @@ public class FusionConnect : MonoBehaviour, INetworkRunnerCallbacks
         await runner.StartGame(args);
     }
 
+    public void OnSceneLoadDone(NetworkRunner runner)
+    {
+        Debug.Log("SceneLoadDone");
+    }
+
     public void OnPlayerJoined(NetworkRunner runner, PlayerRef player)
     {
         Debug.Log("Joined player " + player.PlayerId);
@@ -85,10 +90,6 @@ public class FusionConnect : MonoBehaviour, INetworkRunnerCallbacks
     }
 
     public void OnReliableDataReceived(NetworkRunner runner, PlayerRef player, ArraySegment<byte> data)
-    {
-    }
-
-    public void OnSceneLoadDone(NetworkRunner runner)
     {
     }
 

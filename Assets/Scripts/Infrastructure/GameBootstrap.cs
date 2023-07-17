@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using Fusion;
-
+using System;
 
 public class GameBootstrap:MonoBehaviour
 {
@@ -13,6 +13,7 @@ public class GameBootstrap:MonoBehaviour
     [SerializeField] private ChoosePlayer choosePlayer;
     [SerializeField] private WaveSystem waveSystem;
     [SerializeField] private ScoreCounter scoreCounter;
+    [SerializeField] private InputDetector mockInputDetector;
     [SerializeField] private InputDetector inputDetector;
     [SerializeField] private AxesInputDetector axesInputDetector;
     [SerializeField] private Camera camera;
@@ -41,6 +42,7 @@ public class GameBootstrap:MonoBehaviour
         network = FindObjectOfType<NetworkRunner>();
 
         InitCharacter();
+        InitGunSelector();
         InitAxesInput();
         InitCameraFollow();
         InitWaves();
@@ -55,16 +57,11 @@ public class GameBootstrap:MonoBehaviour
     private void InitCharacter()
     {
         character = playerFactory.Create(network, choosePlayer.GetChoosed(), playerSpawnRadius);
-
-        GunSettings gunSetts = gunSelector.GetGun();
-        Gun gun;
-
-        character.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sprite = gunSetts.Sprite;
-        gun = gunSetts.InstantiateGun(character.gameObject);
-
-        character.InitDependencies(inputDetector, moveBoundaries.bounds, gun);
-        gun.InitDependencies(character);
-        gun.InitDependencies(bulletsParent);
+    }    
+    
+    private void InitGunSelector()
+    {
+        gunSelector.InitDependencies(character, bulletsParent);
     }
 
     private void InitWavesUI()
@@ -119,15 +116,13 @@ public class GameBootstrap:MonoBehaviour
 
     public void InitCharacter(Character character)
     {
-        GunSettings gunSetts = gunSelector.GetGun();
-        Gun gun;
-
-        character.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sprite = gunSetts.Sprite;
-        gun = gunSetts.InstantiateGun(character.gameObject);
-
-        character.InitDependencies(null, moveBoundaries.bounds, gun);
-        gun.InitDependencies(character);
-        gun.InitDependencies(bulletsParent);
+        if (this.character == null)
+            character.InitDependencies(inputDetector, moveBoundaries.bounds);
+        else
+        {
+            character.InitDependencies(mockInputDetector, moveBoundaries.bounds);
+            gunSelector.InstantiateRemotePlayerGun(character);
+        }
     }
 
 }
