@@ -41,24 +41,23 @@ public class GunSelector : NetworkBehaviour
             firstPlayerSelected = SelectRandomGun();
             secondPlayerSelected = SelectRandomGun();
         }
-        Debug.Log(firstPlayerSelected + "(first) " + secondPlayerSelected+"(second)");
         InstantiateLocalPlayerGun(character);
     }
 
     public void InstantiateRemotePlayerGun(Character character)
     {
         if (HasStateAuthority)
-            InstantiatePlayerGun(character, guns[secondPlayerSelected]);
+            InstantiatePlayerGun(character, guns[secondPlayerSelected],true);
         else
-            InstantiatePlayerGun(character, guns[firstPlayerSelected]);
+            InstantiatePlayerGun(character, guns[firstPlayerSelected],true);
     }
 
     private void InstantiateLocalPlayerGun(Character character)
     {
         if (HasStateAuthority)
-            InstantiatePlayerGun(character, guns[firstPlayerSelected]);
+            InstantiatePlayerGun(character, guns[firstPlayerSelected],false);
         else
-            InstantiatePlayerGun(character, guns[secondPlayerSelected]);
+            InstantiatePlayerGun(character, guns[secondPlayerSelected],false);
     }
 
     private int SelectRandomGun()
@@ -76,7 +75,7 @@ public class GunSelector : NetworkBehaviour
         }
     }
 
-    private void InstantiatePlayerGun(Character character,GunFactory gunFactory)
+    private void InstantiatePlayerGun(Character character,GunFactory gunFactory,bool useBlankBullets)
     {
         Gun gun;
 
@@ -85,7 +84,7 @@ public class GunSelector : NetworkBehaviour
 
         character.InitDependencies(gun);
         gun.InitDependencies(character);
-        gun.InitDependencies(bulletsParent);
+        gun.InitDependencies(bulletsParent,useBlankBullets);
     }
 
 }

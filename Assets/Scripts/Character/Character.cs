@@ -14,9 +14,11 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
     public string ID { get => "Player1"; }
     public bool IsAlive { get => stateMachine.CurrentState.IsAlive; }
 
+    [Networked(OnChanged = nameof(SetWeaponDirection))]public Vector2 AttackDirection { get; set; }
+
     public float MoveSpeed { get => moveSpeed; }    
-    public Gun Weapon { get => weapon; }
     public Health Health { get => health; }
+    public Gun Weapon { get => weapon; }
 
     private StateMachine<CharacterState> stateMachine;
     public CharacterIdleState IdleState { get; private set; }
@@ -30,6 +32,16 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
     {
         this.inputDetector = inputDetector;
         this.MoveBoundaries = moveBoundaries;
+
+        stateMachine = new StateMachine<CharacterState>();
+
+        IdleState = new CharacterIdleState(this, stateMachine);
+        MoveState = new MoveState(this, stateMachine);
+        DeathState = new CharacterDeathState(this, stateMachine);
+
+        ColliderSize = GetComponent<BoxCollider2D>().bounds.size;
+
+        stateMachine.Init(IdleState);
     }
 
     public void InitDependencies(Gun weapon)
@@ -45,19 +57,6 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
         }
     }
 
-    private void Start()
-    {
-        stateMachine = new StateMachine<CharacterState>();
-
-        IdleState = new CharacterIdleState(this, stateMachine);
-        MoveState = new MoveState(this, stateMachine);
-        DeathState = new CharacterDeathState(this, stateMachine);
-
-        ColliderSize = GetComponent<BoxCollider2D>().bounds.size;
-         
-        stateMachine.Init(IdleState);
-    }
-
     private void Update()
     {
         if (HasStateAuthority)
@@ -70,10 +69,27 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
         }
     }
     
-
     public void HandleDamage(float damage, string sender)
     {
         if (HasStateAuthority)
             stateMachine.CurrentState.HandleDamage(damage,sender);
+    }
+
+    private static void SetWeaponDirection(Changed<Character> character)
+    {
+        character.Behaviour.weapon.AttackDirection = character.Behaviour.AttackDirection;
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority,targets: RpcTargets.All)]
+    public void RPC_StartAttack(Vector2 direction)
+    {
+        weapon.AttackDirection = direction;
+        weapon.StartAttack();
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    public void RPC_StopAttack()
+    {
+        weapon.StopAttack();
     }
 }

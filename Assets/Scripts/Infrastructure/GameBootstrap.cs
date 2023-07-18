@@ -115,7 +115,7 @@ public class GameBootstrap:MonoBehaviour
         enemy.Weapon.InitDependencies(enemy);
         Gun gun = enemy.Weapon as Gun;
         if (gun != null)
-            gun.InitDependencies(bulletsParent);
+            gun.InitDependencies(bulletsParent,false);
     }
 
     public void InitCharacter(Character character)

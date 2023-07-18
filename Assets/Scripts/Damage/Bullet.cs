@@ -47,7 +47,7 @@ public class Bullet:MonoBehaviour
         StopBullet();
     }
 
-    private void MakeDamage(GameObject obj)
+    protected virtual void MakeDamage(GameObject obj)
     {
         IDamageHandler target = obj.GetComponent<IDamageHandler>();
         if (target != null)

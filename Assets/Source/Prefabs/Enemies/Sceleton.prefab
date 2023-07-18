@@ -255,5 +255,6 @@ MonoBehaviour:
   weaponRange: 5
   damage: 0
   magazineSize: -1
-  bulletPrefab: {fileID: 4662430070751381988, guid: d4996c7ab198a734eb560f8c3719740f, type: 3}
+  defaultBulletPrefab: {fileID: 4662430070751381988, guid: d4996c7ab198a734eb560f8c3719740f, type: 3}
+  blankBulletPrefab: {fileID: 0}
   defaultPoolSize: 5

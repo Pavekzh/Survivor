@@ -41,8 +41,9 @@ public abstract class Weapon:MonoBehaviour
 
     public void StopAttack()
     {
-        if(IsAttacking == true)
+        if (IsAttacking == true)
         {
+
             StopCoroutine(attackingCoroutine);
             attackingCoroutine = null;
             IsAttacking = false;

@@ -14,7 +14,7 @@ public abstract class CharacterAliveState:CharacterState
 
         if (character.Health.CurrentHealth == 0)
         {
-            character.Weapon.StopAttack();
+            character.RPC_StopAttack();
             stateMachine.ChangeState(character.DeathState);
         }
 
@@ -24,15 +24,15 @@ public abstract class CharacterAliveState:CharacterState
     {
         if (input.magnitude == 0)
         {
-            if (character.Weapon != null && character.Weapon.IsAttacking)
-                character.Weapon.StopAttack();
+            if(character.Weapon != null && character.Weapon.IsAttacking)
+                character.RPC_StopAttack();
         }
         else
         {        
-            character.Weapon.AttackDirection = input;
-            
-            if (character.Weapon != null && !character.Weapon.IsAttacking)
-                character.Weapon.StartAttack();
+            character.AttackDirection = input;
+
+            if(character.Weapon != null && !character.Weapon.IsAttacking)
+                character.RPC_StartAttack(input);
         }
 
     }

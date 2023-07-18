@@ -18,6 +18,7 @@ MonoBehaviour:
   damage: 8
   magazineSize: 8
   bulletPrefab: {fileID: 4759248636515289910, guid: 2d571c6ba927c7740a59848377e3fe13, type: 3}
+  blankBulletPrefab: {fileID: 4109499712044646916, guid: a7bbd7bf4ef973143bd68aaf01d18cee, type: 3}
   defaultPoolSize: 10
   bulletsPerShot: 5
   spread: 30

@@ -5,11 +5,24 @@ public class Gun : Weapon
 {
     [SerializeField] protected float damage = 10;
     [SerializeField] protected int magazineSize = 15;
-    [SerializeField] protected GameObject bulletPrefab;
+    [SerializeField] protected GameObject defaultBulletPrefab;
+    [SerializeField] protected GameObject blankBulletPrefab;
     [SerializeField] protected int defaultPoolSize = 10;
 
     protected int bulletsLeft;
     protected bool limitedMagazine = true;
+    protected bool useBlankBullets;
+
+    protected GameObject bulletPrefab
+    {
+        get
+        {
+            if (useBlankBullets)
+                return blankBulletPrefab;
+            else
+                return defaultBulletPrefab;
+        }
+    }
 
     protected Transform bulletsParent;
 
@@ -21,14 +34,16 @@ public class Gun : Weapon
         this.weaponRange = settings.WeaponRange;
         this.damage = settings.Damage;
         this.magazineSize = settings.MagazineSize;
-        this.bulletPrefab = settings.BulletPrefab;
+        this.defaultBulletPrefab = settings.BulletPrefab;
+        this.blankBulletPrefab = settings.BlankBulletPrefab;
         this.defaultPoolSize = settings.DefaultPoolSize;
 
     }
 
-    public void InitDependencies(Transform bulletsParent)
+    public void InitDependencies(Transform bulletsParent,bool useBlankBullets)
     {
         this.bulletsParent = bulletsParent;
+        this.useBlankBullets = useBlankBullets;
     }
 
     public override void RecoverWeapon()
