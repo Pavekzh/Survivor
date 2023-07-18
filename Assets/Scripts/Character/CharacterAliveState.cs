@@ -8,8 +8,10 @@ public abstract class CharacterAliveState:CharacterState
 
     public override bool IsAlive { get => true; }
 
-    public override void HandleTakeDamage()
+    public override void HandleDamage(float damage,string sender)
     {
+        character.Health.TakeDamage(damage);
+
         if (character.Health.CurrentHealth == 0)
         {
             character.Weapon.StopAttack();

@@ -2,7 +2,7 @@
 using Fusion;
 
 
-public class Enemy : NetworkBehaviour,IPooledWaveObject,IWeaponOwner
+public class Enemy : NetworkBehaviour,IPooledWaveObject,IWeaponOwner,IDamageHandler
 {
     [Header("Health")]
     [SerializeField] private Health health;
@@ -24,7 +24,7 @@ public class Enemy : NetworkBehaviour,IPooledWaveObject,IWeaponOwner
 
     //IPooledWaveObject
     public bool InPool { get; set; }
-    public bool IsActive { get; set; }
+    public bool IsActive { get; private set; }
     public string Type { get; set; }
 
     private StateMachine<EnemyState> stateMachine;
@@ -32,16 +32,14 @@ public class Enemy : NetworkBehaviour,IPooledWaveObject,IWeaponOwner
     public EnemyAttackState AttackState { get; private set; }
     public EnemyMoveState MoveState { get; private set; }
 
-
     public Bounds MoveBoundaries { get; private set; }    
     public ScoreCounter ScoreCounter { get; private set; }
     public WaveSystem WaveSystem { get; private set; }
+    private TargetDesignator targetDesignator;
 
-    private Character player;
-
-    public void InitDependecies(Character character,Bounds moveBoundaries,WaveSystem waveSystem,ScoreCounter scoreCounter,Transform parent)
+    public void InitDependecies(TargetDesignator targetDesignator,Bounds moveBoundaries,WaveSystem waveSystem,ScoreCounter scoreCounter,Transform parent)
     {
-        this.player = character;
+        this.targetDesignator = targetDesignator;
         this.MoveBoundaries = moveBoundaries;
         this.WaveSystem = waveSystem;
         this.WaveSystem.OnWaveEnd += WaveEnded;
@@ -49,52 +47,42 @@ public class Enemy : NetworkBehaviour,IPooledWaveObject,IWeaponOwner
         this.transform.parent = parent;
 
         if (!InPool)
-            waveSystem.Pool.AddRemoteCreated(this);
-    }
-
-    public override void Spawned()
-    {
-        if(HasStateAuthority)
-            GetComponent<NetworkTransform>().InterpolationDataSource = InterpolationDataSources.NoInterpolation;
-    }
-
-    private void Start()
-    {
+            waveSystem.Pool.AddRemoteCreated(this);        
+        
         stateMachine = new StateMachine<EnemyState>();
         DeathState = new EnemyDeathState(this, stateMachine);
         AttackState = new EnemyAttackState(this, stateMachine);
         MoveState = new EnemyMoveState(this, stateMachine);
 
         ColliderSize = GetComponent<BoxCollider2D>().bounds.size;
-        health.OnTakedDamage += TakedDamage;
 
         stateMachine.Init(MoveState);
     }
 
     private void Update()
     {
-        if (player.IsAlive && HasStateAuthority)
+        Character target;
+        if(targetDesignator.GetTarget(transform.position,out target))
         {
-            Vector2 playerRelativePos = player.gameObject.transform.position - transform.position;
+            Vector2 playerRelativePos = target.transform.position - transform.position;
 
             stateMachine.CurrentState.HandleCharacterPosition(playerRelativePos);
         }
-    }        
-    
-    private void WaveEnded()
-    {
-        if(HasStateAuthority)
-            stateMachine.CurrentState.HandleWaveEnd();
-    }
-    
-    private void TakedDamage(float damage,string senderId)
-    {
-        if(HasStateAuthority)
-            stateMachine.CurrentState.HandleTakeDamage(damage,senderId);
+
     }
 
-    public void OnGet()
+    public void HandleDamage(float damage, string sender)
     {
+        RPC_TakeDamage(damage,sender);     
+    }
+
+    public void OnGet(Vector2 position)
+    {
+        if (HasStateAuthority)
+            RPC_GetFromPool(position);
+
+        transform.position = new Vector3(position.x, position.y, transform.position.z);
+        IsActive = true;
         gameObject.SetActive(true);
 
         if (stateMachine != null)
@@ -103,11 +91,24 @@ public class Enemy : NetworkBehaviour,IPooledWaveObject,IWeaponOwner
 
     public void OnRelease()
     {
+        IsActive = false;
         gameObject.SetActive(false);
     }
 
-    public void Locate(Vector2 position)
+    private void WaveEnded()
     {
-        transform.position = new Vector3(position.x, position.y, transform.position.z);
+        stateMachine.CurrentState.Kill();
+    }
+
+    [Rpc(sources: RpcSources.All, targets: RpcTargets.All)]
+    private void RPC_TakeDamage(float damage, string sender)
+    {
+        stateMachine.CurrentState.HandleDamage(damage, sender);
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All, InvokeLocal = false, TickAligned = false)]
+    private void RPC_GetFromPool(Vector2 position)
+    {
+        OnGet(position);
     }
 }

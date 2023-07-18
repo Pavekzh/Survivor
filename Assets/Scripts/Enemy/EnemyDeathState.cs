@@ -18,20 +18,21 @@ public class EnemyDeathState:EnemyState
 
     public override void Exit()
     {
-        enemy.Health.RecoverHealth();
-        enemy.Weapon.RecoverWeapon();
         enemy.Killer = null;
     }
 
     public override void HandleCharacterPosition(Vector2 relativePosition) { }
 
-    public override void HandleTakeDamage(float damage,string sender) { }
+    public override void HandleDamage(float damage,string sender) { }
 
-    public override void HandleWaveEnd() { }
+    public override void Kill() { }
 
     public override void Recover()
-    {
-        stateMachine.ChangeState(enemy.MoveState);
+    {        
+        enemy.Health.RecoverHealth();
+        enemy.Weapon.RecoverWeapon();
+        stateMachine.ChangeState(enemy.MoveState);        
+
     }
 }
 

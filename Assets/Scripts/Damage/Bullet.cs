@@ -49,9 +49,9 @@ public class Bullet:MonoBehaviour
 
     private void MakeDamage(GameObject obj)
     {
-        Health health = obj.GetComponent<Health>();
-        if(health != null)
-            health.TakeDamage(damage,ownerId);
+        IDamageHandler target = obj.GetComponent<IDamageHandler>();
+        if (target != null)
+            target.HandleDamage(damage, ownerId);
     }
 
     private void StopBullet()

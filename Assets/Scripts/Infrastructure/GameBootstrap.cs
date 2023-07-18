@@ -12,6 +12,7 @@ public class GameBootstrap:MonoBehaviour
     [SerializeField] private GunSelector gunSelector;
     [SerializeField] private ChoosePlayer choosePlayer;
     [SerializeField] private WaveSystem waveSystem;
+    [SerializeField] private TargetDesignator targetDesignator;
     [SerializeField] private ScoreCounter scoreCounter;
     [SerializeField] private InputDetector mockInputDetector;
     [SerializeField] private InputDetector inputDetector;
@@ -80,7 +81,7 @@ public class GameBootstrap:MonoBehaviour
 
     private void InitWaves()
     {
-        waveSystem.InitDependecies(moveBoundaries.bounds, character,scoreCounter);
+        waveSystem.InitDependecies(moveBoundaries.bounds, character,scoreCounter,targetDesignator);
     }
 
     private void InitEnemies()
@@ -110,7 +111,7 @@ public class GameBootstrap:MonoBehaviour
 
     public void InitEnemy(Enemy enemy)
     {
-        enemy.InitDependecies(character, moveBoundaries.bounds,waveSystem,scoreCounter,enemiesParent);
+        enemy.InitDependecies(targetDesignator, moveBoundaries.bounds,waveSystem,scoreCounter,enemiesParent);
         enemy.Weapon.InitDependencies(enemy);
         Gun gun = enemy.Weapon as Gun;
         if (gun != null)
@@ -119,6 +120,8 @@ public class GameBootstrap:MonoBehaviour
 
     public void InitCharacter(Character character)
     {
+        targetDesignator.AddPlayer(character);
+
         if (this.character == null)
             character.InitDependencies(inputDetector, moveBoundaries.bounds);
         else

@@ -22,11 +22,11 @@ public class Bomb : Item
 
     private void MakeDamage(Collider2D target,string founderID)
     {
-        Health health = target.GetComponent<Health>();
+        IDamageHandler reciever = target.GetComponent<IDamageHandler>();
 
-        if (health == null)
+        if (reciever == null)
         {
-            Debug.LogError("Target must have Health component");
+            Debug.LogError("Target must have IDamageHandler component");
             return;
         }
 
@@ -38,7 +38,7 @@ public class Bomb : Item
             damage = Mathf.Lerp(minDamage, damage, distance / radius);
         }
 
-        health.TakeDamage(damage, founderID);
+        reciever.HandleDamage(damage, founderID);
     }
 
     private void OnDrawGizmos()

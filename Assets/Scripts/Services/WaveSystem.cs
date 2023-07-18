@@ -26,14 +26,14 @@ public class WaveSystem : NetworkBehaviour
 
 
     private ScoreCounter scoreCounter;
-    private Character player;
     private Bounds positionBounds;
+    private TargetDesignator targetDesignator;
 
-    public void InitDependecies(Bounds positionBounds, Character player,ScoreCounter scoreCounter)
+    public void InitDependecies(Bounds positionBounds, Character player,ScoreCounter scoreCounter,TargetDesignator targetDesignator)
     {
-        this.player = player;
         this.positionBounds = positionBounds;
         this.scoreCounter = scoreCounter;
+        this.targetDesignator = targetDesignator;
 
         Pool = new WavePool();
     }
@@ -110,6 +110,7 @@ public class WaveSystem : NetworkBehaviour
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     private void RPC_EndWave()
     {
+        executingWave = false;
         OnWaveEnd?.Invoke();
 
         if (HasStateAuthority)
@@ -180,6 +181,8 @@ public class WaveSystem : NetworkBehaviour
         if (HasStateAuthority)
             RPC_EndWave();
 
+        Debug.Log("End wave");
+
     }
 
     private void SpawnRandom()
@@ -210,21 +213,24 @@ public class WaveSystem : NetworkBehaviour
 
     private void Spawn(WaveObject waveObject)
     {
-        IPooledWaveObject spawned = Pool.Get(waveObject);
-        Locate(spawned);
+        Vector2 location = GetLocation();
+        IPooledWaveObject spawned = Pool.Get(waveObject,location);
     }
 
-    private void Locate(IPooledWaveObject spawned)
+    private Vector2 GetLocation()
     {
         Vector2 position;
+        float distanceToNearestPlayer;
         do
         {
             float x = UnityEngine.Random.Range(positionBounds.min.x + minSpawnDistanceToBounds, positionBounds.max.x - minSpawnDistanceToBounds);
             float y = UnityEngine.Random.Range(positionBounds.min.y + minSpawnDistanceToBounds, positionBounds.max.y - minSpawnDistanceToBounds);
             position = new Vector2(x, y);
 
-        } while ((position - (Vector2)player.transform.position).magnitude < minSpawnDistanceToPlayer);
+            Character nearestPlayer;
+            distanceToNearestPlayer = targetDesignator.GetNearest(new Vector3(position.x, position.y, 0), out nearestPlayer);
+        } while (distanceToNearestPlayer < minSpawnDistanceToPlayer);
 
-        spawned.Locate(position);
+        return position;
     }
 }

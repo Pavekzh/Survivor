@@ -19,10 +19,10 @@ public class CharacterDeathState : CharacterState
 
     public override void HandleMoveInput(Vector2 input)
     {
-        throw new NotImplementedException();
+        Debug.LogError("Player spectating not implemented");
     }
 
-    public override void HandleTakeDamage() { }
+    public override void HandleDamage(float damage,string sender) { }
     public override void HandleAttackInput(Vector2 input) { }
 
 }

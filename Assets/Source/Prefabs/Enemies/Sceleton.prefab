@@ -96,7 +96,6 @@ GameObject:
   - component: {fileID: 1803128003340766702}
   - component: {fileID: -1631405624374566685}
   - component: {fileID: -3093278948867193930}
-  - component: {fileID: -7408433347031722650}
   - component: {fileID: 835850025727808986}
   - component: {fileID: 8229199175474058527}
   - component: {fileID: -1048017019446754506}
@@ -193,38 +192,9 @@ MonoBehaviour:
     RawGuidValue: 00ea0baccd52e7d4086a65c683af74af
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: -7408433347031722650}
   - {fileID: 835850025727808986}
   - {fileID: 8229199175474058527}
   SimulationBehaviours: []
---- !u!114 &-7408433347031722650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8229199175474058525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 158639473, guid: e725a070cec140c4caffb81624c8c787, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _interpolationDataSource: 0
-  InterpolationSpace: 0
-  InterpolationTarget: {fileID: 2854214533231442172}
-  InterpolateErrorCorrection: 1
-  InterpolatedErrorCorrectionSettings:
-    MinRate: 3.3
-    MaxRate: 10
-    PosBlendStart: 0.25
-    PosBlendEnd: 1
-    PosMinCorrection: 0.025
-    PosTeleportDistance: 2
-    RotBlendStart: 0.1
-    RotBlendEnd: 0.5
-    RotTeleportRadians: 1.5
-  UseLegacySharedModeInterpolation: 0
-  TargetInterpolationDelay: 0.03
 --- !u!114 &835850025727808986
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -268,7 +238,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88c268d6644fe1349b089923c53f5c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 50
+  maxHealth: 5
 --- !u!114 &-6953803369378973729
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -283,7 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reloadTime: 0.5
   weaponRange: 5
-  damage: 1
+  damage: 0
   magazineSize: -1
   bulletPrefab: {fileID: 4662430070751381988, guid: d4996c7ab198a734eb560f8c3719740f, type: 3}
   defaultPoolSize: 5

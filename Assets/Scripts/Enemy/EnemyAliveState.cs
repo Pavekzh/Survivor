@@ -6,21 +6,22 @@ public abstract class EnemyAliveState:EnemyState
 
     public override bool IsAlive { get => true; }
 
-    public override void HandleWaveEnd()
+    public override void Kill()
     {
         stateMachine.ChangeState(enemy.DeathState);
     }
 
-    public override void HandleTakeDamage(float damage,string sender)
+    public override void HandleDamage(float damage,string sender)
     {
+        float taked = enemy.Health.TakeDamage(damage);
+
         if (enemy.Health.CurrentHealth == 0)
         {
             enemy.Killer = sender;
             stateMachine.ChangeState(enemy.DeathState);
         }
 
-
-        enemy.ScoreCounter.AddDamage(damage,sender);
+        enemy.ScoreCounter.AddDamage(taked,sender);
     }
     public override void Recover() { }
 }

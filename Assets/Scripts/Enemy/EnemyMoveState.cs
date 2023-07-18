@@ -30,5 +30,6 @@ public class EnemyMoveState : EnemyAliveState
         float clampedY = Mathf.Clamp(newPosition.y, enemy.MoveBoundaries.min.y + enemy.ColliderSize.y, enemy.MoveBoundaries.max.y - enemy.ColliderSize.y);
 
         enemy.transform.position = new Vector3(clampedX, clampedY, enemy.transform.position.z);
+
     }
 }

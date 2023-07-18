@@ -3,10 +3,9 @@
 public interface IPooledWaveObject
 {
     bool InPool { get; set; }
-    bool IsActive { get; set; }
+    bool IsActive { get; }
     string Type { get; set; }
 
-    void OnGet();
+    void OnGet(Vector2 position);
     void OnRelease();    
-    void Locate(Vector2 position);
 }

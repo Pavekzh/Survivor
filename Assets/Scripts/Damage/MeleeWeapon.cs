@@ -44,9 +44,9 @@ public class MeleeWeapon : Weapon
 
     private void MakeDamageSingle(Collider2D target)
     {
-        Health health = target.gameObject.GetComponent<Health>();
-        if (health != null)
-            health.TakeDamage(damage,owner.ID);
+        IDamageHandler handler = target.gameObject.GetComponent<IDamageHandler>();
+        if (handler != null)
+            handler.HandleDamage(damage,owner.ID);
     }
 
     private void MakeDamageMulti(Collider2D[] targets)

@@ -12,6 +12,18 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1708525733140401344, guid: b0be251cd3d644b4ab05f70036ad9f40, type: 3}
+      propertyPath: NetworkedBehaviours.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 1708525733140401344, guid: b0be251cd3d644b4ab05f70036ad9f40, type: 3}
+      propertyPath: NetworkedBehaviours.Array.data[1]
+      value: 
+      objectReference: {fileID: 1100388132939920923}
+    - target: {fileID: 1708525733140401344, guid: b0be251cd3d644b4ab05f70036ad9f40, type: 3}
+      propertyPath: NetworkedBehaviours.Array.data[2]
+      value: 
+      objectReference: {fileID: 1100388132939920923}
+    - target: {fileID: 1708525733140401344, guid: b0be251cd3d644b4ab05f70036ad9f40, type: 3}
       propertyPath: NetworkGuid.RawGuidValue.Array.data[0]
       value: -8910746044446668634
       objectReference: {fileID: 0}
@@ -94,6 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0f4f37653aeb85144a02445ea4ca6cb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _interpolationDataSource: 0
   canPickUpLayers:
     serializedVersion: 2
     m_Bits: 8

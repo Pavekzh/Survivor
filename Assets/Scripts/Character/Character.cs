@@ -1,7 +1,7 @@
 using UnityEngine;
 using Fusion;
 
-public class Character : NetworkBehaviour,IWeaponOwner
+public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
 {    
     [Header("Health")]
     [SerializeField] private Health health;
@@ -53,7 +53,6 @@ public class Character : NetworkBehaviour,IWeaponOwner
         MoveState = new MoveState(this, stateMachine);
         DeathState = new CharacterDeathState(this, stateMachine);
 
-        health.OnTakedDamage += TakedDamage;
         ColliderSize = GetComponent<BoxCollider2D>().bounds.size;
          
         stateMachine.Init(IdleState);
@@ -61,16 +60,20 @@ public class Character : NetworkBehaviour,IWeaponOwner
 
     private void Update()
     {
-        Vector2 moveInput = inputDetector.GetMoveInput();
-        Vector2 attackInput = inputDetector.GetAttackInput();
+        if (HasStateAuthority)
+        {
+            Vector2 moveInput = inputDetector.GetMoveInput();
+            Vector2 attackInput = inputDetector.GetAttackInput();
 
-        stateMachine.CurrentState.HandleMoveInput(moveInput);
-        stateMachine.CurrentState.HandleAttackInput(attackInput);
+            stateMachine.CurrentState.HandleMoveInput(moveInput);
+            stateMachine.CurrentState.HandleAttackInput(attackInput);
+        }
     }
     
-    private void TakedDamage(float damage,string sender)
-    {
-        stateMachine.CurrentState.HandleTakeDamage();
-    }
 
+    public void HandleDamage(float damage, string sender)
+    {
+        if (HasStateAuthority)
+            stateMachine.CurrentState.HandleDamage(damage,sender);
+    }
 }

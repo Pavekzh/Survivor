@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class WavePool
 {
     List<IPooledWaveObject> pool = new List<IPooledWaveObject>();
 
-    public IPooledWaveObject Get(WaveObject waveObject)
+    public IPooledWaveObject Get(WaveObject waveObject, Vector2 position)
     {
         IPooledWaveObject result;
         if (TryGet(waveObject.ToSpawn.Type,out result))
         {
-            result.OnGet();
-            result.IsActive = true;
+            result.OnGet(position);
 
             return result;
         }
@@ -20,8 +20,7 @@ public class WavePool
 
             pool.Add(result);
             result.InPool = true;
-            result.OnGet();
-            result.IsActive = true;
+            result.OnGet(position);
 
             return result;
         }
@@ -30,7 +29,6 @@ public class WavePool
     public void Release(IPooledWaveObject pooled)
     {
         pooled.OnRelease();
-        pooled.IsActive = false;
     }
 
     public void AddRemoteCreated(IPooledWaveObject toPool)
