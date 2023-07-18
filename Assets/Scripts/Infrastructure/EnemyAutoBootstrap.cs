@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using Fusion;
 
-public class CharacterAutoBootstrap : NetworkBehaviour
+public class EnemyAutoBootstrap:NetworkBehaviour
 {
-    [SerializeField] private Character character;
+    [SerializeField]private Enemy enemy;
 
     private GameBootstrap bootstrap { get => GameBootstrap.Instance; }
 
     public override void Spawned()
     {
-        bootstrap.InitCharacter(character);
+        bootstrap.InitEnemy(enemy);
     }
 
 }

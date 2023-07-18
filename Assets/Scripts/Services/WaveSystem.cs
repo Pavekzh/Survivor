@@ -12,6 +12,7 @@ public class WaveSystem : NetworkBehaviour
     [Networked(OnChanged = nameof(ChangedReadyPlayers))] private int ReadyPlayersCount { get; set; } = 0;
 
     public bool IsReady { get; private set; }
+    public WavePool Pool { get; private set; }
 
     private int currentWave = -1;
     private bool executingWave;
@@ -33,6 +34,8 @@ public class WaveSystem : NetworkBehaviour
         this.player = player;
         this.positionBounds = positionBounds;
         this.scoreCounter = scoreCounter;
+
+        Pool = new WavePool();
     }
 
     public void ChangeReadyState()
@@ -154,7 +157,8 @@ public class WaveSystem : NetworkBehaviour
 
         while (executingWave && wave == currentWave)
         {
-            SpawnRandom();
+            if(HasStateAuthority)
+                SpawnRandom();
             yield return new WaitForSeconds(timeToNextSpawn);
         }
     }
@@ -206,21 +210,21 @@ public class WaveSystem : NetworkBehaviour
 
     private void Spawn(WaveObject waveObject)
     {
-        GameObject spawned = waveObject.ToSpawn.Pool.Get().GameObject;
+        IPooledWaveObject spawned = Pool.Get(waveObject);
         Locate(spawned);
     }
 
-    private void Locate(GameObject spawned)
+    private void Locate(IPooledWaveObject spawned)
     {
-        Vector3 position;
+        Vector2 position;
         do
         {
             float x = UnityEngine.Random.Range(positionBounds.min.x + minSpawnDistanceToBounds, positionBounds.max.x - minSpawnDistanceToBounds);
             float y = UnityEngine.Random.Range(positionBounds.min.y + minSpawnDistanceToBounds, positionBounds.max.y - minSpawnDistanceToBounds);
-            position = new Vector3(x, y, spawned.transform.position.z);
+            position = new Vector2(x, y);
 
-        } while ((position - player.transform.position).magnitude < minSpawnDistanceToPlayer);
+        } while ((position - (Vector2)player.transform.position).magnitude < minSpawnDistanceToPlayer);
 
-        spawned.transform.position = position;
+        spawned.Locate(position);
     }
 }

@@ -23,8 +23,8 @@ public class GameBootstrap:MonoBehaviour
     [Header("UI")]
     [SerializeField] private WaveSystemUI waveSystemUI;
     [Header("Wave objects")]
-    [SerializeField] private DefaultWaveObjectFactory itemsFactory;
-    [SerializeField] private EnemyFactory enemyFactory;
+    [SerializeField] private WaveObjectFactory itemsFactory;
+    [SerializeField] private WaveObjectFactory enemyFactory;
     [SerializeField] private Transform itemsParent;
     [SerializeField] private Transform enemiesParent;
     [SerializeField] private SpawnObject[] enemiesObjects;
@@ -85,8 +85,7 @@ public class GameBootstrap:MonoBehaviour
 
     private void InitEnemies()
     {
-        enemyFactory.InitDependencies(this);
-        enemyFactory.InitDependencies(enemiesParent);
+        enemyFactory.InitDependencies(network);
 
         foreach (SpawnObject enemy in enemiesObjects)
         {
@@ -96,7 +95,7 @@ public class GameBootstrap:MonoBehaviour
 
     private void InitItems()
     {
-        itemsFactory.InitDependencies(itemsParent);
+        itemsFactory.InitDependencies(network);
 
         foreach (SpawnObject item in itemsObjects)
         {
@@ -104,9 +103,14 @@ public class GameBootstrap:MonoBehaviour
         }
     }
 
+    public void InitItem(Item item)
+    {
+        item.InitDependencies(waveSystem,itemsParent);
+    }
+
     public void InitEnemy(Enemy enemy)
     {
-        enemy.InitDependecies(character, moveBoundaries.bounds,waveSystem,scoreCounter);
+        enemy.InitDependecies(character, moveBoundaries.bounds,waveSystem,scoreCounter,enemiesParent);
         enemy.Weapon.InitDependencies(enemy);
         Gun gun = enemy.Weapon as Gun;
         if (gun != null)

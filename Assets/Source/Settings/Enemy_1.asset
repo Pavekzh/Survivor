@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Enemy_1
   m_EditorClassIdentifier: 
   prefab: {fileID: 8229199175474058525, guid: e0af31fb6d568ec469946daec64fc6d3, type: 3}
+  type: zombie1

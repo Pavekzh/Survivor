@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 027d9c9205573a94eb2d118b4288bc09, type: 3}
   m_Name: Magazine
   m_EditorClassIdentifier: 
-  prefab: {fileID: 2006934436456706185, guid: cbe586cabe89c9741b22e14392376fbf, type: 3}
+  prefab: {fileID: 5867498829654167691, guid: cbe586cabe89c9741b22e14392376fbf, type: 3}
+  type: magazine

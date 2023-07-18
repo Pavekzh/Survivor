@@ -11,8 +11,4 @@ public class Investigator : NetworkBehaviour
 
     }
 
-    private void Update()
-    {
-        Debug.LogError(HasStateAuthority);
-    }
 }

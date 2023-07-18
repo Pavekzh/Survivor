@@ -14,6 +14,9 @@ public class FusionConnect : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private string roomName;
     [SerializeField] private int gameScene;
 
+
+    [SerializeField] private Investigator investigator;
+
     public const int PlayersCount = 2;
 
     public async Task Connect()
@@ -31,6 +34,8 @@ public class FusionConnect : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnSceneLoadDone(NetworkRunner runner)
     {
+        if (runner.IsSharedModeMasterClient)
+            runner.Spawn(investigator);
         Debug.Log("SceneLoadDone");
     }
 

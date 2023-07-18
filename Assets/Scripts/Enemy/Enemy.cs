@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.Pool;
+using Fusion;
 
 
-public class Enemy : MonoBehaviour,IPooledObject,IWeaponOwner
+public class Enemy : NetworkBehaviour,IPooledWaveObject,IWeaponOwner
 {
     [Header("Health")]
     [SerializeField] private Health health;
@@ -13,8 +13,6 @@ public class Enemy : MonoBehaviour,IPooledObject,IWeaponOwner
     [SerializeField] private float rangeOffset;
 
     public string ID => gameObject.name;
-    public GameObject GameObject => gameObject;
-    public ObjectPool<IPooledObject> OriginPool { get; set; }
     public string Killer { get; set; }
 
     public Vector2 ColliderSize { get; private set; }
@@ -24,24 +22,40 @@ public class Enemy : MonoBehaviour,IPooledObject,IWeaponOwner
     public Weapon Weapon { get => weapon; }
     public float AttackRange { get => weapon.WeaponRange - rangeOffset; }
 
+    //IPooledWaveObject
+    public bool InPool { get; set; }
+    public bool IsActive { get; set; }
+    public string Type { get; set; }
+
     private StateMachine<EnemyState> stateMachine;
     public EnemyDeathState DeathState { get; private set; }
     public EnemyAttackState AttackState { get; private set; }
     public EnemyMoveState MoveState { get; private set; }
 
+
     public Bounds MoveBoundaries { get; private set; }    
-    public ScoreCounter scoreCounter { get; private set; }
+    public ScoreCounter ScoreCounter { get; private set; }
+    public WaveSystem WaveSystem { get; private set; }
+
     private Character player;
-    private WaveSystem waveSystem;
 
-
-    public void InitDependecies(Character character,Bounds moveBoundaries,WaveSystem waveSystem,ScoreCounter scoreCounter)
+    public void InitDependecies(Character character,Bounds moveBoundaries,WaveSystem waveSystem,ScoreCounter scoreCounter,Transform parent)
     {
         this.player = character;
         this.MoveBoundaries = moveBoundaries;
-        this.waveSystem = waveSystem;
-        this.waveSystem.OnWaveEnd += WaveEnded;
-        this.scoreCounter = scoreCounter;
+        this.WaveSystem = waveSystem;
+        this.WaveSystem.OnWaveEnd += WaveEnded;
+        this.ScoreCounter = scoreCounter;
+        this.transform.parent = parent;
+
+        if (!InPool)
+            waveSystem.Pool.AddRemoteCreated(this);
+    }
+
+    public override void Spawned()
+    {
+        if(HasStateAuthority)
+            GetComponent<NetworkTransform>().InterpolationDataSource = InterpolationDataSources.NoInterpolation;
     }
 
     private void Start()
@@ -59,7 +73,7 @@ public class Enemy : MonoBehaviour,IPooledObject,IWeaponOwner
 
     private void Update()
     {
-        if (player.IsAlive)
+        if (player.IsAlive && HasStateAuthority)
         {
             Vector2 playerRelativePos = player.gameObject.transform.position - transform.position;
 
@@ -69,12 +83,14 @@ public class Enemy : MonoBehaviour,IPooledObject,IWeaponOwner
     
     private void WaveEnded()
     {
-        stateMachine.CurrentState.HandleWaveEnd();
+        if(HasStateAuthority)
+            stateMachine.CurrentState.HandleWaveEnd();
     }
     
     private void TakedDamage(float damage,string senderId)
     {
-        stateMachine.CurrentState.HandleTakeDamage(damage,senderId);
+        if(HasStateAuthority)
+            stateMachine.CurrentState.HandleTakeDamage(damage,senderId);
     }
 
     public void OnGet()
@@ -88,5 +104,10 @@ public class Enemy : MonoBehaviour,IPooledObject,IWeaponOwner
     public void OnRelease()
     {
         gameObject.SetActive(false);
+    }
+
+    public void Locate(Vector2 position)
+    {
+        transform.position = new Vector3(position.x, position.y, transform.position.z);
     }
 }

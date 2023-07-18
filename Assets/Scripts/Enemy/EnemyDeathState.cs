@@ -11,9 +11,9 @@ public class EnemyDeathState:EnemyState
     {
         //animation
         //wait
-        enemy.OriginPool.Release(enemy);
+        enemy.WaveSystem.Pool.Release(enemy);
         if(enemy.Killer != null)
-            enemy.scoreCounter.AddKill(enemy.Killer);
+            enemy.ScoreCounter.AddKill(enemy.Killer);
     }
 
     public override void Exit()

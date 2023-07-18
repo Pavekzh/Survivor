@@ -5,31 +5,26 @@ using UnityEngine.Pool;
 public class SpawnObject : ScriptableObject
 {
     [SerializeField] private GameObject prefab;
+    [SerializeField] private string type;
 
-    private DefaultWaveObjectFactory factory;
-    private ObjectPool<IPooledObject> pool;
+    public string Type { get => type; private set => type = value; }
 
-    public ObjectPool<IPooledObject> Pool
-    {
-        get
-        {
-            if (pool == null)
-                pool = new ObjectPool<IPooledObject>(
-                    () => 
-                    {
-                        IPooledObject obj = factory.Create(prefab).GetComponent<IPooledObject>();
-                        obj.OriginPool = pool;
-                        return obj;
-                    }, 
-                    obj => obj.OnGet(), 
-                    obj => obj.OnRelease());
+    private WaveObjectFactory factory;
 
-            return pool;
-        }
-    }
-
-    public void InitDependencies(DefaultWaveObjectFactory factory)
+    public void InitDependencies(WaveObjectFactory factory)
     {
         this.factory = factory;
+    }    
+
+    public IPooledWaveObject Spawn()
+    {
+        IPooledWaveObject result = factory.Create(prefab).GetComponent<IPooledWaveObject>();
+
+        if(result == null)
+            throw new System.Exception($"SpawnObject {this.name} doesn`t have IPooledWaveObject component or incorrectly spawned");
+
+        result.Type = this.type;
+
+        return result;
     }
 }

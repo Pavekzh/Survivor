@@ -330,7 +330,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 312335118}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5fa0d71c8b0490744b2d729c8b632c00, type: 3}
+  m_Script: {fileID: 11500000, guid: 5643a2c6f56b75f43a403dee736a4b03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &426009273
@@ -1009,7 +1009,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 990737891}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b1bb9a132fd873548914e791b3e87078, type: 3}
+  m_Script: {fileID: 11500000, guid: 5643a2c6f56b75f43a403dee736a4b03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1056602845
@@ -12613,8 +12613,8 @@ MonoBehaviour:
   moveBoundaries: {fileID: 1056602847}
   bulletsParent: {fileID: 1335981778}
   waveSystemUI: {fileID: 1751304118}
-  itemsFactory: {fileID: 990737894}
-  enemyFactory: {fileID: 312335122}
+  itemsFactory: {fileID: 312335122}
+  enemyFactory: {fileID: 990737894}
   itemsParent: {fileID: 132515417}
   enemiesParent: {fileID: 885319023}
   enemiesObjects:
@@ -12623,6 +12623,7 @@ MonoBehaviour:
   itemsObjects:
   - {fileID: 11400000, guid: dec67f4a36e4430429395430793a9d1a, type: 2}
   - {fileID: 11400000, guid: 85be0067448f20341952de2a677ea950, type: 2}
+  - {fileID: 11400000, guid: 631c91ec5f375d14890bc44b49d103d6, type: 2}
 --- !u!4 &1814363373
 Transform:
   m_ObjectHideFlags: 0

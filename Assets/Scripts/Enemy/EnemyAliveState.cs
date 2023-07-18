@@ -20,7 +20,7 @@ public abstract class EnemyAliveState:EnemyState
         }
 
 
-        enemy.scoreCounter.AddDamage(damage,sender);
+        enemy.ScoreCounter.AddDamage(damage,sender);
     }
     public override void Recover() { }
 }

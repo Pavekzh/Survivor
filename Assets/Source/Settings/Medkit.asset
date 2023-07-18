@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 027d9c9205573a94eb2d118b4288bc09, type: 3}
-  m_Name: Enemy_2
+  m_Name: Medkit
   m_EditorClassIdentifier: 
-  prefab: {fileID: 8229199175474058525, guid: 00ea0baccd52e7d4086a65c683af74af, type: 3}
-  type: sceleton1
+  prefab: {fileID: 8543186721018055665, guid: b4e1452d51feabc42a90390e78886824, type: 3}
+  type: medkit
