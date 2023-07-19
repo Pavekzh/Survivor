@@ -11,7 +11,7 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
     [SerializeField] private Gun weapon;
 
     public Vector2 ColliderSize { get; private set; }
-    public string ID { get => "Player1"; }
+    public string ID { get => "Player " + Runner.LocalPlayer.PlayerId; }
     public bool IsAlive { get => stateMachine.CurrentState.IsAlive; }
 
     [Networked(OnChanged = nameof(SetWeaponDirection))]public Vector2 AttackDirection { get; set; }

@@ -129,7 +129,7 @@ public class WaveSystem : NetworkBehaviour
     {
         foreach (var record in scoreCounter.Records)
         {
-            Debug.Log(record.Key + ": " + record.Value.Kills + "(kills) " + record.Value.Damage + "(damage)");
+            Debug.LogError(record.Key + ": " + record.Value.Kills + "(kills) " + record.Value.Damage + "(damage)");
         }
         throw new NotImplementedException();
     }

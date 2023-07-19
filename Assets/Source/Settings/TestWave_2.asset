@@ -13,13 +13,15 @@ MonoBehaviour:
   m_Name: TestWave_2
   m_EditorClassIdentifier: 
   startDelay: 10
-  duration: 120
+  duration: 15
   spawnRate: 1
   waveObjects:
   - toSpawn: {fileID: 11400000, guid: dec67f4a36e4430429395430793a9d1a, type: 2}
     proportionalProbability: 4
+  - toSpawn: {fileID: 11400000, guid: 631c91ec5f375d14890bc44b49d103d6, type: 2}
+    proportionalProbability: 1
   - toSpawn: {fileID: 11400000, guid: 85be0067448f20341952de2a677ea950, type: 2}
-    proportionalProbability: 2
+    proportionalProbability: 1
   - toSpawn: {fileID: 11400000, guid: 3194474283466cf4d8eaf89cde42d407, type: 2}
     proportionalProbability: 15
   - toSpawn: {fileID: 11400000, guid: b94f8b174119b2d489345d192cee41a2, type: 2}

@@ -253,7 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reloadTime: 1
   weaponRange: 2
-  damage: 15
+  damage: 1
   mode: 0
   targetLayers:
     serializedVersion: 2
