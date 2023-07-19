@@ -9,6 +9,7 @@ public class GameBootstrap:MonoBehaviour
     [Header("Systems")]
     [SerializeField] private PlayerFactory playerFactory;
     [SerializeField] private float playerSpawnRadius;
+    [SerializeField] private PlayerUsername playerUsername;
     [SerializeField] private GunSelector gunSelector;
     [SerializeField] private ChoosePlayer choosePlayer;
     [SerializeField] private WaveSystem waveSystem;
@@ -123,10 +124,10 @@ public class GameBootstrap:MonoBehaviour
         targetDesignator.AddPlayer(character);
 
         if (this.character == null)
-            character.InitDependencies(inputDetector, moveBoundaries.bounds);
+            character.InitDependencies(inputDetector, moveBoundaries.bounds,playerUsername.GetUsername());
         else
         {
-            character.InitDependencies(mockInputDetector, moveBoundaries.bounds);
+            character.InitDependencies(mockInputDetector, moveBoundaries.bounds,"Player view");
             gunSelector.InstantiateRemotePlayerGun(character);
         }
     }

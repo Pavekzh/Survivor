@@ -11,7 +11,7 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
     [SerializeField] private Gun weapon;
 
     public Vector2 ColliderSize { get; private set; }
-    public string ID { get => "Player " + Runner.LocalPlayer.PlayerId; }
+    public string ID { get => username; }
     public bool IsAlive { get => stateMachine.CurrentState.IsAlive; }
 
     [Networked(OnChanged = nameof(SetWeaponDirection))]public Vector2 AttackDirection { get; set; }
@@ -25,13 +25,15 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
     public MoveState MoveState { get; private set; }
     public CharacterDeathState DeathState { get; private set; }
 
+    private string username;
     private InputDetector inputDetector;    
     public Bounds MoveBoundaries { get; private set; }
 
-    public void InitDependencies(InputDetector inputDetector,Bounds moveBoundaries)
+    public void InitDependencies(InputDetector inputDetector,Bounds moveBoundaries,string username)
     {
         this.inputDetector = inputDetector;
         this.MoveBoundaries = moveBoundaries;
+        this.username = username;
 
         stateMachine = new StateMachine<CharacterState>();
 

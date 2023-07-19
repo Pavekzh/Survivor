@@ -14,13 +14,13 @@ public class FusionConnect : MonoBehaviour, INetworkRunnerCallbacks
     [SerializeField] private string roomName;
     [SerializeField] private int gameScene;
 
-
-    [SerializeField] private Investigator investigator;
-
     public const int PlayersCount = 2;
 
-    public async Task Connect()
+    private Action<string> ConnectFailedCallback;
+
+    public async Task Connect(Action<string> failedCallback)
     {
+        this.ConnectFailedCallback = failedCallback;
         StartGameArgs args = new StartGameArgs()
         {
             GameMode = GameMode.Shared,
@@ -34,8 +34,6 @@ public class FusionConnect : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnSceneLoadDone(NetworkRunner runner)
     {
-        if (runner.IsSharedModeMasterClient)
-            runner.Spawn(investigator);
         Debug.Log("SceneLoadDone");
     }
 
@@ -61,7 +59,7 @@ public class FusionConnect : MonoBehaviour, INetworkRunnerCallbacks
 
     public void OnConnectFailed(NetworkRunner runner, NetAddress remoteAddress, NetConnectFailedReason reason)
     {
-        Debug.LogWarning("Connection failed");
+        ConnectFailedCallback?.Invoke(reason.ToString());
     }
 
     #region unused Fusion callbacks

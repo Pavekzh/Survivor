@@ -2,20 +2,33 @@
 
 public class MenuBootstrap : MonoBehaviour
 {
-    [SerializeField] ChoosePlayer choosePlayer;
-    [SerializeField] SceneLoader sceneLoader;
-    [SerializeField] ChoosePlayerUI choosePlayerUI;
-    [SerializeField] MainMenuUI mainMenuUI;
+    [Header("Systems")]
+    [SerializeField] private PlayerUsername playerUsername;
+    [SerializeField] private ChoosePlayer choosePlayer;
+    [SerializeField] private SceneLoader sceneLoader;
+    [SerializeField] private FusionConnect connect;
+
+    [Header("UI")]
+    [SerializeField] private MessageController messenger;
+    [SerializeField] private ConnectUI connectUI;
+    [SerializeField] private ChoosePlayerUI choosePlayerUI;
+    [SerializeField] private MainMenuUI mainMenuUI;
 
     private void Awake()
     {
         InitChoosePlayerUI();
         InitMainMenuUI();
+        InitConnectUI();
+    }
+
+    private void InitConnectUI()
+    {
+        connectUI.InitDependencies(playerUsername, connect, messenger);
     }
 
     private void InitMainMenuUI()
     {
-        mainMenuUI.InitDependencies(sceneLoader);
+        mainMenuUI.InitDependencies(connectUI);
     }
 
     private void InitChoosePlayerUI()

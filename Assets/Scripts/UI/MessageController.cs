@@ -22,6 +22,16 @@ public class MessageController : MonoBehaviour
         panel.SetActive(true);
     }
 
+    public void ShowMessage(string Title, string Message,bool canBeClosed)
+    {
+        ShowMessage(Title, Message);
+
+        if (canBeClosed)
+            okButton.gameObject.SetActive(false);
+        else
+            okButton.gameObject.SetActive(true);
+    }
+
     public void Close()
     {
         panel.SetActive(false);

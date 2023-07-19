@@ -4,23 +4,19 @@ using UnityEngine.UI;
 
 public class MainMenuUI:MonoBehaviour
 {
-    [SerializeField] Button createLobby;
-    [SerializeField] Button connect;
+    [SerializeField] Button play;
     [SerializeField] Button exit;
-    [SerializeField] MessageController messenger;
-    [SerializeField] FusionConnect connector;
 
-    private SceneLoader sceneLoader;
+    private ConnectUI connectUI;
 
-    public void InitDependencies(SceneLoader sceneLoader)
+    public void InitDependencies(ConnectUI connectUI)
     {
-        this.sceneLoader = sceneLoader;
+        this.connectUI = connectUI;
     }
 
     private void Start()
     {
-        createLobby.onClick.AddListener(CreateLobby);
-        connect.onClick.AddListener(Connect);
+        play.onClick.AddListener(Play);
         exit.onClick.AddListener(Exit);
     }
 
@@ -29,19 +25,11 @@ public class MainMenuUI:MonoBehaviour
         Application.Quit();
     }
 
-    private async void Connect()
-    {                
-        messenger.ShowMessage("", "Connecting...");
-        await connector.Connect();        
-
+    private void Play()
+    {
+        connectUI.Open();
     }
 
-    private async void CreateLobby()
-    {        
-        messenger.ShowMessage("", "Connecting...");
-        await connector.Connect();
-
-    }
 
 }
 

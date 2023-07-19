@@ -131,7 +131,6 @@ public class WaveSystem : NetworkBehaviour
         {
             Debug.LogError(record.Key + ": " + record.Value.Kills + "(kills) " + record.Value.Damage + "(damage)");
         }
-        throw new NotImplementedException();
     }
 
 
