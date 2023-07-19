@@ -6,6 +6,8 @@ public class MoveState : CharacterAliveState
 
     public override void Enter()
     {
+        if (character.HasStateAuthority)
+            character.RPC_AnimateMove();
         Debug.Log("Move enter");
     }
 

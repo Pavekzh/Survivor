@@ -16,6 +16,7 @@ public class WaveSystem : NetworkBehaviour
 
     private int currentWave = -1;
     private bool executingWave;
+    private Coroutine timerCoroutine;
 
     public event Action<int> OnPlayersReadyChanged;
     public event Action OnGameStarted;
@@ -97,13 +98,13 @@ public class WaveSystem : NetworkBehaviour
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     private void RPC_StartRest()
     {
-        StartCoroutine(Rest());
+        timerCoroutine = StartCoroutine(RestTimer());
     }
 
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     private void RPC_ExecuteWave()
     {
-        StartCoroutine(WaveTimer());
+        timerCoroutine = StartCoroutine(WaveTimer());
         StartCoroutine(ExecuteWave());
     }
 
@@ -134,8 +135,11 @@ public class WaveSystem : NetworkBehaviour
     }
 
 
-    private IEnumerator Rest()
+    private IEnumerator RestTimer()
     {
+        if (timerCoroutine != null)
+            StopCoroutine(timerCoroutine);
+
         OnRestStarted();
         OnTimerChanged(waves[currentWave].StartDelay);
 
@@ -166,6 +170,9 @@ public class WaveSystem : NetworkBehaviour
 
     private IEnumerator WaveTimer()
     {
+        if (timerCoroutine != null)
+            StopCoroutine(timerCoroutine);
+
         executingWave = true;
         OnSpawnStarted();
         OnTimerChanged(waves[currentWave].Duration);

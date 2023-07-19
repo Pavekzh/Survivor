@@ -6,6 +6,8 @@ public class CharacterIdleState : CharacterAliveState
 
     public override void Enter()
     {
+        if (character.HasStateAuthority)
+            character.RPC_AnimateIdle();
         Debug.Log("Idle enter");
     }
 

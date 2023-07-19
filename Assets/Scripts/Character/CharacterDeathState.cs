@@ -7,6 +7,8 @@ public class CharacterDeathState : CharacterState
 
     public override void Enter()
     {
+        if (character.HasStateAuthority)
+            character.RPC_AnimateDeath();
         Debug.Log("Death enter");
     }
 

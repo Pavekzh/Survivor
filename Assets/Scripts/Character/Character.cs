@@ -72,7 +72,7 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
     public void HandleDamage(float damage, string sender)
     {
         if (HasStateAuthority)
-            stateMachine.CurrentState.HandleDamage(damage,sender);
+            RPC_TakeDamage(damage, sender);
     }
 
     private static void SetWeaponDirection(Changed<Character> character)
@@ -91,5 +91,29 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
     public void RPC_StopAttack()
     {
         weapon.StopAttack();
+    }
+
+    [Rpc(sources:RpcSources.StateAuthority,targets: RpcTargets.All)]
+    public void RPC_TakeDamage(float damage, string sender)
+    {
+        stateMachine.CurrentState.HandleDamage(damage, sender);
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    public void RPC_AnimateMove()
+    {
+        Debug.LogError("MoveAnimation");
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    public void RPC_AnimateIdle()
+    {
+        Debug.LogError("IdleAnimation");
+    }
+
+    [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
+    public void RPC_AnimateDeath()
+    {
+        Debug.LogError("DeathAnimation");
     }
 }

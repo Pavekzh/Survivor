@@ -35,7 +35,11 @@ public class TargetDesignator:MonoBehaviour
         {
             float distance = ((Vector2)players[i].transform.position - (Vector2)position).magnitude;
             if (minDistance > distance && players[i].IsAlive)
+            {
+                minDistance = distance;
                 nearestIndex = i;
+            }
+
         }
 
         if (nearestIndex != -1)
@@ -60,7 +64,11 @@ public class TargetDesignator:MonoBehaviour
         {
             float distance = ((Vector2)players[i].transform.position - (Vector2)position).magnitude;
             if (minDistance > distance)
+            {
+                minDistance = distance;
                 nearestIndex = i;
+            }
+
         }
 
         target = players[nearestIndex];
