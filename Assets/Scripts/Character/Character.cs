@@ -102,18 +102,18 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     public void RPC_AnimateMove()
     {
-        Debug.LogError("MoveAnimation");
+        Debug.Log("MoveAnimation");
     }
 
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     public void RPC_AnimateIdle()
     {
-        Debug.LogError("IdleAnimation");
+        Debug.Log("IdleAnimation");
     }
 
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     public void RPC_AnimateDeath()
     {
-        Debug.LogError("DeathAnimation");
+        Debug.Log("DeathAnimation");
     }
 }

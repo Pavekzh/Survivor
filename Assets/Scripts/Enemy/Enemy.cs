@@ -65,7 +65,6 @@ public class Enemy : NetworkBehaviour,IPooledWaveObject,IWeaponOwner,IDamageHand
         if(targetDesignator.GetTarget(transform.position,out target))
         {
             Vector2 playerRelativePos = target.transform.position - transform.position;
-
             stateMachine.CurrentState.HandleCharacterPosition(playerRelativePos);
         }
 
