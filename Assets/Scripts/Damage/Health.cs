@@ -7,39 +7,51 @@ public class Health : MonoBehaviour
 
     private float health;
 
-    public float CurrentHealth { get => health; }
+    public float MaxHealth { get => maxHealth; }
+
+    public event Action<float> ChangedCurrentHalth;
+
+    public float CurrentHealth 
+    { 
+        get => health; 
+        private set
+        {
+            health = value;
+            ChangedCurrentHalth?.Invoke(health);
+        }
+    }
 
     private void Start()
     {
         if (maxHealth <= 0)
             Debug.LogError("Max health set to negative or zero");
 
-        health = maxHealth;
+        CurrentHealth = maxHealth;
     }    
     
     public void RecoverHealth()
     {
-        this.health = maxHealth;
+        this.CurrentHealth = maxHealth;
     }
 
     public void Heal(float points)
     {
-        health += points;
+        CurrentHealth += points;
 
-        if (health > maxHealth)
-            health = maxHealth;
+        if (CurrentHealth > maxHealth)
+            CurrentHealth = maxHealth;
     }
 
     public float TakeDamage(float damage)
     {
-        float healthBefore = health;
+        float healthBefore = CurrentHealth;
 
-        if (health > damage)
-            health -= damage;
+        if (CurrentHealth > damage)
+            CurrentHealth -= damage;
         else
-            health = 0;
+            CurrentHealth = 0;
 
-        float healthAfter = health;
+        float healthAfter = CurrentHealth;
 
         return healthBefore - healthAfter;
     }    

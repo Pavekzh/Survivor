@@ -30,6 +30,7 @@ public class GameBootstrap:MonoBehaviour
 
     [Header("UI")]    
     [SerializeField] private GameUI gameUI;
+    [SerializeField] private PlayerUI playerUI;
     [SerializeField] private WaveSystemUI waveSystemUI;
     [SerializeField] private GameOverUI gameOverUI;
 
@@ -63,6 +64,7 @@ public class GameBootstrap:MonoBehaviour
         InitWavesUI();
         InitGameOverUI();
         InitGameUI();
+        InitPlayerUI();
 
         InitEnemies();
         InitItems();
@@ -75,7 +77,7 @@ public class GameBootstrap:MonoBehaviour
     
     private void InitGunSelector()
     {
-        gunSelector.InitDependencies(character, bulletsParent);
+        gunSelector.InitDependencies(character, this);
     }
 
     private void InitGameOverUI()
@@ -91,6 +93,11 @@ public class GameBootstrap:MonoBehaviour
     private void InitGameUI()
     {
         gameUI.InitDependencies(fusionLeave);
+    }
+
+    private void InitPlayerUI()
+    {
+        playerUI.InitDependencies(character.Health);
     }
 
 
@@ -166,6 +173,16 @@ public class GameBootstrap:MonoBehaviour
             character.InitDependencies(mockInputDetector, moveBoundaries.bounds,"Player view");
             gunSelector.InstantiateRemotePlayerGun(character);
         }
+    }
+
+    public void InitGunForCharacter(Character character,Gun gun,bool isCharacterRemote)
+    {
+        if (!isCharacterRemote)
+            playerUI.InitDependencies(gun);
+
+        character.InitDependencies(gun);
+        gun.InitDependencies(character);
+        gun.InitDependencies(bulletsParent, isCharacterRemote);
     }
 
 }

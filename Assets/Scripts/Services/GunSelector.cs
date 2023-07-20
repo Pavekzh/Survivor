@@ -26,12 +26,12 @@ public class GunSelector : NetworkBehaviour
     }
 
     private Character character;
-    private Transform bulletsParent;
+    private GameBootstrap gameBootstrap;
 
-    public void InitDependencies(Character character,Transform bulletsParent)
+    public void InitDependencies(Character character,GameBootstrap gameBootstrap)
     {
         this.character = character;
-        this.bulletsParent = bulletsParent;
+        this.gameBootstrap = gameBootstrap;
     }
 
     public override void Spawned()
@@ -75,16 +75,15 @@ public class GunSelector : NetworkBehaviour
         }
     }
 
-    private void InstantiatePlayerGun(Character character,GunFactory gunFactory,bool useBlankBullets)
+    private void InstantiatePlayerGun(Character character,GunFactory gunFactory,bool isRemotePlayer)
     {
         Gun gun;
 
         character.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sprite = gunFactory.Sprite;
         gun = gunFactory.InstantiateGun(character.gameObject);
 
-        character.InitDependencies(gun);
-        gun.InitDependencies(character);
-        gun.InitDependencies(bulletsParent,useBlankBullets);
+
+        gameBootstrap.InitGunForCharacter(character, gun, isRemotePlayer);
     }
 
 }

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: TestWave_2
   m_EditorClassIdentifier: 
   startDelay: 10
-  duration: 15
+  duration: 30
   spawnRate: 1
   waveObjects:
   - toSpawn: {fileID: 11400000, guid: dec67f4a36e4430429395430793a9d1a, type: 2}

@@ -253,7 +253,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reloadTime: 0.5
   weaponRange: 5
-  damage: 1
+  damage: 2
   magazineSize: -1
   defaultBulletPrefab: {fileID: 4662430070751381988, guid: d4996c7ab198a734eb560f8c3719740f, type: 3}
   blankBulletPrefab: {fileID: 0}

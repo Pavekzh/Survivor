@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.Pool;
 
 public class Gun : Weapon
@@ -9,9 +10,11 @@ public class Gun : Weapon
     [SerializeField] protected GameObject blankBulletPrefab;
     [SerializeField] protected int defaultPoolSize = 10;
 
-    protected int bulletsLeft;
+    private int bulletsLeft;
     protected bool limitedMagazine = true;
     protected bool useBlankBullets;
+
+    public event Action<int> ChangedBulletsLeft;
 
     protected GameObject bulletPrefab
     {
@@ -22,6 +25,17 @@ public class Gun : Weapon
             else
                 return defaultBulletPrefab;
         }
+    }
+
+    protected int BulletsLeft 
+    { 
+        get => bulletsLeft; 
+        set
+        {
+            bulletsLeft = value;             
+            ChangedBulletsLeft?.Invoke(bulletsLeft);
+        }
+
     }
 
     protected Transform bulletsParent;
@@ -49,17 +63,17 @@ public class Gun : Weapon
     public override void RecoverWeapon()
     {
         base.RecoverWeapon();
-        bulletsLeft = magazineSize;
+        BulletsLeft = magazineSize;
     }
 
     public void AddMagazine()
     {
-        bulletsLeft += magazineSize;
+        BulletsLeft += magazineSize;
     }
 
     public void AddBullets(int amount)
     {
-        bulletsLeft += amount;
+        BulletsLeft += amount;
     }
 
     private void Start()
@@ -71,17 +85,17 @@ public class Gun : Weapon
         if (magazineSize == -1)
             limitedMagazine = false;
         else
-            bulletsLeft = magazineSize;
+            BulletsLeft = magazineSize;
 
         bulletsPool = new ObjectPool<Bullet>(() => Instantiate(bulletPrefab, bulletsParent).GetComponent<Bullet>(), bullet => bullet.gameObject.SetActive(true), bullet => bullet.gameObject.SetActive(false), null, false, defaultPoolSize);
     }
 
     protected override void Attack(Vector2 direction)
     {
-        if(!limitedMagazine || bulletsLeft > 0)
+        if(!limitedMagazine || BulletsLeft > 0)
         {
             LaunchBullet(direction);
-            bulletsLeft--;
+            BulletsLeft--;
         }
     }
     

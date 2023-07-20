@@ -15,7 +15,7 @@ public class Shotgun : Gun
 
     protected override void Attack(Vector2 direction)
     {
-        if (!limitedMagazine || bulletsLeft > 0)
+        if (!limitedMagazine || BulletsLeft > 0)
         {
             if (bulletsPerShot == 1 || spread == 0)
                 LaunchBullet(direction);
@@ -30,7 +30,7 @@ public class Shotgun : Gun
                 }
 
             }
-            bulletsLeft--;
+            BulletsLeft--;
         }
     }
 
