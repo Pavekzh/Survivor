@@ -11,6 +11,7 @@ public class WaveSystem : NetworkBehaviour
 
     [Networked(OnChanged = nameof(ChangedReadyPlayers))] private int ReadyPlayersCount { get; set; } = 0;
 
+    public bool IsWin { get; private set; }
     public bool IsReady { get; private set; }
     public WavePool Pool { get; private set; }
 
@@ -141,6 +142,7 @@ public class WaveSystem : NetworkBehaviour
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     private void RPC_EndGame()
     {
+        IsWin = true;
         gameOverUI.OpenWin();
     }
 

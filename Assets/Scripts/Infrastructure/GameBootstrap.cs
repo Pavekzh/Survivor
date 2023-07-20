@@ -92,7 +92,7 @@ public class GameBootstrap:MonoBehaviour
 
     private void InitGameUI()
     {
-        gameUI.InitDependencies(fusionLeave);
+        gameUI.InitDependencies(fusionLeave,character,scoreCounter);
     }
 
     private void InitPlayerUI()

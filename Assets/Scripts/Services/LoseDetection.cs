@@ -41,7 +41,7 @@ public class LoseDetection:NetworkBehaviour
     {
         diedCount++;
 
-        if (HasStateAuthority && diedCount == FusionConnect.PlayersCount && isLosed == false)
+        if (HasStateAuthority && diedCount == FusionConnect.PlayersCount && isLosed == false && !waveSystem.IsWin)
             RPC_LoseGame();
     }
 
