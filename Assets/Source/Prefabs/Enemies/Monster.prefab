@@ -250,6 +250,7 @@ MonoBehaviour:
   animator: {fileID: 8773275011040046872}
   hitTrigger: Hit
   deadBool: Dead
+  transparentLayer: 14
   waitUntilReleaseTime: 3
 --- !u!114 &-1048017019446754506
 MonoBehaviour:
@@ -263,7 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88c268d6644fe1349b089923c53f5c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 25
 --- !u!114 &7958704527758155666
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,9 +277,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18f62e648891af1469a43d5b9238d5bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reloadTime: 1
+  reloadTime: 1.5
   weaponRange: 2
-  damage: 3
+  damage: 5
   mode: 0
   targetLayers:
     serializedVersion: 2

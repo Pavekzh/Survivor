@@ -250,6 +250,7 @@ MonoBehaviour:
   animator: {fileID: 3301922531560882468}
   hitTrigger: Hit
   deadBool: Dead
+  transparentLayer: 14
   waitUntilReleaseTime: 3
 --- !u!114 &-1048017019446754506
 MonoBehaviour:
@@ -263,7 +264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88c268d6644fe1349b089923c53f5c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
+  maxHealth: 12
 --- !u!114 &-6953803369378973729
 MonoBehaviour:
   m_ObjectHideFlags: 0

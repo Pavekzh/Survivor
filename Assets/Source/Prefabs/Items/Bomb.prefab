@@ -110,10 +110,10 @@ MonoBehaviour:
   canPickUpLayers:
     serializedVersion: 2
     m_Bits: 8
-  damage: 50
+  damage: 100
   radius: 4
   targetLayers:
     serializedVersion: 2
     m_Bits: 256
-  proportionalDamage: 1
-  minDamage: 30
+  proportionalDamage: 0
+  minDamage: 100

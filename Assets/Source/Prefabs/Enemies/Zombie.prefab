@@ -250,6 +250,7 @@ MonoBehaviour:
   animator: {fileID: 4085563925428286851}
   hitTrigger: Hit
   deadBool: Dead
+  transparentLayer: 14
   waitUntilReleaseTime: 3
 --- !u!114 &-1048017019446754506
 MonoBehaviour:
@@ -278,7 +279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   reloadTime: 1
   weaponRange: 2
-  damage: 3
+  damage: 2
   mode: 0
   targetLayers:
     serializedVersion: 2

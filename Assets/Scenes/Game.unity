@@ -2133,8 +2133,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   waves:
-  - {fileID: 11400000, guid: e31149b7bb085fe489f165a0a78fae9d, type: 2}
-  - {fileID: 11400000, guid: 5dfa0155cee63f14487797dddcb9f642, type: 2}
+  - {fileID: 11400000, guid: 9b60690f4f811e9428d10bee892811ef, type: 2}
+  - {fileID: 11400000, guid: e9bf07ef25d1af64fa22420db94cc92e, type: 2}
+  - {fileID: 11400000, guid: d624a4944c5ab52478a36ce8a395a236, type: 2}
   minSpawnDistanceToPlayer: 3
   minSpawnDistanceToBounds: 1
 --- !u!4 &707435579
@@ -16347,6 +16348,7 @@ MonoBehaviour:
   enemiesObjects:
   - {fileID: 11400000, guid: 3194474283466cf4d8eaf89cde42d407, type: 2}
   - {fileID: 11400000, guid: b94f8b174119b2d489345d192cee41a2, type: 2}
+  - {fileID: 11400000, guid: f56a74a5a186c0f4a8f7b1ab9a8f9117, type: 2}
   itemsObjects:
   - {fileID: 11400000, guid: dec67f4a36e4430429395430793a9d1a, type: 2}
   - {fileID: 11400000, guid: 85be0067448f20341952de2a677ea950, type: 2}
