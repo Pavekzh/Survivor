@@ -1,5 +1,5 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class AxesInputDetector : InputDetector
 {
@@ -18,9 +18,10 @@ public class AxesInputDetector : InputDetector
 
     public override Vector2 GetAttackInput()
     {
+        
         Vector2 input = Vector2.zero;
 
-        if (Input.GetAxis(attackAxis) != 0)
+        if (!EventSystem.current.IsPointerOverGameObject() && Input.GetAxis(attackAxis) != 0)
             input = camera.ScreenToWorldPoint(Input.mousePosition) - character.transform.position;
 
         return input.normalized;
