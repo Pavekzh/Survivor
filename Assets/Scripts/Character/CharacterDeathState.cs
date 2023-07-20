@@ -21,11 +21,21 @@ public class CharacterDeathState : CharacterState
 
     public override void HandleMoveInput(Vector2 input)
     {
-        Debug.LogWarning("Player spectating not implemented");
+        Move(input);
     }
 
     public override void HandleDamage(float damage,string sender) { }
     public override void HandleAttackInput(Vector2 input) { }
 
+
+    protected void Move(Vector2 direction)
+    {
+        Vector2 newPosition = (Vector2)(character.transform.position) + (direction * character.MoveSpeed * Time.deltaTime);
+
+        float clampedX = Mathf.Clamp(newPosition.x, character.MoveBoundaries.min.x + character.ColliderSize.x, character.MoveBoundaries.max.x - character.ColliderSize.x);
+        float clampedY = Mathf.Clamp(newPosition.y, character.MoveBoundaries.min.y + character.ColliderSize.y, character.MoveBoundaries.max.y - character.ColliderSize.y);
+
+        character.transform.position = new Vector3(clampedX, clampedY, character.transform.position.z);
+    }
 }
 

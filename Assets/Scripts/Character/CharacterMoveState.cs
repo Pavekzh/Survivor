@@ -26,6 +26,12 @@ public class MoveState : CharacterAliveState
 
     protected void Move(Vector2 direction)
     {
+        if (Vector3.Cross(Vector3.up, direction).z <= 0)
+            character.transform.rotation = Quaternion.Euler(0, 0, 0);
+        else
+            character.transform.rotation = Quaternion.Euler(0, 180, 0);
+
+
         Vector2 newPosition = (Vector2)(character.transform.position) + (direction * character.MoveSpeed * Time.deltaTime);
 
         float clampedX = Mathf.Clamp(newPosition.x, character.MoveBoundaries.min.x + character.ColliderSize.x, character.MoveBoundaries.max.x - character.ColliderSize.x);

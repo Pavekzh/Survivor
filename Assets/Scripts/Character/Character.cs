@@ -9,12 +9,19 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
     [SerializeField] private float moveSpeed = 1;
     [Header("Attack")]
     [SerializeField] private Gun weapon;
+    [Header("Animations")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private string runBool = "Run";
+    [Header("Death")]
+    [SerializeField] private GameObject deadPrefab;
+    [SerializeField] private int transparentLayer;
+
 
     public Vector2 ColliderSize { get; private set; }
     public string ID { get => username; }
     public bool IsAlive { get => stateMachine.CurrentState.IsAlive; }
 
-    [Networked(OnChanged = nameof(SetWeaponDirection))]public Vector2 AttackDirection { get; set; }
+    [Networked(OnChanged = nameof(SetWeaponDirection))][HideInInspector]public Vector2 AttackDirection { get; set; }
 
     public float MoveSpeed { get => moveSpeed; }    
     public Health Health { get => health; }
@@ -104,19 +111,21 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     public void RPC_AnimateMove()
     {
-        Debug.Log("MoveAnimation");
+        animator.SetBool(runBool,true);
     }
 
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     public void RPC_AnimateIdle()
     {
-        Debug.Log("IdleAnimation");
+        animator.SetBool(runBool,false);
     }
 
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     public void RPC_AnimateDeath()
     {
-        Debug.Log("DeathAnimation");
+        Instantiate(deadPrefab,transform.position,Quaternion.identity);
+        gameObject.layer = transparentLayer;
+        transform.GetChild(0).gameObject.SetActive(false);
     }
 
 }

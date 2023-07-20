@@ -110,4 +110,5 @@ public class Enemy : NetworkBehaviour,IPooledWaveObject,IWeaponOwner,IDamageHand
     {
         OnGet(position);
     }
+
 }

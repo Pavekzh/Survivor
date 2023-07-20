@@ -35,6 +35,10 @@ PrefabInstance:
       propertyPath: NetworkGuid.RawGuidValue.Array.data[1]
       value: 7927511733120860953
       objectReference: {fileID: 0}
+    - target: {fileID: 6034517027063865260, guid: 66a1920cb88f8e54bbb9e54ae2ea0c2e, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: ea193bed0eb07074cb4dd641557f37f8, type: 2}
     - target: {fileID: 7036606780738340663, guid: 66a1920cb88f8e54bbb9e54ae2ea0c2e, type: 3}
       propertyPath: m_Name
       value: Player_3
