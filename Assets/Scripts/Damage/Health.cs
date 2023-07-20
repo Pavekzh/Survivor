@@ -41,7 +41,7 @@ public class Health : MonoBehaviour
 
         float healthAfter = health;
 
-        return healthAfter - healthBefore;
+        return healthBefore - healthAfter;
     }    
     
 

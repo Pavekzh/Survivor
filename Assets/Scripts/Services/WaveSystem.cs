@@ -26,17 +26,31 @@ public class WaveSystem : NetworkBehaviour
     public event Action OnWaveEnd;
 
 
-    private ScoreCounter scoreCounter;
+    private GameOverUI gameOverUI;
     private Bounds positionBounds;
     private TargetDesignator targetDesignator;
 
-    public void InitDependecies(Bounds positionBounds, Character player,ScoreCounter scoreCounter,TargetDesignator targetDesignator)
+    public void InitDependecies(Bounds positionBounds, Character player,TargetDesignator targetDesignator,GameOverUI gameOverUI)
     {
         this.positionBounds = positionBounds;
-        this.scoreCounter = scoreCounter;
         this.targetDesignator = targetDesignator;
+        this.gameOverUI = gameOverUI;
 
         Pool = new WavePool();
+    }
+
+    public void LoseGame()
+    {
+        StopCoroutine(timerCoroutine);
+        executingWave = false;
+    }
+
+    public void RemotePlayerLeave()
+    {
+        int maxReady = IsReady ? 1 : 0;
+
+        if(HasStateAuthority)
+            ReadyPlayersCount = maxReady;
     }
 
     public void ChangeReadyState()
@@ -127,12 +141,8 @@ public class WaveSystem : NetworkBehaviour
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     private void RPC_EndGame()
     {
-        foreach (var record in scoreCounter.Records)
-        {
-            Debug.LogError(record.Key + ": " + record.Value.Kills + "(kills) " + record.Value.Damage + "(damage)");
-        }
+        gameOverUI.OpenWin();
     }
-
 
     private IEnumerator RestTimer()
     {

@@ -11,13 +11,13 @@ public class SceneLoader : MonoBehaviour
     {
         if(loadingScreen != null)
             loadingScreen.SetActive(true);
-        SceneManager.LoadSceneAsync(gameScene);
+        SceneManager.LoadScene(gameScene);
     }
     public void LoadStartup()
     {
         if(loadingScreen != null)
             loadingScreen.SetActive(true);
-        SceneManager.LoadSceneAsync(startupScene);
+        SceneManager.LoadScene(startupScene);
     }
 
 }

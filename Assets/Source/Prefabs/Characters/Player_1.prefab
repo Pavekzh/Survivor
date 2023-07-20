@@ -269,8 +269,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ObjectInterest: 1
   DefaultInterestGroups: []
-  DestroyWhenStateAuthorityLeaves: 0
-  AllowStateAuthorityOverride: 1
+  DestroyWhenStateAuthorityLeaves: 1
+  AllowStateAuthorityOverride: 0
   AoiPositionSource: {fileID: 0}
   Flags: 2305
   NetworkGuid:
@@ -352,4 +352,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88c268d6644fe1349b089923c53f5c1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 100
+  maxHealth: 5

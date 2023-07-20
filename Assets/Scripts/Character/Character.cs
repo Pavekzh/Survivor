@@ -118,4 +118,5 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
     {
         Debug.Log("DeathAnimation");
     }
+
 }

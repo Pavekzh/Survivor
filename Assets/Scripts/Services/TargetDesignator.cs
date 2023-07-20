@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Linq;
 using UnityEngine;
 
 public class TargetDesignator:MonoBehaviour
@@ -23,6 +23,11 @@ public class TargetDesignator:MonoBehaviour
         lastAdded++;
     }
 
+    public void RemovePlayer()
+    {
+        lastAdded--;
+    }
+
     public bool GetTarget(Vector3 position,out Character target)
     {
         float minDistance = ((Vector2)players[0].transform.position - (Vector2)position).magnitude;
@@ -31,7 +36,7 @@ public class TargetDesignator:MonoBehaviour
         if (players[0].IsAlive)
             nearestIndex = 0;
 
-        for(int i = 1; i < players.Length; i++)
+        for(int i = 1; i < lastAdded; i++)
         {
             float distance = ((Vector2)players[i].transform.position - (Vector2)position).magnitude;
             if ((minDistance > distance || nearestIndex == -1) && players[i].IsAlive)
@@ -60,7 +65,7 @@ public class TargetDesignator:MonoBehaviour
         float minDistance = ((Vector2)players[0].transform.position - (Vector2)position).magnitude;
         int nearestIndex = 0;
 
-        for (int i = 1; i < players.Length; i++)
+        for (int i = 1; i < lastAdded; i++)
         {
             float distance = ((Vector2)players[i].transform.position - (Vector2)position).magnitude;
             if (minDistance > distance)

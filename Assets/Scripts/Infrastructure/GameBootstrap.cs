@@ -7,23 +7,32 @@ public class GameBootstrap:MonoBehaviour
     public static GameBootstrap Instance { get; private set; }
 
     [Header("Systems")]
+    [SerializeField] private WaveSystem waveSystem;
+    [SerializeField] private TargetDesignator targetDesignator;
+    [SerializeField] private ScoreCounter scoreCounter;
+    [SerializeField] private LoseDetection loseDetection;    
+    [SerializeField] private FusionLeave fusionLeave;
+    [SerializeField] private SceneLoader sceneLoader;
+    [SerializeField] private Camera camera;
+    [SerializeField] private CameraFollow cameraFollow;    
+    [SerializeField] private BoxCollider2D moveBoundaries;
+    [SerializeField] private Transform bulletsParent;
+
+    [Header("Character systems")]        
+    [SerializeField] private InputDetector mockInputDetector;
+    [SerializeField] private InputDetector inputDetector;
+    [SerializeField] private AxesInputDetector axesInputDetector;
     [SerializeField] private PlayerFactory playerFactory;
     [SerializeField] private float playerSpawnRadius;
     [SerializeField] private PlayerUsername playerUsername;
     [SerializeField] private GunSelector gunSelector;
     [SerializeField] private ChoosePlayer choosePlayer;
-    [SerializeField] private WaveSystem waveSystem;
-    [SerializeField] private TargetDesignator targetDesignator;
-    [SerializeField] private ScoreCounter scoreCounter;
-    [SerializeField] private InputDetector mockInputDetector;
-    [SerializeField] private InputDetector inputDetector;
-    [SerializeField] private AxesInputDetector axesInputDetector;
-    [SerializeField] private Camera camera;
-    [SerializeField] private CameraFollow cameraFollow;    
-    [SerializeField] private BoxCollider2D moveBoundaries;
-    [SerializeField] private Transform bulletsParent;
-    [Header("UI")]
+
+    [Header("UI")]    
+    [SerializeField] private GameUI gameUI;
     [SerializeField] private WaveSystemUI waveSystemUI;
+    [SerializeField] private GameOverUI gameOverUI;
+
     [Header("Wave objects")]
     [SerializeField] private WaveObjectFactory itemsFactory;
     [SerializeField] private WaveObjectFactory enemyFactory;
@@ -48,8 +57,12 @@ public class GameBootstrap:MonoBehaviour
         InitAxesInput();
         InitCameraFollow();
         InitWaves();
+        InitLoseDetection();
+        InitFusionLeave();
 
         InitWavesUI();
+        InitGameOverUI();
+        InitGameUI();
 
         InitEnemies();
         InitItems();
@@ -65,10 +78,21 @@ public class GameBootstrap:MonoBehaviour
         gunSelector.InitDependencies(character, bulletsParent);
     }
 
+    private void InitGameOverUI()
+    {
+        gameOverUI.InitDependencies(scoreCounter,fusionLeave);
+    }
+
     private void InitWavesUI()
     {
         waveSystemUI.InitDependencies(waveSystem);
     }
+
+    private void InitGameUI()
+    {
+        gameUI.InitDependencies(fusionLeave);
+    }
+
 
     private void InitAxesInput()
     {
@@ -80,9 +104,21 @@ public class GameBootstrap:MonoBehaviour
         cameraFollow.InitDependencies(character.transform,moveBoundaries);
     }
 
+
     private void InitWaves()
     {
-        waveSystem.InitDependecies(moveBoundaries.bounds, character,scoreCounter,targetDesignator);
+        waveSystem.InitDependecies(moveBoundaries.bounds, character,targetDesignator,gameOverUI);
+    }
+
+    private void InitLoseDetection()
+    {
+        loseDetection.InitDependecies(character, gameOverUI, waveSystem);
+    }
+
+    private void InitFusionLeave()
+    {
+        network.AddCallbacks(fusionLeave);
+        fusionLeave.InitDependencies(network, loseDetection, targetDesignator, waveSystem, sceneLoader);
     }
 
     private void InitEnemies()
@@ -104,7 +140,7 @@ public class GameBootstrap:MonoBehaviour
             item.InitDependencies(itemsFactory);
         }
     }
-
+    //Public Injectors, because of network spawn
     public void InitItem(Item item)
     {
         item.InitDependencies(waveSystem,itemsParent);
