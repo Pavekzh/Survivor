@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections;
 using UnityEngine;
 
 public class EnemyDeathState:EnemyState
@@ -9,15 +9,17 @@ public class EnemyDeathState:EnemyState
 
     public override void Enter()
     {
-        //animation
-        //wait
-        enemy.WaveSystem.Pool.Release(enemy);
+        enemy.gameObject.layer = enemy.TransparentLayer;
+        enemy.Animator.SetBool(enemy.DeadBool, true);
+        enemy.StartCoroutine(WaitUntilRelease());
+
         if(enemy.Killer != null)
             enemy.ScoreCounter.AddKill(enemy.Killer);
     }
 
     public override void Exit()
     {
+        enemy.gameObject.layer = enemy.DefaultLayer;
         enemy.Killer = null;
     }
 
@@ -31,8 +33,15 @@ public class EnemyDeathState:EnemyState
     {        
         enemy.Health.RecoverHealth();
         enemy.Weapon.RecoverWeapon();
-        stateMachine.ChangeState(enemy.MoveState);        
+        stateMachine.ChangeState(enemy.MoveState);
 
+        enemy.Animator.SetBool(enemy.DeadBool, false);
+    }
+
+    private IEnumerator WaitUntilRelease()
+    {
+        yield return new WaitForSeconds(enemy.WaitUntilReleaseTime);
+        enemy.WaveSystem.Pool.Release(enemy);
     }
 }
 

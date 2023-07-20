@@ -14,6 +14,7 @@ public abstract class EnemyAliveState:EnemyState
     public override void HandleDamage(float damage,string sender)
     {
         float taked = enemy.Health.TakeDamage(damage);
+        enemy.Animator.SetTrigger(enemy.HitTrigger);
 
         if (enemy.Health.CurrentHealth == 0)
         {

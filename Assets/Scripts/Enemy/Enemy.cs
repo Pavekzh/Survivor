@@ -11,6 +11,16 @@ public class Enemy : NetworkBehaviour,IPooledWaveObject,IWeaponOwner,IDamageHand
     [Header("Attack")]
     [SerializeField] private Weapon weapon;
     [SerializeField] private float rangeOffset;
+    [Header("Animations")]
+    [SerializeField] private Animator animator;
+    [SerializeField] private string hitTrigger = "Hit";
+    [SerializeField] private string deadBool = "Dead";
+    [Header("Death")]
+    [SerializeField] private int transparentLayer = 14;
+    [SerializeField] private float waitUntilReleaseTime = 3;
+
+    public int DefaultLayer { get; private set; }
+    public int TransparentLayer { get => transparentLayer; }
 
     public string ID => gameObject.name;
     public string Killer { get; set; }
@@ -21,6 +31,10 @@ public class Enemy : NetworkBehaviour,IPooledWaveObject,IWeaponOwner,IDamageHand
     public float MoveSpeed { get => moveSpeed; }
     public Weapon Weapon { get => weapon; }
     public float AttackRange { get => weapon.WeaponRange - rangeOffset; }
+    public Animator Animator { get => animator; }
+    public string HitTrigger { get => hitTrigger; }
+    public string DeadBool { get => deadBool; }
+    public float WaitUntilReleaseTime { get => waitUntilReleaseTime; }
 
     //IPooledWaveObject
     public bool InPool { get; set; }
@@ -39,6 +53,8 @@ public class Enemy : NetworkBehaviour,IPooledWaveObject,IWeaponOwner,IDamageHand
 
     public void InitDependecies(TargetDesignator targetDesignator,Bounds moveBoundaries,WaveSystem waveSystem,ScoreCounter scoreCounter,Transform parent)
     {
+        this.DefaultLayer = gameObject.layer;
+
         this.targetDesignator = targetDesignator;
         this.MoveBoundaries = moveBoundaries;
         this.WaveSystem = waveSystem;
