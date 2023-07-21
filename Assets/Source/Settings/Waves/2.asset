@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9995875068d4a144d9f17f08467ed2c9, type: 3}
+  m_Name: 2
+  m_EditorClassIdentifier: 
+  startDelay: 30
+  duration: 180
+  spawnRate: 1
+  waveObjects:
+  - toSpawn: {fileID: 11400000, guid: 3194474283466cf4d8eaf89cde42d407, type: 2}
+    proportionalProbability: 5
+  - toSpawn: {fileID: 11400000, guid: b94f8b174119b2d489345d192cee41a2, type: 2}
+    proportionalProbability: 5
+  - toSpawn: {fileID: 11400000, guid: dec67f4a36e4430429395430793a9d1a, type: 2}
+    proportionalProbability: 1
+  - toSpawn: {fileID: 11400000, guid: 631c91ec5f375d14890bc44b49d103d6, type: 2}
+    proportionalProbability: 1

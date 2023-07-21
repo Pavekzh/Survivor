@@ -8,18 +8,18 @@ TagManager:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
+  - PlayerWeapon
+  - EnemyWeapon
+  - Enemy
+  - Item
   - 
   - 
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - LevelArea
   - 
   - 
   - 
