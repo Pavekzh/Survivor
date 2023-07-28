@@ -9,9 +9,9 @@ public enum AttackMode
 
 public class MeleeWeapon : Weapon
 {
-    [SerializeField] float damage;
-    [SerializeField] AttackMode mode;
-    [SerializeField] LayerMask targetLayers;
+    [SerializeField] private float damage;
+    [SerializeField] private AttackMode mode;
+    [SerializeField] private LayerMask targetLayers;
 
     protected override void Attack(Vector2 direction)
     {

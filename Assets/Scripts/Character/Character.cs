@@ -53,10 +53,12 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
         stateMachine.Init(IdleState);
     }
 
-    public void InitDependencies(Gun weapon)
+    public Gun InitGun<T>() where T : Gun
     {
-        this.weapon = weapon;
+        this.weapon = gameObject.AddComponent<T>();
+        return this.weapon;
     }
+
 
     public override void Spawned()
     {

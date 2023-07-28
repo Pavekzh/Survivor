@@ -180,7 +180,6 @@ public class GameBootstrap:MonoBehaviour
         if (!isCharacterRemote)
             playerUI.InitDependencies(gun);
 
-        character.InitDependencies(gun);
         gun.InitDependencies(character);
         gun.InitDependencies(bulletsParent, isCharacterRemote);
     }

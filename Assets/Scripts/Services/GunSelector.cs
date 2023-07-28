@@ -80,7 +80,7 @@ public class GunSelector : NetworkBehaviour
         Gun gun;
 
         character.transform.GetChild(0).GetChild(0).GetComponent<SpriteRenderer>().sprite = gunFactory.Sprite;
-        gun = gunFactory.InstantiateGun(character.gameObject);
+        gun = gunFactory.InstantiateGun(character);
 
 
         gameBootstrap.InitGunForCharacter(character, gun, isRemotePlayer);

@@ -9,12 +9,11 @@ public class ShotgunFactory : GunFactory
     public int BulletsPerShot { get => bulletsPerShot; }
     public float Spread { get => spread; }
 
-    public override Gun InstantiateGun(GameObject owner)
+    public override Gun InstantiateGun(Character owner)
     {
-        Shotgun gun = owner.AddComponent<Shotgun>();
-        gun.InitSettings(this as GunFactory);
-        gun.InitSettings(this);
-
-        return gun;
+        Shotgun instance = owner.InitGun<Shotgun>() as Shotgun;
+        instance.InitSettings(this as GunFactory);
+        instance.InitSettings(this);
+        return instance;
     }
 }

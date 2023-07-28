@@ -15,8 +15,7 @@ MonoBehaviour:
   sprite: {fileID: 1772703093, guid: 0d5e657ee5a074e4baa53d5b248a01d2, type: 3}
   reloadTime: 0.8
   weaponRange: 5
-  damage: 16
   magazineSize: 12
-  bulletPrefab: {fileID: 4759248636515289910, guid: 2d571c6ba927c7740a59848377e3fe13, type: 3}
-  blankBulletPrefab: {fileID: 4109499712044646916, guid: a7bbd7bf4ef973143bd68aaf01d18cee, type: 3}
+  bulletPrefab: {fileID: 7498706955775619511, guid: 945778637e140f24ab5ba4d1f206122c, type: 3}
+  blankBulletPrefab: {fileID: 5667884787072936006, guid: 2d571c6ba927c7740a59848377e3fe13, type: 3}
   defaultPoolSize: 4

@@ -6,24 +6,22 @@ public class GunFactory : ScriptableObject
     [SerializeField] private Sprite sprite;
     [SerializeField] private float reloadTime = 1;
     [SerializeField] private float weaponRange = 5;
-    [SerializeField] private float damage = 10;
     [SerializeField] private int magazineSize = 15;
-    [SerializeField] private GameObject bulletPrefab;
-    [SerializeField] private GameObject blankBulletPrefab;
+    [SerializeField] private Projectile bulletPrefab;
+    [SerializeField] private Projectile blankBulletPrefab;
     [SerializeField] private int defaultPoolSize = 10;
 
     public Sprite Sprite { get => sprite; }
     public float ReloadTime { get => reloadTime; }
     public float WeaponRange { get => weaponRange;  }
-    public float Damage { get => damage; }
     public int MagazineSize { get => magazineSize;  }
-    public GameObject BulletPrefab { get => bulletPrefab; }
-    public GameObject BlankBulletPrefab { get => blankBulletPrefab; }
+    public Projectile BulletPrefab { get => bulletPrefab; }
+    public Projectile BlankBulletPrefab { get => blankBulletPrefab; }
     public int DefaultPoolSize { get => defaultPoolSize;  }
 
-    public virtual Gun InstantiateGun(GameObject owner)
+    public virtual Gun InstantiateGun(Character owner)
     {
-        Gun instance = owner.AddComponent<Gun>();
+        Gun instance = owner.InitGun<Gun>();
         instance.InitSettings(this);
         return instance;
     }
