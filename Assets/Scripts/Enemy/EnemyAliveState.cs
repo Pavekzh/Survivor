@@ -8,7 +8,7 @@ public abstract class EnemyAliveState:EnemyState
 
     public override void Kill()
     {
-        stateMachine.ChangeState(enemy.DeathState);
+        stateMachine.SwitchState<EnemyDeathState>();
     }
 
     public override void HandleDamage(float damage,string sender)
@@ -19,7 +19,7 @@ public abstract class EnemyAliveState:EnemyState
         if (enemy.Health.CurrentHealth == 0)
         {
             enemy.Killer = sender;
-            stateMachine.ChangeState(enemy.DeathState);
+            stateMachine.SwitchState<EnemyDeathState>();
         }
 
         enemy.ScoreCounter.AddDamage(taked,sender);

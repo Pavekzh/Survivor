@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-public class MoveState : CharacterAliveState
+public class CharacterMoveState : CharacterAliveState
 {
-    public MoveState(Character character, StateMachine<CharacterState> stateMachine) : base(character, stateMachine) { }
+    public CharacterMoveState(Character character, StateMachine<CharacterState> stateMachine) : base(character, stateMachine) { }
 
     public override void Enter()
     {
@@ -21,7 +21,7 @@ public class MoveState : CharacterAliveState
         Move(input);
 
         if (input.magnitude == 0)
-            stateMachine.ChangeState(character.IdleState);
+            stateMachine.SwitchState<CharacterIdleState>();
     }
 
     protected void Move(Vector2 direction)

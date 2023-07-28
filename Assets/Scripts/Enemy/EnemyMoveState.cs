@@ -19,7 +19,7 @@ public class EnemyMoveState : EnemyAliveState
         if (relativePosition.magnitude > enemy.AttackRange)
             Move(relativePosition.normalized);
         else
-            stateMachine.ChangeState(enemy.AttackState);
+            stateMachine.SwitchState<EnemyAttackState>();
     }
 
     protected void Move(Vector2 direction)

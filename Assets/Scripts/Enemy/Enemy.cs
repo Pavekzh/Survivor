@@ -42,9 +42,6 @@ public class Enemy : NetworkBehaviour,IPooledWaveObject,IWeaponOwner,IDamageHand
     public string Type { get; set; }
 
     private StateMachine<EnemyState> stateMachine;
-    public EnemyDeathState DeathState { get; private set; }
-    public EnemyAttackState AttackState { get; private set; }
-    public EnemyMoveState MoveState { get; private set; }
 
     public Bounds MoveBoundaries { get; private set; }    
     public ScoreCounter ScoreCounter { get; private set; }
@@ -63,16 +60,11 @@ public class Enemy : NetworkBehaviour,IPooledWaveObject,IWeaponOwner,IDamageHand
         this.transform.parent = parent;
 
         if (!InPool)
-            waveSystem.Pool.AddRemoteCreated(this);        
-        
-        stateMachine = new StateMachine<EnemyState>();
-        DeathState = new EnemyDeathState(this, stateMachine);
-        AttackState = new EnemyAttackState(this, stateMachine);
-        MoveState = new EnemyMoveState(this, stateMachine);
+            waveSystem.Pool.AddRemoteCreated(this);
+
+        stateMachine = new EnemyStateMachine(this);
 
         ColliderSize = GetComponent<BoxCollider2D>().bounds.size;
-
-        stateMachine.Init(MoveState);
     }
 
     private void Update()

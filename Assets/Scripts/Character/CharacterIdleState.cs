@@ -19,6 +19,6 @@ public class CharacterIdleState : CharacterAliveState
     public override void HandleMoveInput(Vector2 input)
     {
         if (input.magnitude > 0)
-            stateMachine.ChangeState(character.MoveState);
+            stateMachine.SwitchState<CharacterMoveState>();
     }
 }

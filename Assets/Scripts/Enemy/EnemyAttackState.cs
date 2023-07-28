@@ -20,7 +20,7 @@ public class EnemyAttackState : EnemyAliveState
         enemy.Weapon.AttackDirection = relativePosition;
 
         if (relativePosition.magnitude > enemy.Weapon.WeaponRange)
-            stateMachine.ChangeState(enemy.MoveState);
+            stateMachine.SwitchState<EnemyMoveState>();
     }
 
 }

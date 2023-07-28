@@ -33,7 +33,7 @@ public class EnemyDeathState:EnemyState
     {        
         enemy.Health.RecoverHealth();
         enemy.Weapon.RecoverWeapon();
-        stateMachine.ChangeState(enemy.MoveState);
+        stateMachine.SwitchState<EnemyMoveState>();
 
         enemy.Animator.SetBool(enemy.DeadBool, false);
     }

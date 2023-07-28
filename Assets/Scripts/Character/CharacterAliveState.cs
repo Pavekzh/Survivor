@@ -16,7 +16,7 @@ public abstract class CharacterAliveState : CharacterState
         {
             if (character.HasStateAuthority)
                 character.RPC_StopAttack();
-            stateMachine.ChangeState(character.DeathState);
+            stateMachine.SwitchState<CharacterDeathState>();
         }
 
     }

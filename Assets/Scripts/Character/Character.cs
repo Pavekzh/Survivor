@@ -28,9 +28,6 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
     public Gun Weapon { get => weapon; }
 
     private StateMachine<CharacterState> stateMachine;
-    public CharacterIdleState IdleState { get; private set; }
-    public MoveState MoveState { get; private set; }
-    public CharacterDeathState DeathState { get; private set; }
 
     private string username;
     private InputDetector inputDetector;    
@@ -42,15 +39,9 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
         this.MoveBoundaries = moveBoundaries;
         this.username = username;
 
-        stateMachine = new StateMachine<CharacterState>();
-
-        IdleState = new CharacterIdleState(this, stateMachine);
-        MoveState = new MoveState(this, stateMachine);
-        DeathState = new CharacterDeathState(this, stateMachine);
+        stateMachine = new CharacterStateMachine(this);
 
         ColliderSize = GetComponent<BoxCollider2D>().bounds.size;
-
-        stateMachine.Init(IdleState);
     }
 
     public Gun InitGun<T>() where T : Gun
