@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using Fusion;
 
-public class EnemyAutoBootstrap:NetworkBehaviour
+public class SceletonAutoBootstrap : NetworkBehaviour
 {
-    [SerializeField]private Enemy enemy;
+    [SerializeField] private Sceleton sceleton;
 
     private GameBootstrap bootstrap { get => GameBootstrap.Instance; }
 
     public override void Spawned()
     {
-        bootstrap.InitEnemy(enemy);
+        bootstrap.InitSceleton(sceleton);
     }
 
 }

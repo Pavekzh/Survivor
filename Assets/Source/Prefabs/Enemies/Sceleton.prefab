@@ -117,8 +117,8 @@ GameObject:
   - component: {fileID: 1803128003340766702}
   - component: {fileID: -1631405624374566685}
   - component: {fileID: -3093278948867193930}
-  - component: {fileID: 835850025727808986}
-  - component: {fileID: 8229199175474058527}
+  - component: {fileID: 6953472593635342839}
+  - component: {fileID: 3254383211360972260}
   - component: {fileID: -1048017019446754506}
   - component: {fileID: -6953803369378973729}
   m_Layer: 8
@@ -213,10 +213,10 @@ MonoBehaviour:
     RawGuidValue: 00ea0baccd52e7d4086a65c683af74af
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: 835850025727808986}
-  - {fileID: 8229199175474058527}
+  - {fileID: 6953472593635342839}
+  - {fileID: 3254383211360972260}
   SimulationBehaviours: []
---- !u!114 &835850025727808986
+--- !u!114 &6953472593635342839
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -225,12 +225,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8229199175474058525}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62123db123387f4479b976a7307906c9, type: 3}
+  m_Script: {fileID: 11500000, guid: 5061fe7f4bc6fcf47b55420cfc1fcf0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  enemy: {fileID: 8229199175474058527}
---- !u!114 &8229199175474058527
+  sceleton: {fileID: 3254383211360972260}
+--- !u!114 &3254383211360972260
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,19 +239,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 8229199175474058525}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f388ada359c26254a8e3247f0f14a6b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 3327d570cff309245aa0af12c51f9bce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   health: {fileID: -1048017019446754506}
-  moveSpeed: 2.5
-  weapon: {fileID: -6953803369378973729}
-  rangeOffset: 1
+  moveSpeed: 2
   animator: {fileID: 3301922531560882468}
+  deathLayer: 14
   hitTrigger: Hit
   deadBool: Dead
-  transparentLayer: 14
   waitUntilReleaseTime: 3
+  weapon: {fileID: -6953803369378973729}
+  rangeOffset: 1
 --- !u!114 &-1048017019446754506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -277,9 +277,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ecc7ed7ba36503499fe31e0f9a43b0f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  reloadTime: 0.5
   weaponRange: 5
+  reloadTime: 0.5
   magazineSize: -1
   defaultBulletPrefab: {fileID: 6515426225702998394, guid: d4996c7ab198a734eb560f8c3719740f, type: 3}
   blankBulletPrefab: {fileID: 0}
-  defaultPoolSize: 5

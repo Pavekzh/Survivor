@@ -1,55 +1,45 @@
 using UnityEngine;
 using Fusion;
 
-public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
+public class Character : Entity<CharacterState>,IDamageHandler
 {    
-    [Header("Health")]
-    [SerializeField] private Health health;
-    [Header("Move")]
-    [SerializeField] private float moveSpeed = 1;
     [Header("Attack")]
     [SerializeField] private Gun weapon;
     [Header("Animations")]
-    [SerializeField] private Animator animator;
     [SerializeField] private string runBool = "Run";
     [Header("Death")]
     [SerializeField] private GameObject deadPrefab;
-    [SerializeField] private int transparentLayer;
 
+    public override float AttackRange => weapon.WeaponRange;
+    public override float ReloadTime => weapon.ReloadTime;
 
-    public Vector2 ColliderSize { get; private set; }
-    public string ID { get => username; }
+    public override string ID { get => username; }
     public bool IsAlive { get => stateMachine.CurrentState.IsAlive; }
 
     [Networked(OnChanged = nameof(SetWeaponDirection))][HideInInspector]public Vector2 AttackDirection { get; set; }
 
-    public float MoveSpeed { get => moveSpeed; }    
-    public Health Health { get => health; }
     public Gun Weapon { get => weapon; }
-
-    private StateMachine<CharacterState> stateMachine;
 
     private string username;
     private InputDetector inputDetector;    
-    public Bounds MoveBoundaries { get; private set; }
 
-    public void InitDependencies(InputDetector inputDetector,Bounds moveBoundaries,string username)
+
+
+    public override void InitDependencies(Bounds moveBoundaries)
+    {
+        base.InitDependencies(moveBoundaries);
+
+        this.stateMachine.AddState(new CharacterIdleState(this, stateMachine));
+        this.stateMachine.AddState(new CharacterMoveState(this, stateMachine));
+        this.stateMachine.AddState(new CharacterDeathState(this, stateMachine));
+        this.stateMachine.InitState<CharacterIdleState>();
+    }
+
+    public void InitDependencies(InputDetector inputDetector,string username)
     {
         this.inputDetector = inputDetector;
-        this.MoveBoundaries = moveBoundaries;
         this.username = username;
-
-        stateMachine = new CharacterStateMachine(this);
-
-        ColliderSize = GetComponent<BoxCollider2D>().bounds.size;
     }
-
-    public Gun InitGun<T>() where T : Gun
-    {
-        this.weapon = gameObject.AddComponent<T>();
-        return this.weapon;
-    }
-
 
     public override void Spawned()
     {
@@ -58,6 +48,13 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
             gameObject.GetComponent<NetworkTransform>().InterpolationDataSource = InterpolationDataSources.Auto;
         }
     }
+
+    public Gun InitGun<T>() where T : Gun
+    {
+        this.weapon = gameObject.AddComponent<T>();
+        return this.weapon;
+    }
+
 
     private void Update()
     {
@@ -70,8 +67,13 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
             stateMachine.CurrentState.HandleAttackInput(attackInput);
         }
     }
-    
-    public void HandleDamage(float damage, string sender)
+
+    protected override void Attack()
+    {
+        weapon.Attack();
+    }
+
+    public override void HandleDamage(float damage, string sender)
     {
         if (HasStateAuthority)
             RPC_TakeDamage(damage, sender);
@@ -86,13 +88,13 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
     public void RPC_StartAttack(Vector2 direction)
     {
         weapon.AttackDirection = direction;
-        weapon.StartAttack();
+        StartAttack();
     }
 
     [Rpc(sources: RpcSources.StateAuthority, targets: RpcTargets.All)]
     public void RPC_StopAttack()
     {
-        weapon.StopAttack();
+        StopAttack();
     }
 
     [Rpc(sources:RpcSources.StateAuthority,targets: RpcTargets.All)]
@@ -117,7 +119,7 @@ public class Character : NetworkBehaviour,IWeaponOwner,IDamageHandler
     public void RPC_AnimateDeath()
     {
         Instantiate(deadPrefab,transform.position,Quaternion.identity);
-        gameObject.layer = transparentLayer;
+        gameObject.layer = deathLayer;
         transform.GetChild(0).gameObject.SetActive(false);
     }
 

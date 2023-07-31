@@ -9,7 +9,7 @@ public class EnemyDeathState:EnemyState
 
     public override void Enter()
     {
-        enemy.gameObject.layer = enemy.TransparentLayer;
+        enemy.gameObject.layer = enemy.DeathLayer;
         enemy.Animator.SetBool(enemy.DeadBool, true);
         enemy.StartCoroutine(WaitUntilRelease());
 
@@ -31,8 +31,6 @@ public class EnemyDeathState:EnemyState
 
     public override void Recover()
     {        
-        enemy.Health.RecoverHealth();
-        enemy.Weapon.RecoverWeapon();
         stateMachine.SwitchState<EnemyMoveState>();
 
         enemy.Animator.SetBool(enemy.DeadBool, false);

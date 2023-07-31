@@ -7,19 +7,19 @@ public class EnemyAttackState : EnemyAliveState
 
     public override void Enter()
     {
-        enemy.Weapon.StartAttack();
+        enemy.StartAttack();
     }
 
     public override void Exit()
     {
-        enemy.Weapon.StopAttack();
+        enemy.StopAttack();
     }
 
     public override void HandleCharacterPosition(Vector2 relativePosition)
     {
-        enemy.Weapon.AttackDirection = relativePosition;
+        enemy.TargetDirection = relativePosition;
 
-        if (relativePosition.magnitude > enemy.Weapon.WeaponRange)
+        if (relativePosition.magnitude > enemy.AttackRange)
             stateMachine.SwitchState<EnemyMoveState>();
     }
 

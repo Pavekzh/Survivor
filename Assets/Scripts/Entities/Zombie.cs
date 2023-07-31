@@ -1,21 +1,33 @@
 ﻿using UnityEngine;
 
-public enum AttackMode
+public class Zombie:Enemy
 {
-    Nearest,
-    MultiTarget,
-    UndefinedSingle
-}
-
-public class MeleeWeapon : Weapon
-{
+    [SerializeField] private float attackRange;
+    [SerializeField] private float reloadTime;
     [SerializeField] private float damage;
     [SerializeField] private AttackMode mode;
     [SerializeField] private LayerMask targetLayers;
 
-    protected override void Attack(Vector2 direction)
+    public override float AttackRange => attackRange - rangeOffset;
+    public override float ReloadTime => reloadTime;
+
+    private void MakeDamageSingle(Collider2D target)
     {
-        Collider2D[] hurtColliders = Physics2D.OverlapCircleAll(transform.position, WeaponRange, targetLayers);
+        IDamageHandler handler = target.gameObject.GetComponent<IDamageHandler>();
+        if (handler != null)
+            handler.HandleDamage(damage, "");
+    }
+
+    private void MakeDamageMulti(Collider2D[] targets)
+    {
+        foreach (Collider2D target in targets)
+            MakeDamageSingle(target);
+
+    }
+
+    protected override void Attack()
+    {
+        Collider2D[] hurtColliders = Physics2D.OverlapCircleAll(transform.position, attackRange, targetLayers);
 
         if (hurtColliders.Length == 0)
             return;
@@ -29,7 +41,7 @@ public class MeleeWeapon : Weapon
             float minDistance = (hurtColliders[0].transform.position - transform.position).magnitude;
             int nearestIndex = 0;
 
-            for(int i = 1; i< hurtColliders.Length; i++)
+            for (int i = 1; i < hurtColliders.Length; i++)
             {
                 float distance = (hurtColliders[i].transform.position - transform.position).magnitude;
                 if (distance < minDistance)
@@ -39,20 +51,6 @@ public class MeleeWeapon : Weapon
             MakeDamageSingle(hurtColliders[nearestIndex]);
 
         }
-
-    }
-
-    private void MakeDamageSingle(Collider2D target)
-    {
-        IDamageHandler handler = target.gameObject.GetComponent<IDamageHandler>();
-        if (handler != null)
-            handler.HandleDamage(damage,owner.ID);
-    }
-
-    private void MakeDamageMulti(Collider2D[] targets)
-    {
-        foreach (Collider2D target in targets)
-            MakeDamageSingle(target);
 
     }
 }

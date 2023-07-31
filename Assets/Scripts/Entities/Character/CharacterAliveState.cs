@@ -25,7 +25,7 @@ public abstract class CharacterAliveState : CharacterState
     {
         if (input.magnitude == 0)
         {
-            if (character.Weapon != null && character.Weapon.IsAttacking)
+            if (character.Weapon != null && character.IsAttacking)
                 character.RPC_StopAttack();
         }
         else
@@ -34,7 +34,7 @@ public abstract class CharacterAliveState : CharacterState
 
             character.AttackDirection = input;
 
-            if (character.Weapon != null && !character.Weapon.IsAttacking)
+            if (character.Weapon != null && !character.IsAttacking)
                 character.RPC_StartAttack(input);
         }
 

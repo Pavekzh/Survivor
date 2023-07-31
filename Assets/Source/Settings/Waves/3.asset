@@ -19,9 +19,9 @@ MonoBehaviour:
   - toSpawn: {fileID: 11400000, guid: 3194474283466cf4d8eaf89cde42d407, type: 2}
     proportionalProbability: 7
   - toSpawn: {fileID: 11400000, guid: b94f8b174119b2d489345d192cee41a2, type: 2}
-    proportionalProbability: 2
+    proportionalProbability: 1
   - toSpawn: {fileID: 11400000, guid: f56a74a5a186c0f4a8f7b1ab9a8f9117, type: 2}
-    proportionalProbability: 3
+    proportionalProbability: 4
   - toSpawn: {fileID: 11400000, guid: dec67f4a36e4430429395430793a9d1a, type: 2}
     proportionalProbability: 2
   - toSpawn: {fileID: 11400000, guid: 631c91ec5f375d14890bc44b49d103d6, type: 2}

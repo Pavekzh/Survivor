@@ -13,15 +13,15 @@ public class Shotgun : Gun
         this.spread = settings.Spread;
     }
 
-    protected override void Attack(Vector2 direction)
+    public override void Attack()
     {
         if (!limitedMagazine || BulletsLeft > 0)
         {
             if (bulletsPerShot == 1 || spread == 0)
-                LaunchBullet(direction);
+                LaunchBullet(attackDirection);
             else
             {
-                Vector2 bulletDirection = GetRotatedDirection(direction, -(spread / 2));
+                Vector2 bulletDirection = GetRotatedDirection(attackDirection, -(spread / 2));
                 LaunchBullet(bulletDirection);
                 for (int i = 1; i < bulletsPerShot; i++)
                 {                    

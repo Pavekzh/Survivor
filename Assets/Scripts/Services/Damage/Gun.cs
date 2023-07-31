@@ -2,12 +2,16 @@
 using UnityEngine;
 using UnityEngine.Pool;
 
-public class Gun : Weapon
+public class Gun : MonoBehaviour,IWeapon
 {
+    [SerializeField] protected float weaponRange;
+    [SerializeField] protected float reloadTime;
     [SerializeField] protected int magazineSize = 15;
     [SerializeField] protected Projectile defaultBulletPrefab;
     [SerializeField] protected Projectile blankBulletPrefab;
-    [SerializeField] protected int defaultPoolSize = 10;
+
+    protected Vector2 attackDirection;
+    protected string ownerID;
 
     private int bulletsLeft;
     protected bool limitedMagazine = true;
@@ -37,6 +41,10 @@ public class Gun : Weapon
 
     }
 
+    public float ReloadTime => reloadTime;
+    public float WeaponRange => weaponRange;
+    public Vector2 AttackDirection { get => attackDirection; set => attackDirection = value.normalized; }
+
     protected Transform bulletsParent;
 
     protected ObjectPool<Projectile> bulletsPool;
@@ -48,19 +56,17 @@ public class Gun : Weapon
         this.magazineSize = settings.MagazineSize;
         this.defaultBulletPrefab = settings.BulletPrefab;
         this.blankBulletPrefab = settings.BlankBulletPrefab;
-        this.defaultPoolSize = settings.DefaultPoolSize;
-
     }
 
-    public void InitDependencies(Transform bulletsParent,bool useBlankBullets)
+    public void InitDependencies(Transform bulletsParent,bool useBlankBullets,string ownerID)
     {
         this.bulletsParent = bulletsParent;
         this.useBlankBullets = useBlankBullets;
+        this.ownerID = ownerID;
     }
 
-    public override void RecoverWeapon()
+    public void RecoverWeapon()
     {
-        base.RecoverWeapon();
         BulletsLeft = magazineSize;
     }
 
@@ -85,24 +91,24 @@ public class Gun : Weapon
         else
             BulletsLeft = magazineSize;
 
-        bulletsPool = new ObjectPool<Projectile>(() => Instantiate(projectilePrefab, bulletsParent).GetComponent<Projectile>(), bullet => bullet.gameObject.SetActive(true), bullet => bullet.gameObject.SetActive(false), null, false, defaultPoolSize);
+        bulletsPool = new ObjectPool<Projectile>(() => Instantiate(projectilePrefab, bulletsParent).GetComponent<Projectile>(), bullet => bullet.gameObject.SetActive(true), bullet => bullet.gameObject.SetActive(false), null, false);
     }
 
-    protected override void Attack(Vector2 direction)
-    {
-        if(!limitedMagazine || BulletsLeft > 0)
-        {
-            LaunchBullet(direction);
-            BulletsLeft--;
-        }
-    }
-    
     protected void LaunchBullet(Vector2 direction)
     {
         Projectile bullet = bulletsPool.Get();
         bullet.transform.position = transform.position;
         bullet.transform.rotation = Quaternion.LookRotation(Vector3.forward, direction);
-        bullet.Launch(direction, owner.ID, bulletsPool, WeaponRange);
+        bullet.Launch(direction,ownerID , bulletsPool, WeaponRange);
+    }
+
+    public virtual void Attack()
+    {
+        if (!limitedMagazine || BulletsLeft > 0)
+        {
+            LaunchBullet(attackDirection);
+            BulletsLeft--;
+        }
     }
 }
 
