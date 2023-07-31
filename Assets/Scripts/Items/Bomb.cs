@@ -11,7 +11,7 @@ public class Bomb : Item
 
     protected override void Execute(Collider2D founder)
     {
-        IWeaponOwner owner = founder.GetComponent<IWeaponOwner>();
+        Character owner = founder.GetComponent<Character>();
 
         Collider2D[] targets = Physics2D.OverlapCircleAll(transform.position, radius, targetLayers);
         foreach(Collider2D target in targets)
