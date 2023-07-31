@@ -1,6 +1,5 @@
-﻿using UnityEngine;
-using Fusion;
-using System;
+﻿using Fusion;
+using UnityEngine;
 
 public class GameBootstrap:MonoBehaviour
 {
@@ -153,24 +152,31 @@ public class GameBootstrap:MonoBehaviour
         item.InitDependencies(waveSystem,itemsParent);
     }
 
+
+    public void InitSceleton(Sceleton sceleton)
+    {
+        InitEnemy(sceleton);
+        sceleton.Weapon.InitDependencies(bulletsParent, false, sceleton.ID);
+    }
+
     public void InitEnemy(Enemy enemy)
     {
-        enemy.InitDependecies(targetDesignator, moveBoundaries.bounds,waveSystem,scoreCounter,enemiesParent);
-        enemy.Weapon.InitDependencies(enemy);
-        Gun gun = enemy.Weapon as Gun;
-        if (gun != null)
-            gun.InitDependencies(bulletsParent,false);
+        enemy.InitDependencies(moveBoundaries.bounds);
+        enemy.InitDependencies(targetDesignator, waveSystem, scoreCounter, enemiesParent);
     }
 
     public void InitCharacter(Character character)
     {
         targetDesignator.AddPlayer(character);
+        character.InitDependencies(moveBoundaries.bounds);
 
         if (this.character == null)
-            character.InitDependencies(inputDetector, moveBoundaries.bounds,playerUsername.GetUsername());
+        {
+            character.InitDependencies(inputDetector, playerUsername.GetUsername());
+        }
         else
         {
-            character.InitDependencies(mockInputDetector, moveBoundaries.bounds,"Player view");
+            character.InitDependencies(mockInputDetector,"Player view");
             gunSelector.InstantiateRemotePlayerGun(character);
         }
     }
@@ -180,9 +186,7 @@ public class GameBootstrap:MonoBehaviour
         if (!isCharacterRemote)
             playerUI.InitDependencies(gun);
 
-        character.InitDependencies(gun);
-        gun.InitDependencies(character);
-        gun.InitDependencies(bulletsParent, isCharacterRemote);
+        gun.InitDependencies(bulletsParent, isCharacterRemote, character.ID);
     }
 
 }

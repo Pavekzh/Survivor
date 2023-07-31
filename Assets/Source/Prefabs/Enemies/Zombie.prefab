@@ -117,10 +117,9 @@ GameObject:
   - component: {fileID: 1803128003340766702}
   - component: {fileID: -1631405624374566685}
   - component: {fileID: 6699167229417159822}
-  - component: {fileID: 7643443681966783294}
-  - component: {fileID: 8229199175474058527}
+  - component: {fileID: 1252122876919286068}
+  - component: {fileID: 2376837664457497075}
   - component: {fileID: -1048017019446754506}
-  - component: {fileID: 7958704527758155666}
   m_Layer: 8
   m_Name: Zombie
   m_TagString: Untagged
@@ -213,10 +212,10 @@ MonoBehaviour:
     RawGuidValue: e0af31fb6d568ec469946daec64fc6d3
   NestedObjects: []
   NetworkedBehaviours:
-  - {fileID: 7643443681966783294}
-  - {fileID: 8229199175474058527}
+  - {fileID: 1252122876919286068}
+  - {fileID: 2376837664457497075}
   SimulationBehaviours: []
---- !u!114 &7643443681966783294
+--- !u!114 &1252122876919286068
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -225,12 +224,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 8229199175474058525}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 62123db123387f4479b976a7307906c9, type: 3}
+  m_Script: {fileID: 11500000, guid: 2bba5a4f54780b945a7fae89a322f024, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
-  enemy: {fileID: 8229199175474058527}
---- !u!114 &8229199175474058527
+  zombie: {fileID: 2376837664457497075}
+--- !u!114 &2376837664457497075
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,19 +238,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 8229199175474058525}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f388ada359c26254a8e3247f0f14a6b7, type: 3}
+  m_Script: {fileID: 11500000, guid: 69e2675263516ed419ab8be55e3e2c75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _interpolationDataSource: 0
   health: {fileID: -1048017019446754506}
-  moveSpeed: 1.5
-  weapon: {fileID: 7958704527758155666}
-  rangeOffset: 1
+  moveSpeed: 1
   animator: {fileID: 4085563925428286851}
+  deathLayer: 14
   hitTrigger: Hit
   deadBool: Dead
-  transparentLayer: 14
   waitUntilReleaseTime: 3
+  rangeOffset: 1
+  attackRange: 2
+  reloadTime: 1
+  damage: 2
+  mode: 0
+  targetLayers:
+    serializedVersion: 2
+    m_Bits: 8
 --- !u!114 &-1048017019446754506
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,22 +270,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 10
---- !u!114 &7958704527758155666
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8229199175474058525}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 18f62e648891af1469a43d5b9238d5bb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  reloadTime: 1
-  weaponRange: 2
-  damage: 2
-  mode: 0
-  targetLayers:
-    serializedVersion: 2
-    m_Bits: 8
